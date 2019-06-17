@@ -5,12 +5,12 @@ import java.util.List;
 
 public class CommandSet
 {
-	private List<CommandExecution> _commands = new LinkedList<>();
-	private VariableKeyring _variables;
+	private List<CommandExecution> commands = new LinkedList<>();
+	private VariableKeyring variables;
 
 	public CommandSet(VariableKeyring variables)
 	{
-		_variables = variables;
+		this.variables = variables;
 	}
 
 	public void insertCommandExecution(CommandExecution execution)
@@ -18,10 +18,10 @@ public class CommandSet
 		if (execution == null)
 			return;
 
-		if (_commands.contains(execution))
+		if (commands.contains(execution))
 			return;
 
-		_commands.add(execution);
+		commands.add(execution);
 	}
 
 	public CommandVariable getVariable(String name)
@@ -29,7 +29,7 @@ public class CommandSet
 		if (name == null)
 			return null;
 
-		return _variables.getVariable(name);
+		return variables.getVariable(name);
 	}
 
 	public CommandVariable getOrCreateVariable(String name)
@@ -48,22 +48,22 @@ public class CommandSet
 		if (variable == null)
 			return;
 
-		_variables.addVariable(variable);
+		variables.addVariable(variable);
 	}
 
 	public List<CommandExecution> getCommandExecutions()
 	{
-		return _commands;
+		return commands;
 	}
 
 	public List<CommandVariable> getVariables()
 	{
-		return _variables.getVariables();
+		return variables.getVariables();
 	}
 
 	public void clear()
 	{
-		_commands.clear();
+		commands.clear();
 	}
 
 	@Override
@@ -71,14 +71,14 @@ public class CommandSet
 	{
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < _commands.size(); i++)
+		for (int i = 0; i < commands.size(); i++)
 		{
-			CommandExecution exe = _commands.get(i);
+			CommandExecution exe = commands.get(i);
 			sb.append("$").append(exe.getOutput().getName()).append(" = ").append(exe.getCommand().getName());
 			for (CommandArgument arg : exe.getCommand().getArgs())
 				sb.append(" ").append(arg);
 
-			if (i < _commands.size() - 1)
+			if (i < commands.size() - 1)
 				sb.append('\n');
 		}
 
@@ -87,18 +87,18 @@ public class CommandSet
 
 	public int getVariableCount()
 	{
-		return _variables.getVariables().size();
+		return variables.getVariables().size();
 	}
 
 	public int getCommandCount()
 	{
-		return _commands.size();
+		return commands.size();
 	}
 
 	public CommandVariable getFinalOutput()
 	{
-		if (_commands.size() == 0)
+		if (commands.size() == 0)
 			return null;
-		return _commands.get(getCommandCount() - 1).getOutput();
+		return commands.get(getCommandCount() - 1).getOutput();
 	}
 }

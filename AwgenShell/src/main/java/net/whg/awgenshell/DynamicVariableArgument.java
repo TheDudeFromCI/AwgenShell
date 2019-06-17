@@ -7,15 +7,15 @@ public class DynamicVariableArgument implements CommandArgument
 {
 	private Logger logger = LoggerFactory.getLogger(DynamicVariableArgument.class);
 
-	private CommandList _commandList;
-	private CommandSender _sender;
-	private String _line;
+	private CommandList commandList;
+	private CommandSender sender;
+	private String line;
 
 	public DynamicVariableArgument(CommandList commandList, CommandSender sender, String line)
 	{
-		_commandList = commandList;
-		_sender = sender;
-		_line = line;
+		this.commandList = commandList;
+		this.sender = sender;
+		this.line = line;
 	}
 
 	@Override
@@ -23,8 +23,8 @@ public class DynamicVariableArgument implements CommandArgument
 	{
 		try
 		{
-			CommandSet set = CommandParser.parse(_commandList, _sender, _line);
-			_commandList.executeCommandSet(set);
+			CommandSet set = CommandParser.parse(commandList, sender, line);
+			commandList.executeCommandSet(set);
 			CommandVariable var = set.getFinalOutput();
 
 			if (var == null)
@@ -42,6 +42,6 @@ public class DynamicVariableArgument implements CommandArgument
 	@Override
 	public String toString()
 	{
-		return String.format("$[%s]", _line);
+		return String.format("$[%s]", line);
 	}
 }

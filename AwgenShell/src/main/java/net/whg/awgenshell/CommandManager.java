@@ -7,32 +7,31 @@ public class CommandManager
 {
 	private static Logger logger = LoggerFactory.getLogger(CommandManager.class);
 
-	private CommandList _commandList;
-	private VariableKeyring _variableKeyRing;
+	private CommandList commandList;
+	private VariableKeyring variableKeyRing;
 
 	public CommandManager()
 	{
-		_commandList = new CommandList();
-
-		_variableKeyRing = new VariableKeyring();
+		commandList = new CommandList();
+		variableKeyRing = new VariableKeyring();
 	}
 
 	public CommandList getCommandList()
 	{
-		return _commandList;
+		return commandList;
 	}
 
 	public VariableKeyring getVariableKeyring()
 	{
-		return _variableKeyRing;
+		return variableKeyRing;
 	}
 
 	public void execute(String command, CommandSender sender)
 	{
 		try
 		{
-			CommandSet commandSet = CommandParser.parse(_commandList, sender, command);
-			_commandList.executeCommandSet(commandSet);
+			CommandSet commandSet = CommandParser.parse(commandList, sender, command);
+			commandList.executeCommandSet(commandSet);
 		}
 		catch (CommandParseException exception)
 		{

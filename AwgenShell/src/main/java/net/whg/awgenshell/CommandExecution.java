@@ -2,22 +2,22 @@ package net.whg.awgenshell;
 
 public class CommandExecution
 {
-    private Command _command;
-    private CommandVariable _output;
+	private Command command;
+	private CommandVariable output;
 
-    public CommandExecution(Command command, CommandVariable output)
-    {
-        _command = command;
-        _output = output;
-    }
+	public CommandExecution(Command command, CommandVariable output)
+	{
+		this.command = command;
+		this.output = output;
+	}
 
-    public Command getCommand()
-    {
-        return _command;
-    }
+	public Command getCommand()
+	{
+		return command;
+	}
 
-    public CommandVariable getOutput()
-    {
-        return _output;
-    }
+	public CommandVariable getOutput()
+	{
+		return output;
+	}
 }

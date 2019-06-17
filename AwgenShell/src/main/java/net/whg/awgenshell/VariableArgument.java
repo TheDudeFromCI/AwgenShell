@@ -2,27 +2,27 @@ package net.whg.awgenshell;
 
 public class VariableArgument implements CommandArgument
 {
-    private CommandVariable _var;
+	private CommandVariable var;
 
-    public VariableArgument(CommandVariable var)
-    {
-        _var = var;
-    }
+	public VariableArgument(CommandVariable var)
+	{
+		this.var = var;
+	}
 
-    @Override
-    public String getValue()
-    {
-        return _var.getValue();
-    }
+	@Override
+	public String getValue()
+	{
+		return var.getValue();
+	}
 
-    @Override
-    public String toString()
-    {
-        return "$" + _var.getName();
-    }
+	@Override
+	public String toString()
+	{
+		return "$" + var.getName();
+	}
 
-    public void setValue(String value)
-    {
-        _var.setValue(value);
-    }
+	public void setValue(String value)
+	{
+		var.setValue(value);
+	}
 }

@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 public class Tokenizer
 {
-	private TokenTemplate[] _tokenTemplates =
+	private TokenTemplate[] tokenTemplates =
 	{
 		new TokenTemplate(TokenTemplate.STRING, "^(\".*\"(?=$|\\s+|;|=|,))"),
 		new TokenTemplate(TokenTemplate.NESTED_COMMAND, "^(\\(.*\\)(?=$|\\s+|;|=|,))"),
@@ -15,27 +15,27 @@ public class Tokenizer
 		new TokenTemplate(TokenTemplate.SYMBOL, "^(\\,)"),
 	};
 
-	private String _code;
+	private String code;
 
 	public Tokenizer(String code)
 	{
-		_code = code.replace('\n', ' ');
+		code = code.replace('\n', ' ');
 	}
 
 	public Token nextToken()
 	{
-		_code = _code.trim();
+		code = code.trim();
 
-		if (_code.isEmpty())
+		if (code.isEmpty())
 			return new Token(TokenTemplate.EMPTY, "");
 
-		for (TokenTemplate tem : _tokenTemplates)
+		for (TokenTemplate tem : tokenTemplates)
 		{
-			Matcher matcher = tem.getPattern().matcher(_code);
+			Matcher matcher = tem.getPattern().matcher(code);
 			if (matcher.find())
 			{
 				String token = matcher.group().trim();
-				_code = matcher.replaceAll("");
+				code = matcher.replaceAll("");
 
 				if (tem.getType() == TokenTemplate.STRING || tem.getType() == TokenTemplate.NESTED_COMMAND)
 					return new Token(tem.getType(), token.substring(1, token.length() - 1));
@@ -47,11 +47,11 @@ public class Tokenizer
 			}
 		}
 
-		throw new CommandParseException("Failed to parse " + _code + "!");
+		throw new CommandParseException("Failed to parse " + code + "!");
 	}
 
 	public boolean hasNextToken()
 	{
-		return !_code.isEmpty();
+		return !code.isEmpty();
 	}
 }

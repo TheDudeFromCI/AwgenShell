@@ -2,52 +2,52 @@ package net.whg.awgenshell;
 
 public class Command
 {
-    private String _name;
-    private CommandArgument[] _args;
-    private CommandSender _sender;
+	private String name;
+	private CommandArgument[] args;
+	private CommandSender sender;
 
-    public Command(String name, CommandArgument[] args, CommandSender sender)
-    {
-        _name = name;
-        _args = args;
-        _sender = sender;
-    }
+	public Command(String name, CommandArgument[] args, CommandSender sender)
+	{
+		this.name = name;
+		this.args = args;
+		this.sender = sender;
+	}
 
-    public String getName()
-    {
-        return _name;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    public CommandArgument[] getArgs()
-    {
-        return _args;
-    }
+	public CommandArgument[] getArgs()
+	{
+		return args;
+	}
 
-    public void setArg(int index, CommandArgument value)
-    {
-        _args[index] = value;
-    }
+	public void setArg(int index, CommandArgument value)
+	{
+		args[index] = value;
+	}
 
-    public CommandArgument getArg(int index)
-    {
-        return _args[index];
-    }
+	public CommandArgument getArg(int index)
+	{
+		return args[index];
+	}
 
-    public CommandSender getCommandSender()
-    {
-        return _sender;
-    }
+	public CommandSender getCommandSender()
+	{
+		return sender;
+	}
 
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
 
-        sb.append(_name);
+		sb.append(name);
 
-        for (CommandArgument s : _args)
-            sb.append(" ").append(s.getValue());
+		for (CommandArgument s : args)
+			sb.append(" ").append(s.getValue());
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 }

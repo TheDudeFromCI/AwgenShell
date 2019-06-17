@@ -9,14 +9,14 @@ public class CommandList
 {
 	private static Logger logger = LoggerFactory.getLogger(CommandList.class);
 
-	private List<CommandHandler> _commands = new ArrayList<>();
+	private List<CommandHandler> commands = new ArrayList<>();
 
 	public void addCommand(CommandHandler handler)
 	{
 		if (handler == null)
 			return;
 
-		_commands.add(handler);
+		commands.add(handler);
 	}
 
 	public void removeCommand(CommandHandler handler)
@@ -24,7 +24,7 @@ public class CommandList
 		if (handler == null)
 			return;
 
-		_commands.remove(handler);
+		commands.remove(handler);
 	}
 
 	public void executeCommandSet(CommandSet set)
@@ -54,13 +54,13 @@ public class CommandList
 
 	public CommandHandler getCommand(String name)
 	{
-		for (CommandHandler handler : _commands)
+		for (CommandHandler handler : commands)
 		{
 			if (handler.getCommandName().equals(name))
 				return handler;
 		}
 
-		for (CommandHandler handler : _commands)
+		for (CommandHandler handler : commands)
 		{
 			for (String s : handler.getCommandAliases())
 				if (s.equals(name))
@@ -72,11 +72,11 @@ public class CommandList
 
 	public int getCommandCount()
 	{
-		return _commands.size();
+		return commands.size();
 	}
 
 	public CommandHandler getCommand(int index)
 	{
-		return _commands.get(index);
+		return commands.get(index);
 	}
 }

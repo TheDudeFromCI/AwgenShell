@@ -2,26 +2,26 @@ package net.whg.awgenshell;
 
 public class CommandVariable
 {
-    private String _name;
-    private String _value = "";
+	private String name;
+	private String value = "";
 
-    public CommandVariable(String name)
-    {
-        _name = name;
-    }
+	public CommandVariable(String name)
+	{
+		this.name = name;
+	}
 
-    public String getValue()
-    {
-        return _value;
-    }
+	public String getValue()
+	{
+		return value;
+	}
 
-    public void setValue(String value)
-    {
-        _value = value;
-    }
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
 
-    public String getName()
-    {
-        return _name;
-    }
+	public String getName()
+	{
+		return name;
+	}
 }

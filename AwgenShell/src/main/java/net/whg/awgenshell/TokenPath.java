@@ -2,15 +2,15 @@ package net.whg.awgenshell;
 
 public class TokenPath
 {
-    private Token[] _tokens;
+	private Token[] tokens;
 
-    public TokenPath(Token[] tokens)
-    {
-        _tokens = tokens;
-    }
+	public TokenPath(Token[] tokens)
+	{
+		this.tokens = tokens;
+	}
 
-    public Token[] getTokens()
-    {
-        return _tokens;
-    }
+	public Token[] getTokens()
+	{
+		return tokens;
+	}
 }

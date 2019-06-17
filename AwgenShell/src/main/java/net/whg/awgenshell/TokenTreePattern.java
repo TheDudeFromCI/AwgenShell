@@ -4,22 +4,22 @@ import java.util.List;
 
 public class TokenTreePattern
 {
-    private TokenPatternSolver[] _solvers;
+    private TokenPatternSolver[] solvers;
 
     public TokenTreePattern(String pattern)
     {
-        _solvers = TokenPatternSolver.compile(pattern);
+        solvers = TokenPatternSolver.compile(pattern);
     }
 
     public TokenPath build(List<Token> tokens)
     {
         int tokenIndex = 0;
 
-        for (int i = 0; i < _solvers.length; i++)
+        for (int i = 0; i < solvers.length; i++)
         {
-            int count = _solvers[i].count(tokens, tokenIndex);
+            int count = solvers[i].count(tokens, tokenIndex);
 
-            if (count == 0 && !_solvers[i].isOptional())
+            if (count == 0 && !solvers[i].isOptional())
                 return null;
 
             tokenIndex += count;

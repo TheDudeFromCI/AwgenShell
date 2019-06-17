@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TokenTree
 {
-	private TokenTreePattern[] _patterns =
+	private TokenTreePattern[] patterns =
 	{
 	/* @formatter:off */
 
@@ -33,7 +33,7 @@ public class TokenTree
 
 	public TokenPath nextPath()
 	{
-		for (TokenTreePattern pattern : _patterns)
+		for (TokenTreePattern pattern : patterns)
 		{
 			TokenPath path = pattern.build(_tokens);
 			if (path != null)

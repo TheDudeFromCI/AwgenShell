@@ -2,22 +2,22 @@ package net.whg.awgenshell;
 
 public class Token
 {
-    private int _type;
-    private String _value;
+	private int type;
+	private String value;
 
-    public Token(int type, String value)
-    {
-        _type = type;
-        _value = value;
-    }
+	public Token(int type, String value)
+	{
+		this.type = type;
+		this.value = value;
+	}
 
-    public int getType()
-    {
-        return _type;
-    }
+	public int getType()
+	{
+		return type;
+	}
 
-    public String getValue()
-    {
-        return _value;
-    }
+	public String getValue()
+	{
+		return value;
+	}
 }

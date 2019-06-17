@@ -5,11 +5,11 @@ import java.util.List;
 
 public class VariableKeyring
 {
-	private List<CommandVariable> _variables = new ArrayList<>();
+	private List<CommandVariable> variables = new ArrayList<>();
 
 	public CommandVariable getVariable(String name)
 	{
-		for (CommandVariable var : _variables)
+		for (CommandVariable var : variables)
 			if (var.getName().equals(name))
 				return var;
 		return null;
@@ -25,23 +25,23 @@ public class VariableKeyring
 		if (var == null)
 			return;
 
-		if (_variables.contains(var))
+		if (variables.contains(var))
 			return;
 
-		_variables.add(var);
+		variables.add(var);
 	}
 
 	public List<CommandVariable> getVariables()
 	{
-		return _variables;
+		return variables;
 	}
 
 	public void clearTemp()
 	{
-		for (int i = 0; i < _variables.size();)
+		for (int i = 0; i < variables.size();)
 		{
-			if (_variables.get(i).getName().matches("[0-9]*"))
-				_variables.remove(i);
+			if (variables.get(i).getName().matches("[0-9]*"))
+				variables.remove(i);
 			else
 				i++;
 		}
