@@ -13,13 +13,6 @@ public class CommandManager
 	public CommandManager()
 	{
 		_commandList = new CommandList();
-		_commandList.addCommand(new HelpCommand(_commandList));
-		_commandList.addCommand(new PrintCommand());
-		_commandList.addCommand(new ClearCommand());
-		_commandList.addCommand(new SetCommand());
-		_commandList.addCommand(new RandomCommand());
-		_commandList.addCommand(new ForCommand());
-		_commandList.addCommand(new ListCommand());
 
 		_variableKeyRing = new DefaultKeyring();
 	}
