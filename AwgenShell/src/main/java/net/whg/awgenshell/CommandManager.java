@@ -36,11 +36,11 @@ public class CommandManager
 		}
 		catch (CommandParseException exception)
 		{
-			sender.getConsole().println("Failed to parse command '" + command + "'!");
+			sender.println("Failed to parse command '" + command + "'!");
 		}
 		catch (Exception exception)
 		{
-			sender.getConsole().println("An error has occured while executing this command.!");
+			sender.println("An error has occured while executing this command.!");
 			logger.error(String.format("Error while preforming command! '%s'", command), exception);
 		}
 	}
