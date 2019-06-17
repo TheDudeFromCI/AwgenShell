@@ -2,9 +2,9 @@ package net.whg.awgenshell;
 
 public class VariableArgument implements CommandArgument
 {
-	private CommandVariable var;
+	private Variable var;
 
-	public VariableArgument(CommandVariable var)
+	public VariableArgument(Variable var)
 	{
 		this.var = var;
 	}

@@ -25,7 +25,7 @@ public class DynamicVariableArgument implements CommandArgument
 		{
 			CommandSet set = CommandParser.parse(commandList, sender, line);
 			commandList.executeCommandSet(set);
-			CommandVariable var = set.getFinalOutput();
+			Variable var = set.getFinalOutput();
 
 			if (var == null)
 				return "";

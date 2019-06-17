@@ -1,11 +1,11 @@
 package net.whg.awgenshell;
 
-public class CommandVariable
+public class Variable
 {
 	private String name;
 	private String value = "";
 
-	public CommandVariable(String name)
+	public Variable(String name)
 	{
 		this.name = name;
 	}

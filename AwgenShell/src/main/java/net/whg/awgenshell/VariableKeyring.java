@@ -5,11 +5,11 @@ import java.util.List;
 
 public class VariableKeyring
 {
-	private List<CommandVariable> variables = new ArrayList<>();
+	private List<Variable> variables = new ArrayList<>();
 
-	public CommandVariable getVariable(String name)
+	public Variable getVariable(String name)
 	{
-		for (CommandVariable var : variables)
+		for (Variable var : variables)
 			if (var.getName().equals(name))
 				return var;
 		return null;
@@ -20,7 +20,7 @@ public class VariableKeyring
 		return getVariable(name) != null;
 	}
 
-	public void addVariable(CommandVariable var)
+	public void addVariable(Variable var)
 	{
 		if (var == null)
 			return;
@@ -31,7 +31,7 @@ public class VariableKeyring
 		variables.add(var);
 	}
 
-	public List<CommandVariable> getVariables()
+	public List<Variable> getVariables()
 	{
 		return variables;
 	}

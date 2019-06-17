@@ -3,9 +3,9 @@ package net.whg.awgenshell;
 public class CommandExecution
 {
 	private Command command;
-	private CommandVariable output;
+	private Variable output;
 
-	public CommandExecution(Command command, CommandVariable output)
+	public CommandExecution(Command command, Variable output)
 	{
 		this.command = command;
 		this.output = output;
@@ -16,7 +16,7 @@ public class CommandExecution
 		return command;
 	}
 
-	public CommandVariable getOutput()
+	public Variable getOutput()
 	{
 		return output;
 	}

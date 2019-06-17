@@ -10,13 +10,13 @@ public class CommandParser
         return set;
     }
 
-    private static CommandVariable parse(CommandList commandList,
+    private static Variable parse(CommandList commandList,
             CommandSet set, String line, CommandSender sender)
     {
         TokenTree tree = new TokenTree();
         tree.addTokens(new Tokenizer(line));
 
-        CommandVariable lastVar = null;
+        Variable lastVar = null;
         while (tree.hasNextPath())
         {
             TokenPath path = tree.nextPath();
@@ -72,7 +72,7 @@ public class CommandParser
 
                 if (tokens[i].getType() == TokenTemplate.NESTED_COMMAND)
                 {
-                    CommandVariable v2 = parse(commandList, set, val, sender);
+                    Variable v2 = parse(commandList, set, val, sender);
                     if (v2 == null)
                         args[a] = new StringArgument("");
                     else

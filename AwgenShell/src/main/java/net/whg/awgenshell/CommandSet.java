@@ -24,7 +24,7 @@ public class CommandSet
 		commands.add(execution);
 	}
 
-	public CommandVariable getVariable(String name)
+	public Variable getVariable(String name)
 	{
 		if (name == null)
 			return null;
@@ -32,18 +32,18 @@ public class CommandSet
 		return variables.getVariable(name);
 	}
 
-	public CommandVariable getOrCreateVariable(String name)
+	public Variable getOrCreateVariable(String name)
 	{
-		CommandVariable var = getVariable(name);
+		Variable var = getVariable(name);
 		if (var != null)
 			return var;
 
-		var = new CommandVariable(name);
+		var = new Variable(name);
 		addVariable(var);
 		return var;
 	}
 
-	public void addVariable(CommandVariable variable)
+	public void addVariable(Variable variable)
 	{
 		if (variable == null)
 			return;
@@ -56,7 +56,7 @@ public class CommandSet
 		return commands;
 	}
 
-	public List<CommandVariable> getVariables()
+	public List<Variable> getVariables()
 	{
 		return variables.getVariables();
 	}
@@ -95,7 +95,7 @@ public class CommandSet
 		return commands.size();
 	}
 
-	public CommandVariable getFinalOutput()
+	public Variable getFinalOutput()
 	{
 		if (commands.size() == 0)
 			return null;
