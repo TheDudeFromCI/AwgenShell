@@ -14,7 +14,7 @@ public class CommandManager
 	{
 		_commandList = new CommandList();
 
-		_variableKeyRing = new DefaultKeyring();
+		_variableKeyRing = new VariableKeyring();
 	}
 
 	public CommandList getCommandList()
