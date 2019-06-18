@@ -18,7 +18,13 @@ public class Command implements GrammerStack
 		if (command == null)
 			command = environment.getCommand(commandName);
 
-		return command.execute(arguments);
+		if (command == null)
+		{
+			environment.getCommandSender().println("Unknown command: '" + commandName + "'!");
+			return "false";
+		}
+
+		return command.execute(environment.getCommandSender(), arguments);
 	}
 
 	@Override
@@ -65,7 +71,9 @@ public class Command implements GrammerStack
 			}
 		}
 
-		this.arguments = arguments.toArray(new ArgumentValue[0]);
+		this.arguments = new ArgumentValue[arguments.size()];
+		for (int i = 0; i < arguments.size(); i++)
+			this.arguments[i] = arguments.get(i).getValue();
 
 		return true;
 	}

@@ -11,7 +11,8 @@ public class Main
 		if (!printVersion())
 			return;
 
-		ShellEnvironment env = new ShellEnvironment();
+		TerminalCommandSender sender = new TerminalCommandSender();
+		ShellEnvironment env = new ShellEnvironment(sender);
 
 		Scanner scan = new Scanner(System.in);
 		while (true)
@@ -44,6 +45,21 @@ public class Main
 			System.err.println("Failed to load project properties!");
 			exception.printStackTrace();
 			return false;
+		}
+	}
+
+	private static class TerminalCommandSender implements CommandSender
+	{
+		@Override
+		public void println(String message)
+		{
+			System.out.println(message);
+		}
+
+		@Override
+		public String getName()
+		{
+			return "Console";
 		}
 	}
 }

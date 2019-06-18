@@ -14,6 +14,14 @@ public class ShellEnvironment
 	private List<Variable> variables = new ArrayList<>();
 	private List<Variable> tempVars = new LinkedList<>();
 	private List<Module> modules = new ArrayList<>();
+	private CommandSender sender;
+
+	public ShellEnvironment(CommandSender sender)
+	{
+		this.sender = sender;
+
+		loadModule(Module.newLangModule());
+	}
 
 	public Variable getVariable(String variable)
 	{
@@ -49,7 +57,7 @@ public class ShellEnvironment
 		try
 		{
 			Input in = CommandParser.parse(this, line);
-			System.out.println(in.execute(this).getValue());
+			in.execute(this);
 		}
 		catch (Exception exception)
 		{
@@ -73,5 +81,10 @@ public class ShellEnvironment
 		}
 
 		return null;
+	}
+
+	public CommandSender getCommandSender()
+	{
+		return sender;
 	}
 }

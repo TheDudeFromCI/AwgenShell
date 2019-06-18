@@ -4,5 +4,5 @@ public interface CommandHandler
 {
 	String getName();
 
-	String execute(ArgumentValue[] args);
+	String execute(CommandSender sender, ArgumentValue[] args);
 }

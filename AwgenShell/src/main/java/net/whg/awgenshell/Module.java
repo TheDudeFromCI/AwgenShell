@@ -2,12 +2,15 @@ package net.whg.awgenshell;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.whg.awgenshell.lang.PrintCommand;
 
 public class Module
 {
 	static Module newLangModule()
 	{
 		Module m = new Module();
+
+		m.loadCommand(new PrintCommand());
 
 		return m;
 	}
