@@ -13,6 +13,7 @@ public class ShellEnvironment
 {
 	private List<Variable> variables = new ArrayList<>();
 	private List<Variable> tempVars = new LinkedList<>();
+	private List<Module> modules = new ArrayList<>();
 
 	public Variable getVariable(String variable)
 	{
@@ -36,5 +37,41 @@ public class ShellEnvironment
 		tempVars.add(v);
 
 		return v;
+	}
+
+	public void clearTempVars()
+	{
+		tempVars.clear();
+	}
+
+	public void runCommand(String line)
+	{
+		try
+		{
+			Input in = CommandParser.parse(this, line);
+			System.out.println(in.execute(this).getValue());
+		}
+		catch (Exception exception)
+		{
+			exception.printStackTrace();
+		}
+	}
+
+	public void loadModule(Module module)
+	{
+		modules.add(module);
+	}
+
+	public CommandHandler getCommand(String name)
+	{
+		for (Module m : modules)
+		{
+			CommandHandler c = m.getCommand(name);
+
+			if (c != null)
+				return c;
+		}
+
+		return null;
 	}
 }

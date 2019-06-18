@@ -21,15 +21,7 @@ public class Main
 			if (line.equalsIgnoreCase("exit"))
 				break;
 
-			try
-			{
-				Input in = CommandParser.parse(env, line);
-				System.out.println(in.execute(env).getValue());
-			}
-			catch (Exception exception)
-			{
-				exception.printStackTrace();
-			}
+			env.runCommand(line);
 		}
 
 		scan.close();

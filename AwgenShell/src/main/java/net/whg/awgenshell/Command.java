@@ -6,16 +6,19 @@ import java.util.List;
 public class Command implements GrammerStack
 {
 	private String commandName;
-	private List<Argument> arguments = new ArrayList<>();
+	private ArgumentValue[] arguments;
+	private CommandHandler command;
 
 	public String execute(ShellEnvironment environment)
 	{
-		for (Argument arg : arguments)
-			if (arg.getValue() instanceof CommandArgument)
-				((CommandArgument) arg.getValue()).evaluate();
+		for (ArgumentValue arg : arguments)
+			if (arg instanceof CommandArgument)
+				((CommandArgument) arg).evaluate();
 
-		// TODO
-		return commandName;
+		if (command == null)
+			command = environment.getCommand(commandName);
+
+		return command.execute(arguments);
 	}
 
 	@Override
@@ -27,6 +30,8 @@ public class Command implements GrammerStack
 			return false;
 
 		this.commandName = commandName.getFormattedValue();
+
+		List<Argument> arguments = new ArrayList<>();
 
 		if (tokenizer.hasNextToken())
 		{
@@ -59,6 +64,8 @@ public class Command implements GrammerStack
 				}
 			}
 		}
+
+		this.arguments = arguments.toArray(new ArgumentValue[0]);
 
 		return true;
 	}
