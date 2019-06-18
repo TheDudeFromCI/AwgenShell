@@ -3,6 +3,7 @@ package net.whg.awgenshell;
 import java.util.ArrayList;
 import java.util.List;
 import net.whg.awgenshell.lang.PrintCommand;
+import net.whg.awgenshell.lang.RandomCommand;
 
 public class Module
 {
@@ -11,6 +12,7 @@ public class Module
 		Module m = new Module();
 
 		m.loadCommand(new PrintCommand());
+		m.loadCommand(new RandomCommand());
 
 		return m;
 	}
@@ -20,7 +22,7 @@ public class Module
 	public CommandHandler getCommand(String name)
 	{
 		for (CommandHandler c : commands)
-			if (c.getName().equals(name))
+			if (c.getName().equalsIgnoreCase(name))
 				return c;
 		return null;
 	}

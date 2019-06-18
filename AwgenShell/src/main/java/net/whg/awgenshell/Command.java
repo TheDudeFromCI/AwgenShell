@@ -52,6 +52,8 @@ public class Command implements GrammerStack
 
 					if (comma.getType() == TokenTemplate.COMMA_SYMBOL)
 					{
+						tokenizer.consumeToken();
+
 						argument = new Argument();
 						if (argument.consumeTokens(env, tokenizer))
 							arguments.add(argument);
