@@ -2,12 +2,16 @@ package net.whg.awgenshell;
 
 public class CommandParser
 {
-	public static void parse(String input)
+	public static Input parse(ShellEnvironment environment, String line)
 	{
-		Tokenizer tokens = new Tokenizer(input);
+		Tokenizer tokenizer = new Tokenizer(line);
 
-		System.out.println("Starting tokenization:");
-		while (tokens.hasNextToken())
-			System.out.println("  " + tokens.nextToken().getValue());
+		Input input = new Input();
+		input.consumeTokens(environment, tokenizer);
+
+		if (tokenizer.hasNextToken())
+			throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+
+		return input;
 	}
 }

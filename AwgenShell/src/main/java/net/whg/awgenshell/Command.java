@@ -1,53 +1,65 @@
 package net.whg.awgenshell;
 
-public class Command
+import java.util.ArrayList;
+import java.util.List;
+
+public class Command implements GrammerStack
 {
-	private String name;
-	private CommandArgument[] args;
-	private CommandSender sender;
+	private String commandName;
+	private List<Argument> arguments = new ArrayList<>();
 
-	public Command(String name, CommandArgument[] args, CommandSender sender)
+	public String execute(ShellEnvironment environment)
 	{
-		this.name = name;
-		this.args = args;
-		this.sender = sender;
-	}
+		for (Argument arg : arguments)
+			if (arg.getValue() instanceof CommandArgument)
+				((CommandArgument) arg.getValue()).evaluate();
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public CommandArgument[] getArgs()
-	{
-		return args;
-	}
-
-	public void setArg(int index, CommandArgument value)
-	{
-		args[index] = value;
-	}
-
-	public CommandArgument getArg(int index)
-	{
-		return args[index];
-	}
-
-	public CommandSender getCommandSender()
-	{
-		return sender;
+		// TODO
+		return commandName;
 	}
 
 	@Override
-	public String toString()
+	public boolean consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
-		StringBuilder sb = new StringBuilder();
+		Token commandName = tokenizer.nextToken();
 
-		sb.append(name);
+		if (commandName.getType() != TokenTemplate.SOFT_STRING)
+			return false;
 
-		for (CommandArgument s : args)
-			sb.append(" ").append(s.getValue());
+		this.commandName = commandName.getFormattedValue();
 
-		return sb.toString();
+		if (tokenizer.hasNextToken())
+		{
+			Argument argument = new Argument();
+			if (argument.consumeTokens(env, tokenizer))
+			{
+				arguments.add(argument);
+
+				while (tokenizer.hasNextToken())
+				{
+					Token comma = tokenizer.peekNextToken();
+
+					if (comma.getType() == TokenTemplate.COMMA_SYMBOL)
+					{
+						argument = new Argument();
+						if (argument.consumeTokens(env, tokenizer))
+							arguments.add(argument);
+						else
+							throw new CommandParseException(
+									"Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+					}
+					else
+					{
+						argument = new Argument();
+						if (argument.consumeTokens(env, tokenizer))
+							arguments.add(argument);
+						else
+							break;
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 }

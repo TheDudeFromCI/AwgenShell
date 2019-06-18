@@ -1,6 +1,6 @@
 package net.whg.awgenshell;
 
-public class StringArgument implements CommandArgument
+public class StringArgument implements ArgumentValue
 {
 	private String value;
 
@@ -11,12 +11,6 @@ public class StringArgument implements CommandArgument
 
 	@Override
 	public String getValue()
-	{
-		return value;
-	}
-
-	@Override
-	public String toString()
 	{
 		return value;
 	}

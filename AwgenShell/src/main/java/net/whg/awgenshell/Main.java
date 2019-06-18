@@ -11,6 +11,8 @@ public class Main
 		if (!printVersion())
 			return;
 
+		ShellEnvironment env = new ShellEnvironment();
+
 		Scanner scan = new Scanner(System.in);
 		while (true)
 		{
@@ -21,7 +23,8 @@ public class Main
 
 			try
 			{
-				CommandParser.parse(line);
+				Input in = CommandParser.parse(env, line);
+				System.out.println(in.execute(env).getValue());
 			}
 			catch (Exception exception)
 			{
