@@ -19,7 +19,6 @@ public class TokenTemplate
 	public static final int OPEN_CURLY_BRACKET_SYMBOL = 12;
 	public static final int CLOSE_CURLY_BRACKET_SYMBOL = 13;
 	public static final int PIPE_SYMBOL = 14;
-	public static final int EMPTY = 15;
 
 	private int type;
 	private Pattern pattern;

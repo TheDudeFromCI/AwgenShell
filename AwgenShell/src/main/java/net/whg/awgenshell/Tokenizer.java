@@ -36,7 +36,7 @@ public class Tokenizer
 		code = code.trim();
 
 		if (code.isEmpty())
-			return new Token(TokenTemplate.EMPTY, "");
+			throw new CommandParseException("Unexpected tokenization state!");
 
 		for (TokenTemplate tem : tokenTemplates)
 		{
