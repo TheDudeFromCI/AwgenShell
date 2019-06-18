@@ -6,23 +6,26 @@ import java.util.regex.Matcher;
 
 public class Tokenizer
 {
+	private String tokenTerminator = "(?=$|\\s|\\=|\\,|\\&|\\(|\\)|\\{|\\}|\\;|\\|))";
+	private String symbolTerminator = ")";
+
 	private TokenTemplate[] tokenTemplates =
 	{
 		// @formatter:off
-		new TokenTemplate(TokenTemplate.SOFT_STRING, "^([a-zA-Z][a-zA-Z0-9\\\\-_]*)"),
-		new TokenTemplate(TokenTemplate.HARD_STRING, "^([a-zA-Z0-9\\-_\\/\\\\\\?\\!\\:\\.]+)"),
-		new TokenTemplate(TokenTemplate.QUOTED_STRING, "^(\\\"(?:[^\"\\\\])*\\\"|\\'(?:[^'\\\\])*\\')"),
-		new TokenTemplate(TokenTemplate.FORMAT_STRING, "^(\\`(?:[^`\\\\])*\\`)"),
-		new TokenTemplate(TokenTemplate.VARIABLE, "^(\\$[a-zA-Z][a-zA-Z0-9\\\\-_]*)"),
-		new TokenTemplate(TokenTemplate.EQUALS_SYMBOL, "^(\\=)"),
-		new TokenTemplate(TokenTemplate.COMMA_SYMBOL, "^(\\,)"),
-		new TokenTemplate(TokenTemplate.AND_SYMBOL, "^(\\&)"),
-		new TokenTemplate(TokenTemplate.OPEN_PARENTHESIS_SYMBOL, "^(\\()"),
-		new TokenTemplate(TokenTemplate.CLOSE_PARENTHESIS_SYMBOL, "^(\\))"),
-		new TokenTemplate(TokenTemplate.SEMICOLON_SYMBOL, "^(\\;)"),
-		new TokenTemplate(TokenTemplate.OPEN_CURLY_BRACKET_SYMBOL, "^(\\{)"),
-		new TokenTemplate(TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL, "^(\\})"),
-		new TokenTemplate(TokenTemplate.PIPE_SYMBOL, "^(\\|)"),
+		new TokenTemplate(TokenTemplate.SOFT_STRING, "^([a-zA-Z][a-zA-Z0-9\\\\-_]*", tokenTerminator),
+		new TokenTemplate(TokenTemplate.HARD_STRING, "^([a-zA-Z0-9\\-_\\/\\\\\\?\\!\\:\\.]+", tokenTerminator),
+		new TokenTemplate(TokenTemplate.QUOTED_STRING, "^(\\\"(?:[^\"\\\\])*\\\"|\\'(?:[^'\\\\])*\\'", tokenTerminator),
+		new TokenTemplate(TokenTemplate.FORMAT_STRING, "^(\\`(?:[^`\\\\])*\\`", tokenTerminator),
+		new TokenTemplate(TokenTemplate.VARIABLE, "^(\\$[a-zA-Z][a-zA-Z0-9\\\\-_]*", tokenTerminator),
+		new TokenTemplate(TokenTemplate.EQUALS_SYMBOL, "^(\\=", symbolTerminator),
+		new TokenTemplate(TokenTemplate.COMMA_SYMBOL, "^(\\,", symbolTerminator),
+		new TokenTemplate(TokenTemplate.AND_SYMBOL, "^(\\&", symbolTerminator),
+		new TokenTemplate(TokenTemplate.OPEN_PARENTHESIS_SYMBOL, "^(\\(", symbolTerminator),
+		new TokenTemplate(TokenTemplate.CLOSE_PARENTHESIS_SYMBOL, "^(\\)", symbolTerminator),
+		new TokenTemplate(TokenTemplate.SEMICOLON_SYMBOL, "^(\\;", symbolTerminator),
+		new TokenTemplate(TokenTemplate.OPEN_CURLY_BRACKET_SYMBOL, "^(\\{", symbolTerminator),
+		new TokenTemplate(TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL, "^(\\}", symbolTerminator),
+		new TokenTemplate(TokenTemplate.PIPE_SYMBOL, "^(\\|", symbolTerminator),
 		// @formatter:on
 	};
 

@@ -22,10 +22,10 @@ public class TokenTemplate
 	private int type;
 	private Pattern pattern;
 
-	public TokenTemplate(int type, String regex)
+	public TokenTemplate(int type, String regex, String seperator)
 	{
 		this.type = type;
-		pattern = Pattern.compile(regex);
+		pattern = Pattern.compile(regex + seperator);
 	}
 
 	public Pattern getPattern()
