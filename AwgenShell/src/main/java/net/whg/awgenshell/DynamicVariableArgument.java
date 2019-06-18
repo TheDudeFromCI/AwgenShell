@@ -7,7 +7,9 @@ public class DynamicVariableArgument implements CommandArgument
 {
 	private Logger logger = LoggerFactory.getLogger(DynamicVariableArgument.class);
 
+	@SuppressWarnings("unused")
 	private CommandList commandList;
+	@SuppressWarnings("unused")
 	private CommandSender sender;
 	private String line;
 
@@ -23,6 +25,11 @@ public class DynamicVariableArgument implements CommandArgument
 	{
 		try
 		{
+			throw new UnsupportedOperationException();
+
+			/*
+			@formatter:off
+
 			CommandSet set = CommandParser.parse(commandList, sender, line);
 			commandList.executeCommandSet(set);
 			Variable var = set.getFinalOutput();
@@ -31,6 +38,9 @@ public class DynamicVariableArgument implements CommandArgument
 				return "";
 
 			return var.getValue();
+
+			@formatter:on
+			*/
 		}
 		catch (Exception exception)
 		{

@@ -2,6 +2,7 @@ package net.whg.awgenshell;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class Main
 {
@@ -9,6 +10,26 @@ public class Main
 	{
 		if (!printVersion())
 			return;
+
+		Scanner scan = new Scanner(System.in);
+		while (true)
+		{
+			String line = scan.nextLine();
+
+			if (line.equalsIgnoreCase("exit"))
+				break;
+
+			try
+			{
+				CommandParser.parse(line);
+			}
+			catch (Exception exception)
+			{
+				exception.printStackTrace();
+			}
+		}
+
+		scan.close();
 	}
 
 	private static boolean printVersion()

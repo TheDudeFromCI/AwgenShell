@@ -6,20 +6,29 @@ public class Tokenizer
 {
 	private TokenTemplate[] tokenTemplates =
 	{
-		new TokenTemplate(TokenTemplate.STRING, "^(\".*\"(?=$|\\s+|;|=|,))"),
-		new TokenTemplate(TokenTemplate.NESTED_COMMAND, "^(\\(.*\\)(?=$|\\s+|;|=|,))"),
-		new TokenTemplate(TokenTemplate.STANDARD, "^([a-zA-Z0-9_/.-]+(?=$|\\s+|;|=|,))"),
-		new TokenTemplate(TokenTemplate.VARIABLE, "^(\\$[a-zA-Z][a-zA-Z0-9_-]*(?=$|\\s+|;|=|,))"),
-		new TokenTemplate(TokenTemplate.DYNAMIC_VARIABLE, "^(\\$\\[.*\\](?=\\s+|$|;|=|,))"),
-		new TokenTemplate(TokenTemplate.SYMBOL, "^(\\=)"), new TokenTemplate(TokenTemplate.SYMBOL, "^(\\;)"),
-		new TokenTemplate(TokenTemplate.SYMBOL, "^(\\,)"),
+		// @formatter:off
+		new TokenTemplate(TokenTemplate.SOFT_STRING, "^([a-zA-Z][a-zA-Z0-9\\\\-_]*)"),
+		new TokenTemplate(TokenTemplate.HARD_STRING, "^([a-zA-Z0-9\\-_\\/\\\\\\?\\!\\:\\.]+)"),
+		new TokenTemplate(TokenTemplate.QUOTED_STRING, "^(\\\"(?:[^\"\\\\])*\\\"|\\'(?:[^'\\\\])*\\')"),
+		new TokenTemplate(TokenTemplate.FORMAT_STRING, "^(\\`(?:[^`\\\\])*\\`)"),
+		new TokenTemplate(TokenTemplate.VARIABLE, "^(\\$[a-zA-Z][a-zA-Z0-9\\\\-_]*)"),
+		new TokenTemplate(TokenTemplate.EQUALS_SYMBOL, "^(\\=)"),
+		new TokenTemplate(TokenTemplate.COMMA_SYMBOL, "^(\\,)"),
+		new TokenTemplate(TokenTemplate.AND_SYMBOL, "^(\\&)"),
+		new TokenTemplate(TokenTemplate.OPEN_PARENTHeSIS_SYMBOL, "^(\\()"),
+		new TokenTemplate(TokenTemplate.CLOSE_PARENTHeSIS_SYMBOL, "^(\\))"),
+		new TokenTemplate(TokenTemplate.SEMICOLON_SYMBOL, "^(\\;)"),
+		new TokenTemplate(TokenTemplate.OPEN_CURLY_BRACKET_SYMBOL, "^(\\{)"),
+		new TokenTemplate(TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL, "^(\\})"),
+		new TokenTemplate(TokenTemplate.PIPE_SYMBOL, "^(\\|)"),
+		// @formatter:on
 	};
 
 	private String code;
 
 	public Tokenizer(String code)
 	{
-		code = code.replace('\n', ' ');
+		this.code = code.replace('\n', ' ');
 	}
 
 	public Token nextToken()
@@ -36,12 +45,6 @@ public class Tokenizer
 			{
 				String token = matcher.group().trim();
 				code = matcher.replaceAll("");
-
-				if (tem.getType() == TokenTemplate.STRING || tem.getType() == TokenTemplate.NESTED_COMMAND)
-					return new Token(tem.getType(), token.substring(1, token.length() - 1));
-
-				if (tem.getType() == TokenTemplate.DYNAMIC_VARIABLE)
-					return new Token(tem.getType(), token.substring(2, token.length() - 1));
 
 				return new Token(tem.getType(), token);
 			}
