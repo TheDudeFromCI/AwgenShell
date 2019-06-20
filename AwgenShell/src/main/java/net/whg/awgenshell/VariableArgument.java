@@ -12,7 +12,7 @@ public class VariableArgument implements ArgumentValue
 
 	/**
 	 * Creates a new variable argument instance.
-	 * 
+	 *
 	 * @param variable
 	 *     - The variable this argument represents.
 	 */
@@ -25,5 +25,15 @@ public class VariableArgument implements ArgumentValue
 	public String getValue()
 	{
 		return variable.getValue();
+	}
+
+	/**
+	 * Gets the variable this argument is attached to.
+	 * 
+	 * @return The variable;
+	 */
+	public Variable getVariable()
+	{
+		return variable;
 	}
 }

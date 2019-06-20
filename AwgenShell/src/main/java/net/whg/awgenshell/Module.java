@@ -2,6 +2,8 @@ package net.whg.awgenshell;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.whg.awgenshell.lang.AppendCommand;
+import net.whg.awgenshell.lang.ForCommand;
 import net.whg.awgenshell.lang.IfCommand;
 import net.whg.awgenshell.lang.PrintCommand;
 import net.whg.awgenshell.lang.RandomCommand;
@@ -25,6 +27,8 @@ public class Module
 		m.loadCommand(new IfCommand());
 		m.loadCommand(new SetCommand());
 		m.loadCommand(new WhileCommand());
+		m.loadCommand(new ForCommand());
+		m.loadCommand(new AppendCommand());
 
 		return m;
 	}
