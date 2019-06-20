@@ -61,6 +61,6 @@ public class CommandArgument implements ArgumentValue
 		if (direct && value != null)
 			return value;
 
-		return value = input.execute(env).getValue();
+		return value = input.execute(env, direct).getValue();
 	}
 }

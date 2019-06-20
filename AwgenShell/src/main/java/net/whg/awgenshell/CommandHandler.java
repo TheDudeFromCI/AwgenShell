@@ -27,12 +27,12 @@ public interface CommandHandler
 	 *     regardless of whether the command was successfully executed or not. The
 	 *     output should reflect the execution state of this command.
 	 */
-	String execute(CommandSender sender, ArgumentValue[] args);
+	CommandResult execute(CommandSender sender, ArgumentValue[] args);
 
 	/**
 	 * Gets an array of all aliases for this command, or an empty array if this
 	 * command has no aliases.
-	 * 
+	 *
 	 * @return An array of all aliases for this command.
 	 */
 	String[] getAliases();

@@ -2,6 +2,7 @@ package net.whg.awgenshell.lang;
 
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
+import net.whg.awgenshell.CommandResult;
 import net.whg.awgenshell.CommandSender;
 
 public class PrintCommand implements CommandHandler
@@ -18,7 +19,7 @@ public class PrintCommand implements CommandHandler
 	}
 
 	@Override
-	public String execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
 	{
 		String line = "";
 
@@ -34,7 +35,7 @@ public class PrintCommand implements CommandHandler
 
 		sender.println(line);
 
-		return "true";
+		return new CommandResult("", true, true);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package net.whg.awgenshell.lang;
 
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
+import net.whg.awgenshell.CommandResult;
 import net.whg.awgenshell.CommandSender;
 
 public class RandomCommand implements CommandHandler
@@ -25,23 +26,23 @@ public class RandomCommand implements CommandHandler
 	}
 
 	@Override
-	public String execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
 	{
 		if (args.length == 0)
-			return Math.random() + "";
+			return new CommandResult(Math.random() + "", true, false);
 
 		if (args.length == 1)
 		{
 			String max = args[0].getValue();
 
 			if (isInteger(max))
-				return (int) Math.round(Math.random() * Integer.valueOf(max)) + "";
+				return new CommandResult((int) Math.round(Math.random() * Integer.valueOf(max)) + "", true, false);
 
 			if (isFloat(max))
-				return (float) (Math.random() * Float.valueOf(max)) + "";
+				return new CommandResult((float) (Math.random() * Float.valueOf(max)) + "", true, false);
 
 			sender.println("Not a number: '" + max + "'!");
-			return "false";
+			return CommandResult.ERROR;
 		}
 
 		if (args.length == 2)
@@ -54,7 +55,7 @@ public class RandomCommand implements CommandHandler
 				int maxI = Integer.valueOf(max);
 				int minI = Integer.valueOf(min);
 
-				return (int) (Math.random() * (maxI - minI)) + minI + "";
+				return new CommandResult((int) (Math.random() * (maxI - minI)) + minI + "", true, false);
 			}
 
 			if (isFloat(min) && isFloat(max))
@@ -62,7 +63,7 @@ public class RandomCommand implements CommandHandler
 				float maxI = Float.valueOf(max);
 				float minI = Float.valueOf(min);
 
-				return (float) (Math.random() * (maxI - minI)) + minI + "";
+				return new CommandResult((float) (Math.random() * (maxI - minI)) + minI + "", true, false);
 			}
 
 			if (!isFloat(min))
@@ -71,11 +72,11 @@ public class RandomCommand implements CommandHandler
 			if (!isFloat(max))
 				sender.println("Not a number: '" + max + "'!");
 
-			return "false";
+			return CommandResult.ERROR;
 		}
 
 		sender.println("Unknown number of arguments!");
-		return "false";
+		return CommandResult.ERROR;
 	}
 
 	@Override

@@ -66,7 +66,7 @@ public class ShellEnvironment
 		try
 		{
 			Input in = CommandParser.parse(this, line);
-			in.execute(this);
+			in.execute(this, false);
 		}
 		catch (Exception exception)
 		{
@@ -108,7 +108,7 @@ public class ShellEnvironment
 
 	/**
 	 * Gets the command sender for this shell environment.
-	 * 
+	 *
 	 * @return
 	 */
 	public CommandSender getCommandSender()

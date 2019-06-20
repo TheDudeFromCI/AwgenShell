@@ -39,11 +39,11 @@ class Input implements GrammerStack
 		expressions.get(expressions.size() - 1).seperator = seperator;
 	}
 
-	public Variable execute(ShellEnvironment environment)
+	public CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
 	{
 		ExpressionSeperator last = ExpressionSeperator.NORMAL;
 		boolean lastState = true;
-		Variable response = null;
+		CommandResult response = null;
 
 		for (int i = 0; i < expressions.size(); i++)
 		{
@@ -52,8 +52,8 @@ class Input implements GrammerStack
 			if (last == ExpressionSeperator.NORMAL || last == ExpressionSeperator.AND && lastState
 					|| last == ExpressionSeperator.OR && !lastState)
 			{
-				lastState = seq.expression.execute(environment);
-				response = seq.expression.getOutput();
+				response = seq.expression.execute(environment, isDirectCommand);
+				lastState = response.isNormalExit();
 			}
 			else
 				lastState = false;
@@ -61,8 +61,8 @@ class Input implements GrammerStack
 			last = seq.seperator;
 		}
 
-		if (response == null)
-			response = new Variable("0");
+		if (response == null) // Empty expression list
+			response = new CommandResult("", true, true);
 
 		return response;
 	}

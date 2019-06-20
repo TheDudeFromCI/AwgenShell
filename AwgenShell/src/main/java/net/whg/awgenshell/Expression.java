@@ -9,21 +9,24 @@ class Expression implements GrammerStack
 {
 	private Command command;
 	private Variable output;
-	private Variable tempVar;
+	private boolean isTempVar;
 
-	public boolean execute(ShellEnvironment environment)
+	public CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
 	{
-		String out = command.execute(environment);
+		CommandResult out = command.execute(environment);
 
-		if (output != null)
-			output.setValue(out);
-		else
+		if (output == null)
 		{
-			tempVar = environment.getVariable("0");
-			tempVar.setValue(out);
+			output = new Variable("0");
+			isTempVar = true;
 		}
 
-		return ShellUtils.stringToBoolean(out);
+		output.setValue(out.getValue());
+
+		if (isTempVar && !out.capturesConsole() && !isDirectCommand)
+			environment.getCommandSender().println(out.getValue());
+
+		return out;
 	}
 
 	@Override
@@ -60,13 +63,11 @@ class Expression implements GrammerStack
 
 	/**
 	 * Gets the output variable of this expression.
-	 * 
+	 *
 	 * @return The output variable of this expression.
 	 */
 	public Variable getOutput()
 	{
-		if (output == null)
-			return tempVar;
 		return output;
 	}
 }

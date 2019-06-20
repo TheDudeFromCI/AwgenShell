@@ -21,7 +21,7 @@ class Command implements GrammerStack
 	 *     - The environment to execute this command in.
 	 * @return The outcome of the command execution.
 	 */
-	public String execute(ShellEnvironment environment)
+	public CommandResult execute(ShellEnvironment environment)
 	{
 		for (ArgumentValue arg : arguments)
 			if (arg instanceof CommandArgument)
@@ -33,7 +33,7 @@ class Command implements GrammerStack
 		if (command == null)
 		{
 			environment.getCommandSender().println("Unknown command: '" + commandName + "'!");
-			return "false";
+			return new CommandResult("", false, true);
 		}
 
 		return command.execute(environment.getCommandSender(), arguments);
