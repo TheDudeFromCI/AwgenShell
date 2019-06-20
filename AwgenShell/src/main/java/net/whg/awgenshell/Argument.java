@@ -57,7 +57,7 @@ class Argument implements GrammerStack
 				input.consumeTokens(env, tokenizer);
 
 				Token closer = tokenizer.nextToken();
-				if (closer.getType() != TokenTemplate.CLOSE_PARENTHESIS_SYMBOL)
+				if (closer.getType() != TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL)
 					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
 
 				value = new CommandArgument(input, env, false);

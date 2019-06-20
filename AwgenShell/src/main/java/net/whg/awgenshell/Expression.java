@@ -32,6 +32,9 @@ class Expression implements GrammerStack
 	@Override
 	public boolean consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
+		if (!tokenizer.hasNextToken())
+			return false;
+
 		int pos = tokenizer.getPosition();
 
 		Token token = tokenizer.peekNextToken();

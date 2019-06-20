@@ -55,7 +55,7 @@ public class RandomCommand implements CommandHandler
 				int maxI = Integer.valueOf(max);
 				int minI = Integer.valueOf(min);
 
-				return new CommandResult((int) (Math.random() * (maxI - minI)) + minI + "", true, false);
+				return new CommandResult((int) Math.round(Math.random() * (maxI - minI)) + minI + "", true, false);
 			}
 
 			if (isFloat(min) && isFloat(max))

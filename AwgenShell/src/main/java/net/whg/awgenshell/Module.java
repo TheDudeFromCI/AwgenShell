@@ -2,8 +2,10 @@ package net.whg.awgenshell;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.whg.awgenshell.lang.IfCommand;
 import net.whg.awgenshell.lang.PrintCommand;
 import net.whg.awgenshell.lang.RandomCommand;
+import net.whg.awgenshell.lang.SetCommand;
 
 /**
  * A module is a collection of commands which can be loaded together into a
@@ -19,6 +21,8 @@ public class Module
 
 		m.loadCommand(new PrintCommand());
 		m.loadCommand(new RandomCommand());
+		m.loadCommand(new IfCommand());
+		m.loadCommand(new SetCommand());
 
 		return m;
 	}
