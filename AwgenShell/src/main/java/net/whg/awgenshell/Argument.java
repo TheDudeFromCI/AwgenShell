@@ -37,14 +37,14 @@ class Argument implements GrammerStack
 			{
 				tokenizer.consumeToken();
 
-				Input input = new Input();
+				Input input = new Input(env);
 				input.consumeTokens(env, tokenizer);
 
 				Token closer = tokenizer.nextToken();
 				if (closer.getType() != TokenTemplate.CLOSE_PARENTHESIS_SYMBOL)
 					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
 
-				value = new CommandArgument(input, env, true);
+				value = new CommandArgument(input, true);
 
 				return true;
 			}
@@ -53,14 +53,14 @@ class Argument implements GrammerStack
 			{
 				tokenizer.consumeToken();
 
-				Input input = new Input();
+				Input input = new Input(env);
 				input.consumeTokens(env, tokenizer);
 
 				Token closer = tokenizer.nextToken();
 				if (closer.getType() != TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL)
 					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
 
-				value = new CommandArgument(input, env, false);
+				value = new CommandArgument(input, false);
 
 				return true;
 			}

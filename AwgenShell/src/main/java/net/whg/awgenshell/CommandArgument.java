@@ -9,7 +9,6 @@ package net.whg.awgenshell;
 public class CommandArgument implements ArgumentValue
 {
 	private Input input;
-	private ShellEnvironment env;
 	private boolean direct;
 	private String value;
 
@@ -18,8 +17,6 @@ public class CommandArgument implements ArgumentValue
 	 *
 	 * @param input
 	 *     - The command that is stored within this argument to execute.
-	 * @param env
-	 *     - The environment to execute the command in.
 	 * @param direct
 	 *     - Whether or not this command is direct. If this command is direct, the
 	 *     command is only executed a single time (right before the command this
@@ -27,10 +24,9 @@ public class CommandArgument implements ArgumentValue
 	 *     If this command is indirect, the given input command is run each time the
 	 *     value is used.
 	 */
-	public CommandArgument(Input input, ShellEnvironment env, boolean direct)
+	public CommandArgument(Input input, boolean direct)
 	{
 		this.input = input;
-		this.env = env;
 		this.direct = direct;
 	}
 
@@ -61,6 +57,6 @@ public class CommandArgument implements ArgumentValue
 		if (direct && value != null)
 			return value;
 
-		return value = input.execute(env, direct).getValue();
+		return value = input.execute(direct).getValue();
 	}
 }

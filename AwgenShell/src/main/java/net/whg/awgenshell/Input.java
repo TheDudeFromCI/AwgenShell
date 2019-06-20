@@ -24,7 +24,13 @@ class Input implements GrammerStack
 		OR,
 	}
 
+	private ShellEnvironment env;
 	private List<ExpressionSequence> expressions = new ArrayList<>();
+
+	Input(ShellEnvironment env)
+	{
+		this.env = env;
+	}
 
 	public void appendExpression(Expression expression)
 	{
@@ -39,7 +45,7 @@ class Input implements GrammerStack
 		expressions.get(expressions.size() - 1).seperator = seperator;
 	}
 
-	public CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
+	public CommandResult execute(boolean isDirectCommand)
 	{
 		ExpressionSeperator last = ExpressionSeperator.NORMAL;
 		boolean lastState = true;
@@ -52,7 +58,7 @@ class Input implements GrammerStack
 			if (last == ExpressionSeperator.NORMAL || last == ExpressionSeperator.AND && lastState
 					|| last == ExpressionSeperator.OR && !lastState)
 			{
-				response = seq.expression.execute(environment, isDirectCommand);
+				response = seq.expression.execute(env, isDirectCommand);
 				lastState = response.isNormalExit();
 			}
 			else

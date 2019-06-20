@@ -2,7 +2,7 @@ package net.whg.awgenshell;
 
 /**
  * The functional class used to parse inputs.
- * 
+ *
  * @author TheDudeFromCI
  */
 public class CommandParser
@@ -10,7 +10,7 @@ public class CommandParser
 	/**
 	 * Parses an input string into the an input function. This function handles all
 	 * tokenization, and variable intialization as needed.
-	 * 
+	 *
 	 * @param environment
 	 *     - The environment to compile the command in.
 	 * @param line
@@ -22,7 +22,7 @@ public class CommandParser
 	{
 		Tokenizer tokenizer = new Tokenizer(line);
 
-		Input input = new Input();
+		Input input = new Input(environment);
 		input.consumeTokens(environment, tokenizer);
 
 		if (tokenizer.hasNextToken())

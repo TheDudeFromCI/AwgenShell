@@ -66,7 +66,7 @@ public class ShellEnvironment
 		try
 		{
 			Input in = CommandParser.parse(this, line);
-			in.execute(this, false);
+			in.execute(false);
 		}
 		catch (Exception exception)
 		{
