@@ -5,41 +5,29 @@ package net.whg.awgenshell;
  *
  * @author TheDudeFromCI
  */
-class Expression implements GrammerStack
+class Expression
 {
-	private Command command;
-	private Variable output;
-	private boolean isTempVar;
-
-	public CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
-	{
-		CommandResult out = command.execute(environment);
-
-		if (output == null)
-		{
-			output = new Variable("0");
-			isTempVar = true;
-		}
-
-		output.setValue(out.getValue());
-
-		if (isTempVar && !out.capturesConsole() && !isDirectCommand)
-			environment.getCommandSender().println(out.getValue());
-
-		return out;
-	}
-
-	@Override
-	public boolean consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
+	/**
+	 * Attempts to create a new expression grammer by consuming as many tokens as
+	 * possible.
+	 *
+	 * @param env
+	 *     - The environment to compile this grammer in.
+	 * @param tokenizer
+	 *     - The tokenizer to supply the code tokens.
+	 * @return An expression is one could be made, null otherwise.
+	 */
+	static Expression consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
 		if (!tokenizer.hasNextToken())
-			return false;
+			return null;
 
 		int pos = tokenizer.getPosition();
-
 		Token token = tokenizer.peekNextToken();
 
-		output = null;
+		Command command = null;
+		Variable output = null;
+
 		if (token.getType() == TokenTemplate.VARIABLE)
 		{
 			tokenizer.consumeToken();
@@ -51,26 +39,49 @@ class Expression implements GrammerStack
 				throw new CommandParseException("Unexpected token: " + equalsSign.getValue() + "!");
 		}
 
-		command = new Command();
-		if (!command.consumeTokens(env, tokenizer))
+		command = Command.consumeTokens(env, tokenizer);
+		if (command == null)
 		{
 			if (output != null)
 				throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
 
 			tokenizer.setPosition(pos);
-			return false;
+			return null;
 		}
 
-		return true;
+		return new Expression(command, output);
+	}
+
+	private final Command command;
+	private final Variable output;
+	private final boolean isTempVar;
+
+	private Expression(Command command, Variable output)
+	{
+		this.command = command;
+		this.output = output == null ? new Variable("0") : output;
+		isTempVar = output == null;
 	}
 
 	/**
-	 * Gets the output variable of this expression.
+	 * Executes this expression.
 	 *
-	 * @return The output variable of this expression.
+	 * @param environment
+	 *     - The environment to execute this expression in.
+	 * @param isDirectCommand
+	 *     - True is this expression is being run within a direct command, false
+	 *     otherwise.
+	 * @return
 	 */
-	public Variable getOutput()
+	CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
 	{
-		return output;
+		CommandResult out = command.execute(environment);
+
+		output.setValue(out.getValue());
+
+		if (isTempVar && !out.capturesConsole() && !isDirectCommand)
+			environment.getCommandSender().println(out.getValue());
+
+		return out;
 	}
 }

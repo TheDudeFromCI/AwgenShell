@@ -22,8 +22,7 @@ public class CommandParser
 	{
 		Tokenizer tokenizer = new Tokenizer(line);
 
-		Input input = new Input(environment);
-		input.consumeTokens(environment, tokenizer);
+		Input input = Input.consumeTokens(environment, tokenizer);
 
 		if (tokenizer.hasNextToken())
 			throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");

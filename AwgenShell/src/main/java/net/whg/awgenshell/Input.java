@@ -3,9 +3,20 @@ package net.whg.awgenshell;
 import java.util.ArrayList;
 import java.util.List;
 
-class Input implements GrammerStack
+/**
+ * Represents a set of expressions, given as an input.
+ *
+ * @author TheDudeFromCI
+ */
+class Input
 {
-	private class ExpressionSequence
+	/**
+	 * A single expression element within this input, and the given expression
+	 * seperator between it and the next expression.
+	 *
+	 * @author TheDudeFromCI
+	 */
+	static class ExpressionSequence
 	{
 		Expression expression;
 		ExpressionSeperator seperator;
@@ -17,27 +28,117 @@ class Input implements GrammerStack
 		}
 	}
 
-	public enum ExpressionSeperator
+	/**
+	 * The type of seperator between two expression to apply.
+	 *
+	 * @author TheDudeFromCI
+	 */
+	enum ExpressionSeperator
 	{
 		NORMAL,
 		AND,
 		OR,
 	}
 
+	/**
+	 * Attempts to create an input grammer by consuming as many tokens as possbile.
+	 *
+	 * @param env
+	 *     - The environment to compile the tokens in.
+	 * @param tokenizer
+	 *     - The tokenizer to supply the tokens.
+	 * @return An input if one could be constructed, or null if an input grammer
+	 *     could not be made.
+	 */
+	static Input consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
+	{
+		Input input = null;
+
+		if (tokenizer.hasNextToken())
+		{
+			Expression expression = Expression.consumeTokens(env, tokenizer);
+
+			if (expression == null)
+				return null;
+
+			input = new Input(env);
+			input.appendExpression(expression);
+
+			while (tokenizer.hasNextToken())
+			{
+				Token token = tokenizer.peekNextToken();
+
+				if (token.getType() == TokenTemplate.SEMICOLON_SYMBOL)
+				{
+					tokenizer.consumeToken();
+
+					expression = Expression.consumeTokens(env, tokenizer);
+					if (expression == null)
+						return input;
+					input.appendExpression(expression);
+					input.setSeperator(ExpressionSeperator.NORMAL);
+				}
+				else if (token.getType() == TokenTemplate.AND_SYMBOL)
+				{
+					tokenizer.consumeToken();
+
+					expression = Expression.consumeTokens(env, tokenizer);
+					if (expression == null)
+						throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+					input.appendExpression(expression);
+					input.setSeperator(ExpressionSeperator.AND);
+				}
+				else if (token.getType() == TokenTemplate.PIPE_SYMBOL)
+				{
+					tokenizer.consumeToken();
+
+					expression = Expression.consumeTokens(env, tokenizer);
+					if (expression == null)
+						throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+					input.appendExpression(expression);
+					input.setSeperator(ExpressionSeperator.OR);
+				}
+				else
+					break;
+			}
+		}
+
+		return input;
+	}
+
 	private ShellEnvironment env;
 	private List<ExpressionSequence> expressions = new ArrayList<>();
 
-	Input(ShellEnvironment env)
+	/**
+	 * Creates a new Input grammer instance.
+	 *
+	 * @param env
+	 *     - The environment this grammer is compiled for.
+	 */
+	private Input(ShellEnvironment env)
 	{
 		this.env = env;
 	}
 
-	public void appendExpression(Expression expression)
+	/**
+	 * Adds an expression to this input set.
+	 *
+	 * @param expression
+	 *     - The expression.
+	 */
+	private void appendExpression(Expression expression)
 	{
 		expressions.add(new ExpressionSequence(expression));
 	}
 
-	public void setSeperator(ExpressionSeperator seperator)
+	/**
+	 * Sets the seperator between the previously added expression and the next
+	 * expression.
+	 *
+	 * @param seperator
+	 *     - The type of seperator.
+	 */
+	private void setSeperator(ExpressionSeperator seperator)
 	{
 		if (expressions.size() == 0)
 			return;
@@ -45,7 +146,15 @@ class Input implements GrammerStack
 		expressions.get(expressions.size() - 1).seperator = seperator;
 	}
 
-	public CommandResult execute(boolean isDirectCommand)
+	/**
+	 * Executes all of the expressions within this input set.
+	 *
+	 * @param isDirectCommand
+	 *     - True if this input is being executed from within a direct command,
+	 *     false otherwise.
+	 * @return The result of the last expression within this set.
+	 */
+	CommandResult execute(boolean isDirectCommand)
 	{
 		ExpressionSeperator last = ExpressionSeperator.NORMAL;
 		boolean lastState = true;
@@ -71,69 +180,5 @@ class Input implements GrammerStack
 			response = new CommandResult("", true, true);
 
 		return response;
-	}
-
-	public int getExpressionCount()
-	{
-		return expressions.size();
-	}
-
-	public Expression getExpression(int index)
-	{
-		return expressions.get(index).expression;
-	}
-
-	@Override
-	public boolean consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
-	{
-		boolean consumed = false;
-
-		if (tokenizer.hasNextToken())
-		{
-			Expression expression = new Expression();
-
-			if (!expression.consumeTokens(env, tokenizer))
-				return false;
-
-			appendExpression(expression);
-			consumed = true;
-
-			while (tokenizer.hasNextToken())
-			{
-				Token token = tokenizer.peekNextToken();
-
-				if (token.getType() == TokenTemplate.SEMICOLON_SYMBOL)
-				{
-					tokenizer.consumeToken();
-
-					expression = new Expression();
-					if (!expression.consumeTokens(env, tokenizer))
-						return true;
-					appendExpression(expression);
-				}
-				else if (token.getType() == TokenTemplate.AND_SYMBOL)
-				{
-					tokenizer.consumeToken();
-
-					expression = new Expression();
-					if (!expression.consumeTokens(env, tokenizer))
-						throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
-					appendExpression(expression);
-				}
-				else if (token.getType() == TokenTemplate.PIPE_SYMBOL)
-				{
-					tokenizer.consumeToken();
-
-					expression = new Expression();
-					if (!expression.consumeTokens(env, tokenizer))
-						throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
-					appendExpression(expression);
-				}
-				else
-					break;
-			}
-		}
-
-		return consumed;
 	}
 }

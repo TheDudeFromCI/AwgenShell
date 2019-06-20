@@ -8,66 +8,102 @@ import java.util.List;
  *
  * @author TheDudeFromCI
  */
-class Command implements GrammerStack
+class Command
 {
-	private String commandName;
-	private ArgumentValue[] arguments;
-	private CommandHandler command;
-
 	/**
-	 * Executes this command within the given environment.
+	 * Attempts to create an argument value using the next few tokens if possible.
 	 *
-	 * @param environment
-	 *     - The environment to execute this command in.
-	 * @return The outcome of the command execution.
+	 * @param env
+	 *     - The environment to compile the arguments in.
+	 * @param tokenizer
+	 *     - The tokenizer to supply the tokens.
+	 * @return An argument value if one could be made. Null otherwise.
 	 */
-	public CommandResult execute(ShellEnvironment environment)
+	private static ArgumentValue consumeTokensArgument(ShellEnvironment env, Tokenizer tokenizer)
 	{
-		for (ArgumentValue arg : arguments)
-			if (arg instanceof CommandArgument)
-				((CommandArgument) arg).evaluate();
+		Token next = tokenizer.peekNextToken();
 
-		if (command == null)
-			command = environment.getCommand(commandName);
+		switch (next.getType()) {
+			case TokenTemplate.VARIABLE:
+				tokenizer.consumeToken();
+				return new VariableArgument(env.getVariable(next.getFormattedValue()));
 
-		if (command == null)
-		{
-			environment.getCommandSender().println("Unknown command: '" + commandName + "'!");
-			return new CommandResult("", false, true);
+			case TokenTemplate.SOFT_STRING:
+			case TokenTemplate.HARD_STRING:
+			case TokenTemplate.QUOTED_STRING:
+				tokenizer.consumeToken();
+				return new StringArgument(next.getFormattedValue());
+
+			case TokenTemplate.FORMAT_STRING:
+				tokenizer.consumeToken();
+				return new FormattedStringArgument(next.getFormattedValue(), env);
+
+			case TokenTemplate.OPEN_PARENTHESIS_SYMBOL:
+			{
+				tokenizer.consumeToken();
+
+				Input input = Input.consumeTokens(env, tokenizer);
+
+				Token closer = tokenizer.nextToken();
+				if (closer.getType() != TokenTemplate.CLOSE_PARENTHESIS_SYMBOL)
+					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
+
+				return new CommandArgument(input, true);
+			}
+
+			case TokenTemplate.OPEN_CURLY_BRACKET_SYMBOL:
+			{
+				tokenizer.consumeToken();
+
+				Input input = Input.consumeTokens(env, tokenizer);
+
+				Token closer = tokenizer.nextToken();
+				if (closer.getType() != TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL)
+					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
+
+				return new CommandArgument(input, false);
+			}
 		}
 
-		return command.execute(environment.getCommandSender(), arguments);
+		return null;
 	}
 
-	@Override
-	public boolean consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
+	/**
+	 * Attempts to create a command by consuming as many tokens as possible.
+	 *
+	 * @param env
+	 *     - The environment to compile this command in.
+	 * @param tokenizer
+	 *     - The tokenizer to supply the tokens.
+	 * @return A command if one could be made, null otherwise.
+	 */
+	static Command consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
-		Token commandName = tokenizer.nextToken();
+		Token cmdName = tokenizer.peekNextToken();
 
-		if (commandName.getType() != TokenTemplate.SOFT_STRING)
-			return false;
+		if (cmdName.getType() != TokenTemplate.SOFT_STRING)
+			return null;
+		tokenizer.consumeToken();
 
-		this.commandName = commandName.getFormattedValue();
-
-		List<Argument> arguments = new ArrayList<>();
+		String commandName = cmdName.getFormattedValue();
+		List<ArgumentValue> arguments = new ArrayList<>();
 
 		if (tokenizer.hasNextToken())
 		{
-			Argument argument = new Argument();
-			if (argument.consumeTokens(env, tokenizer))
+			ArgumentValue argument = consumeTokensArgument(env, tokenizer);
+			if (argument != null)
 			{
 				arguments.add(argument);
 
 				while (tokenizer.hasNextToken())
 				{
 					Token comma = tokenizer.peekNextToken();
-
 					if (comma.getType() == TokenTemplate.COMMA_SYMBOL)
 					{
 						tokenizer.consumeToken();
 
-						argument = new Argument();
-						if (argument.consumeTokens(env, tokenizer))
+						argument = consumeTokensArgument(env, tokenizer);
+						if (argument != null)
 							arguments.add(argument);
 						else
 							throw new CommandParseException(
@@ -75,8 +111,8 @@ class Command implements GrammerStack
 					}
 					else
 					{
-						argument = new Argument();
-						if (argument.consumeTokens(env, tokenizer))
+						argument = consumeTokensArgument(env, tokenizer);
+						if (argument != null)
 							arguments.add(argument);
 						else
 							break;
@@ -85,10 +121,48 @@ class Command implements GrammerStack
 			}
 		}
 
-		this.arguments = new ArgumentValue[arguments.size()];
-		for (int i = 0; i < arguments.size(); i++)
-			this.arguments[i] = arguments.get(i).getValue();
+		ArgumentValue[] args = arguments.toArray(new ArgumentValue[arguments.size()]);
+		return new Command(commandName, env.getCommand(commandName), args);
+	}
 
-		return true;
+	private final String commandName;
+	private final ArgumentValue[] arguments;
+	private final CommandHandler command;
+
+	/**
+	 * Creates a new command grammer instance.
+	 *
+	 * @param command
+	 *     - The command handler for this command.
+	 * @param arguments
+	 *     - The arguments for the command.
+	 */
+	private Command(String commandName, CommandHandler command, ArgumentValue[] arguments)
+	{
+		this.commandName = commandName;
+		this.command = command;
+		this.arguments = arguments;
+	}
+
+	/**
+	 * Executes this command within the given environment.
+	 *
+	 * @param environment
+	 *     - The environment to execute this command in.
+	 * @return The outcome of the command execution.
+	 */
+	CommandResult execute(ShellEnvironment environment)
+	{
+		for (ArgumentValue arg : arguments)
+			if (arg instanceof CommandArgument)
+				((CommandArgument) arg).evaluate();
+
+		if (command == null)
+		{
+			environment.getCommandSender().println("Unknown command: '" + commandName + "'!");
+			return new CommandResult("", false, true);
+		}
+
+		return command.execute(environment.getCommandSender(), arguments);
 	}
 }
