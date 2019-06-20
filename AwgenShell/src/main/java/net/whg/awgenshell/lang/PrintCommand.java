@@ -19,9 +19,12 @@ public class PrintCommand implements CommandHandler
 
 		for (int i = 0; i < args.length; i++)
 		{
-			if (i > 0)
+			String a = args[i].getValue();
+
+			if (i > 0 && a.matches("[a-zA-z0-9].*"))
 				line += " ";
-			line += args[i].getValue();
+
+			line += a;
 		}
 
 		sender.println(line);
