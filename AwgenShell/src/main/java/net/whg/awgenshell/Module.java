@@ -24,6 +24,12 @@ public class Module
 		for (CommandHandler c : commands)
 			if (c.getName().equalsIgnoreCase(name))
 				return c;
+
+		for (CommandHandler c : commands)
+			for (String a : c.getAliases())
+				if (a.equalsIgnoreCase(name))
+					return c;
+
 		return null;
 	}
 

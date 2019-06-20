@@ -6,6 +6,11 @@ import net.whg.awgenshell.CommandSender;
 
 public class PrintCommand implements CommandHandler
 {
+	private static final String[] ALIASES =
+	{
+		"echo", "say"
+	};
+
 	@Override
 	public String getName()
 	{
@@ -30,5 +35,11 @@ public class PrintCommand implements CommandHandler
 		sender.println(line);
 
 		return "true";
+	}
+
+	@Override
+	public String[] getAliases()
+	{
+		return ALIASES;
 	}
 }

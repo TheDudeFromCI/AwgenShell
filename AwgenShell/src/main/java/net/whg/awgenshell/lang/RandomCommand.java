@@ -6,6 +6,8 @@ import net.whg.awgenshell.CommandSender;
 
 public class RandomCommand implements CommandHandler
 {
+	private static final String[] ALIASES = {};
+
 	@Override
 	public String getName()
 	{
@@ -74,5 +76,11 @@ public class RandomCommand implements CommandHandler
 
 		sender.println("Unknown number of arguments!");
 		return "false";
+	}
+
+	@Override
+	public String[] getAliases()
+	{
+		return ALIASES;
 	}
 }
