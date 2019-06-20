@@ -15,7 +15,7 @@ public class CommandParser
 	 *     - The environment to compile the command in.
 	 * @param line
 	 *     - The line to parse.
-	 * @return A compile input function which can be executed within the given
+	 * @return A compiled input function which can be executed within the given
 	 *     environment.
 	 */
 	public static Input parse(ShellEnvironment environment, String line)
@@ -26,6 +26,9 @@ public class CommandParser
 
 		if (tokenizer.hasNextToken())
 			throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+
+		if (input == null)
+			input = new Input(environment);
 
 		return input;
 	}

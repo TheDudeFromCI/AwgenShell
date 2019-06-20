@@ -115,7 +115,7 @@ class Input
 	 * @param env
 	 *     - The environment this grammer is compiled for.
 	 */
-	private Input(ShellEnvironment env)
+	Input(ShellEnvironment env)
 	{
 		this.env = env;
 	}
