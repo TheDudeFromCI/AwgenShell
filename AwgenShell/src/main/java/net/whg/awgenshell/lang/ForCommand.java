@@ -74,7 +74,7 @@ public class ForCommand implements CommandHandler
 
 			boolean called = false;
 			String lastVal = "";
-			for (int i = i1; goingUp ? i1 <= i2 : i1 >= i2; i += i3)
+			for (int i = i1; goingUp ? i <= i2 : i >= i2; i += i3)
 			{
 				var.setValue(String.valueOf(i));
 				called = true;
