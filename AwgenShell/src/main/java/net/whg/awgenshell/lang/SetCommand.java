@@ -3,8 +3,14 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 
+/**
+ * This class is simple a pass through command which returns the string value of
+ * the argument it is provided.
+ * 
+ * @author TheDudeFromCI
+ */
 public class SetCommand implements CommandHandler
 {
 	private static final String[] ALIASES = {};
@@ -16,11 +22,11 @@ public class SetCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length != 1)
 		{
-			sender.println("Unknown number of arguments!");
+			env.getCommandSender().println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 

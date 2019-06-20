@@ -5,8 +5,15 @@ import java.util.Map;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 
+/**
+ * This powerful command allows commands to be named and saved for execution at
+ * a later time. Functions are stored in this instance of the function command
+ * class but bound to the shell environment they were initalized from.
+ *
+ * @author TheDudeFromCI
+ */
 public class FunctionCommand implements CommandHandler
 {
 	private static final String[] ALIASES =
@@ -14,7 +21,7 @@ public class FunctionCommand implements CommandHandler
 		"func", "def"
 	};
 
-	private Map<String, ArgumentValue> functions = new HashMap<>();
+	private Map<ShellEnvironment, Map<String, ArgumentValue>> functions = new HashMap<>();
 
 	@Override
 	public String getName()
@@ -23,31 +30,41 @@ public class FunctionCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length == 2)
 		{
+			Map<String, ArgumentValue> f = functions.get(env);
+
+			if (f == null)
+				functions.put(env, f = new HashMap<>());
+
 			String a = args[0].getValue();
 
-			functions.put(a, args[1]);
+			f.put(a, args[1]);
 			return new CommandResult(a, true, true);
 		}
 
 		if (args.length == 1)
 		{
+			Map<String, ArgumentValue> f = functions.get(env);
+
+			if (f == null)
+				functions.put(env, f = new HashMap<>());
+
 			String funcName = args[0].getValue();
 
-			if (!functions.containsKey(funcName))
+			if (!f.containsKey(funcName))
 			{
-				sender.println("Unknown function: '" + funcName + "'!");
+				env.getCommandSender().println("Unknown function: '" + funcName + "'!");
 				return CommandResult.ERROR;
 			}
 
-			ArgumentValue func = functions.get(funcName);
+			ArgumentValue func = f.get(funcName);
 			return new CommandResult(func.getValue(), true, true);
 		}
 
-		sender.println("Unknown number of parameters!");
+		env.getCommandSender().println("Unknown number of parameters!");
 		return CommandResult.ERROR;
 	}
 

@@ -3,8 +3,16 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 
+/**
+ * The print command adds all inputs together into a string and sends that
+ * message to the user. If multiple arguments are provided, they are added
+ * together. If an argument starts with a letter or number, then a space is
+ * automatically added between the arguments.
+ * 
+ * @author TheDudeFromCI
+ */
 public class PrintCommand implements CommandHandler
 {
 	private static final String[] ALIASES =
@@ -19,7 +27,7 @@ public class PrintCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		String line = "";
 
@@ -33,7 +41,7 @@ public class PrintCommand implements CommandHandler
 			line += a;
 		}
 
-		sender.println(line);
+		env.getCommandSender().println(line);
 
 		return new CommandResult("", true, true);
 	}

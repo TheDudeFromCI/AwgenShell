@@ -3,10 +3,20 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 import net.whg.awgenshell.Variable;
 import net.whg.awgenshell.VariableArgument;
 
+/**
+ * Loops through a series of integer values or elements in a list. For integer
+ * values, the loop starts a specific value, and walks along a defined step size
+ * until surpasing the given end value, the given variable is assigned the
+ * integer value and the given command is executed for each step along the way.
+ * Looping through a list is similar except that each line in the given list is
+ * assign to the variable instead of an integer.
+ *
+ * @author TheDudeFromCI
+ */
 public class ForCommand implements CommandHandler
 {
 	private static final String[] ALIAS =
@@ -26,20 +36,20 @@ public class ForCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length == 6)
 		{
 			String doStatement = args[4].getValue();
 			if (!doStatement.equalsIgnoreCase("do"))
 			{
-				sender.println("Unexpected code flow statement: '" + doStatement + "' at argument 4!");
+				env.getCommandSender().println("Unexpected code flow statement: '" + doStatement + "' at argument 4!");
 				return CommandResult.ERROR;
 			}
 
 			if (!(args[0] instanceof VariableArgument))
 			{
-				sender.println("Argument 0 must be a variable!");
+				env.getCommandSender().println("Argument 0 must be a variable!");
 				return CommandResult.ERROR;
 			}
 
@@ -49,19 +59,19 @@ public class ForCommand implements CommandHandler
 
 			if (!isInteger(a1))
 			{
-				sender.println("Not a number: '" + a1 + "'!");
+				env.getCommandSender().println("Not a number: '" + a1 + "'!");
 				return CommandResult.ERROR;
 			}
 
 			if (!isInteger(a2))
 			{
-				sender.println("Not a number: '" + a2 + "'!");
+				env.getCommandSender().println("Not a number: '" + a2 + "'!");
 				return CommandResult.ERROR;
 			}
 
 			if (!isInteger(a3))
 			{
-				sender.println("Not a number: '" + a3 + "'!");
+				env.getCommandSender().println("Not a number: '" + a3 + "'!");
 				return CommandResult.ERROR;
 			}
 
@@ -90,20 +100,20 @@ public class ForCommand implements CommandHandler
 			String inStatement = args[1].getValue();
 			if (!inStatement.equalsIgnoreCase("in"))
 			{
-				sender.println("Unexpected code flow statement: '" + inStatement + "' at argument 1!");
+				env.getCommandSender().println("Unexpected code flow statement: '" + inStatement + "' at argument 1!");
 				return CommandResult.ERROR;
 			}
 
 			String doStatement = args[3].getValue();
 			if (!doStatement.equalsIgnoreCase("do"))
 			{
-				sender.println("Unexpected code flow statement: '" + doStatement + "' at argument 3!");
+				env.getCommandSender().println("Unexpected code flow statement: '" + doStatement + "' at argument 3!");
 				return CommandResult.ERROR;
 			}
 
 			if (!(args[0] instanceof VariableArgument))
 			{
-				sender.println("Argument 0 must be a variable!");
+				env.getCommandSender().println("Argument 0 must be a variable!");
 				return CommandResult.ERROR;
 			}
 
@@ -123,7 +133,7 @@ public class ForCommand implements CommandHandler
 			return new CommandResult(lastVal, called, true);
 		}
 
-		sender.println("Unknown number of arguments!");
+		env.getCommandSender().println("Unknown number of arguments!");
 		return CommandResult.ERROR;
 	}
 

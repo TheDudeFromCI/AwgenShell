@@ -3,9 +3,15 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 import net.whg.awgenshell.ShellUtils;
 
+/**
+ * The if command only executes a command if a given condition is met.
+ * Additionally, "else if" and "else" clauses can be defined and used as well.
+ * 
+ * @author TheDudeFromCI
+ */
 public class IfCommand implements CommandHandler
 {
 	private static final String[] ALIASES = {};
@@ -17,11 +23,11 @@ public class IfCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length < 3 || (args.length - 3) % 2 != 0)
 		{
-			sender.println("Unknown number of arguments!");
+			env.getCommandSender().println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 
@@ -36,7 +42,7 @@ public class IfCommand implements CommandHandler
 			if (a.equalsIgnoreCase("else") && i == args.length - 2)
 				continue;
 
-			sender.println("Unexpected code flow statement: '" + a + "' at argument " + i + "!");
+			env.getCommandSender().println("Unexpected code flow statement: '" + a + "' at argument " + i + "!");
 			return new CommandResult("", true, true);
 		}
 

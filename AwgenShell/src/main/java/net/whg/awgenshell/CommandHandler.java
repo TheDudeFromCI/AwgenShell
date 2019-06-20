@@ -19,15 +19,15 @@ public interface CommandHandler
 	/**
 	 * Executes this command.
 	 *
-	 * @param sender
-	 *     - The user who issued this command.
+	 * @param env
+	 *     - The environment who issued this command.
 	 * @param args
 	 *     - The input arguments for this command.
 	 * @return The output of this command. An output should always be provided,
 	 *     regardless of whether the command was successfully executed or not. The
 	 *     output should reflect the execution state of this command.
 	 */
-	CommandResult execute(CommandSender sender, ArgumentValue[] args);
+	CommandResult execute(ShellEnvironment env, ArgumentValue[] args);
 
 	/**
 	 * Gets an array of all aliases for this command, or an empty array if this

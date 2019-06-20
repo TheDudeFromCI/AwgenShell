@@ -3,8 +3,15 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 
+/**
+ * Adds two or more strings together, using an optional seperator string. Can
+ * use the "-s [seperator]" flag to assign the string seperator. the "-n" flag
+ * can be used to set newline characters as the string seperator.
+ *
+ * @author TheDudeFromCI
+ */
 public class AppendCommand implements CommandHandler
 {
 	private static final String[] ALIASES =
@@ -19,11 +26,11 @@ public class AppendCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
-		if (args.length < 2)
+		if (args.length < 1)
 		{
-			sender.println("Unknown number of arguments!");
+			env.getCommandSender().println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 
@@ -36,9 +43,9 @@ public class AppendCommand implements CommandHandler
 
 		if (values[0].equalsIgnoreCase("-s"))
 		{
-			if (args.length < 4)
+			if (args.length < 3)
 			{
-				sender.println("Unknown number of arguments!");
+				env.getCommandSender().println("Unknown number of arguments!");
 				return CommandResult.ERROR;
 			}
 
@@ -47,9 +54,9 @@ public class AppendCommand implements CommandHandler
 		}
 		else if (values[0].equalsIgnoreCase("-n"))
 		{
-			if (args.length < 3)
+			if (args.length < 2)
 			{
-				sender.println("Unknown number of arguments!");
+				env.getCommandSender().println("Unknown number of arguments!");
 				return CommandResult.ERROR;
 			}
 

@@ -3,8 +3,18 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 
+/**
+ * Generates random numbers. If no inputs are given, returns a random number
+ * between zero (inclusive) and one (exclusive). If a single input value is
+ * given, then a random number between zero and the given input is returned. If
+ * two values are provided, then a value between those two is provided. The type
+ * of value returned is based on the value type of the inputs. If all inputs are
+ * integers, then the output is an integer. Otherwise, the output is a float.
+ *
+ * @author TheDudeFromCI
+ */
 public class RandomCommand implements CommandHandler
 {
 	private static final String[] ALIASES = {};
@@ -26,7 +36,7 @@ public class RandomCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length == 0)
 			return new CommandResult(Math.random() + "", true, false);
@@ -41,7 +51,7 @@ public class RandomCommand implements CommandHandler
 			if (isFloat(max))
 				return new CommandResult((float) (Math.random() * Float.valueOf(max)) + "", true, false);
 
-			sender.println("Not a number: '" + max + "'!");
+			env.getCommandSender().println("Not a number: '" + max + "'!");
 			return CommandResult.ERROR;
 		}
 
@@ -67,15 +77,15 @@ public class RandomCommand implements CommandHandler
 			}
 
 			if (!isFloat(min))
-				sender.println("Not a number: '" + min + "'!");
+				env.getCommandSender().println("Not a number: '" + min + "'!");
 
 			if (!isFloat(max))
-				sender.println("Not a number: '" + max + "'!");
+				env.getCommandSender().println("Not a number: '" + max + "'!");
 
 			return CommandResult.ERROR;
 		}
 
-		sender.println("Unknown number of arguments!");
+		env.getCommandSender().println("Unknown number of arguments!");
 		return CommandResult.ERROR;
 	}
 

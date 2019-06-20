@@ -3,7 +3,7 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 
 /**
  * Caclulates the value of a mathmatical formula given as an input. Supports
@@ -156,11 +156,11 @@ public class CalcCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length != 1)
 		{
-			sender.println("Unknown number of arguments!");
+			env.getCommandSender().println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 
@@ -171,7 +171,7 @@ public class CalcCommand implements CommandHandler
 		}
 		catch (Exception exception)
 		{
-			sender.println("Failed to parse equation! " + exception.getMessage());
+			env.getCommandSender().println("Failed to parse equation! " + exception.getMessage());
 			return CommandResult.ERROR;
 		}
 	}

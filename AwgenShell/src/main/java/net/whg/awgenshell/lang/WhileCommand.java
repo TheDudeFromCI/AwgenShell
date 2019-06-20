@@ -3,9 +3,14 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.CommandSender;
+import net.whg.awgenshell.ShellEnvironment;
 import net.whg.awgenshell.ShellUtils;
 
+/**
+ * Preforms a command continuously while the given condition returns true.
+ * 
+ * @author TheDudeFromCI
+ */
 public class WhileCommand implements CommandHandler
 {
 	private static final String[] ALIASES = {};
@@ -17,18 +22,18 @@ public class WhileCommand implements CommandHandler
 	}
 
 	@Override
-	public CommandResult execute(CommandSender sender, ArgumentValue[] args)
+	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
 		if (args.length != 3)
 		{
-			sender.println("Unknown number of arguments!");
+			env.getCommandSender().println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 
 		String doStatement = args[1].getValue();
 		if (!doStatement.equalsIgnoreCase("do"))
 		{
-			sender.println("Unexpected code flow statement: '" + doStatement + "' at argument 1!");
+			env.getCommandSender().println("Unexpected code flow statement: '" + doStatement + "' at argument 1!");
 			return CommandResult.ERROR;
 		}
 

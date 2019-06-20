@@ -163,6 +163,6 @@ class Command
 			return new CommandResult("", false, true);
 		}
 
-		return command.execute(environment.getCommandSender(), arguments);
+		return command.execute(environment, arguments);
 	}
 }
