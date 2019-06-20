@@ -10,7 +10,7 @@ import net.whg.awgenshell.ShellEnvironment;
  * message to the user. If multiple arguments are provided, they are added
  * together. If an argument starts with a letter or number, then a space is
  * automatically added between the arguments.
- * 
+ *
  * @author TheDudeFromCI
  */
 public class PrintCommand implements CommandHandler
@@ -35,7 +35,7 @@ public class PrintCommand implements CommandHandler
 		{
 			String a = args[i].getValue();
 
-			if (i > 0 && a.matches("[a-zA-z0-9].*"))
+			if (i > 0 && !line.endsWith(" ") && a.matches("[a-zA-z0-9].*"))
 				line += " ";
 
 			line += a;
