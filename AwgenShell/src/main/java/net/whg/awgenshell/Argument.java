@@ -1,6 +1,12 @@
 package net.whg.awgenshell;
 
-public class Argument implements GrammerStack
+/**
+ * This class is used within the tokenizer to represent an abstract argument
+ * being parsed.
+ *
+ * @author TheDudeFromCI
+ */
+class Argument implements GrammerStack
 {
 	private ArgumentValue value;
 
@@ -63,6 +69,12 @@ public class Argument implements GrammerStack
 		return false;
 	}
 
+	/**
+	 * Gets the current value and type of this argument. Will be null if the next
+	 * token was unable to be parsed as an argument.
+	 *
+	 * @return The value and type of this argument.
+	 */
 	public ArgumentValue getValue()
 	{
 		return value;

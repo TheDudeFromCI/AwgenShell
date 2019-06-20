@@ -1,5 +1,11 @@
 package net.whg.awgenshell;
 
+/**
+ * A collection of common utility functions for handling events within
+ * AwgenShell.
+ * 
+ * @author TheDudeFromCI
+ */
 public class ShellUtils
 {
 	/**

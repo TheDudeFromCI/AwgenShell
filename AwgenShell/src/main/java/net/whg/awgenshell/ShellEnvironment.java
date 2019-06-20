@@ -1,7 +1,6 @@
 package net.whg.awgenshell;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,10 +11,15 @@ import java.util.List;
 public class ShellEnvironment
 {
 	private List<Variable> variables = new ArrayList<>();
-	private List<Variable> tempVars = new LinkedList<>();
 	private List<Module> modules = new ArrayList<>();
 	private CommandSender sender;
 
+	/**
+	 * Creates a new shell environment instance.
+	 *
+	 * @param sender
+	 *     - The sender this environment is designed for.
+	 */
 	public ShellEnvironment(CommandSender sender)
 	{
 		this.sender = sender;
@@ -23,6 +27,13 @@ public class ShellEnvironment
 		loadModule(Module.newLangModule());
 	}
 
+	/**
+	 * Gets or creates a variable within this environment.
+	 *
+	 * @param variable
+	 *     - The name of the variable.
+	 * @return The variable within this environment with the given name.
+	 */
 	public Variable getVariable(String variable)
 	{
 		for (Variable v : variables)
@@ -34,24 +45,22 @@ public class ShellEnvironment
 		return v;
 	}
 
-	public List<Variable> getVariables()
+	/**
+	 * Gets a list of all variables within this environment.
+	 *
+	 * @return A list of all variables.
+	 */
+	List<Variable> getVariables()
 	{
 		return variables;
 	}
 
-	public Variable getTempVariable()
-	{
-		Variable v = new Variable(tempVars.size() + "");
-		tempVars.add(v);
-
-		return v;
-	}
-
-	public void clearTempVars()
-	{
-		tempVars.clear();
-	}
-
+	/**
+	 * Parses and runs a command input.
+	 *
+	 * @param line
+	 *     - The input function to parse and run.
+	 */
 	public void runCommand(String line)
 	{
 		try
@@ -65,11 +74,25 @@ public class ShellEnvironment
 		}
 	}
 
+	/**
+	 * Loads a command module to this shell environment.
+	 *
+	 * @param module
+	 *     - The module to load.
+	 */
 	public void loadModule(Module module)
 	{
 		modules.add(module);
 	}
 
+	/**
+	 * Gets the command handler from any of the loaded mod with the given name or
+	 * alias.
+	 *
+	 * @param name
+	 *     - The name or alias of the command.
+	 * @return The command handler, or null if the command was not found.
+	 */
 	public CommandHandler getCommand(String name)
 	{
 		for (Module m : modules)
@@ -83,6 +106,11 @@ public class ShellEnvironment
 		return null;
 	}
 
+	/**
+	 * Gets the command sender for this shell environment.
+	 * 
+	 * @return
+	 */
 	public CommandSender getCommandSender()
 	{
 		return sender;

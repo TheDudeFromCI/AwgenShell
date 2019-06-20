@@ -3,12 +3,24 @@ package net.whg.awgenshell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Command implements GrammerStack
+/**
+ * This class is used to represent a command that can be excuted.
+ *
+ * @author TheDudeFromCI
+ */
+class Command implements GrammerStack
 {
 	private String commandName;
 	private ArgumentValue[] arguments;
 	private CommandHandler command;
 
+	/**
+	 * Executes this command within the given environment.
+	 *
+	 * @param environment
+	 *     - The environment to execute this command in.
+	 * @return The outcome of the command execution.
+	 */
 	public String execute(ShellEnvironment environment)
 	{
 		for (ArgumentValue arg : arguments)

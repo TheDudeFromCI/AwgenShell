@@ -1,6 +1,11 @@
 package net.whg.awgenshell;
 
-public class Expression implements GrammerStack
+/**
+ * A class which represents a command and optional variable assignment.
+ *
+ * @author TheDudeFromCI
+ */
+class Expression implements GrammerStack
 {
 	private Command command;
 	private Variable output;
@@ -53,6 +58,11 @@ public class Expression implements GrammerStack
 		return true;
 	}
 
+	/**
+	 * Gets the output variable of this expression.
+	 * 
+	 * @return The output variable of this expression.
+	 */
 	public Variable getOutput()
 	{
 		if (output == null)

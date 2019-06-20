@@ -2,7 +2,7 @@ package net.whg.awgenshell;
 
 import java.util.regex.Pattern;
 
-public class TokenTemplate
+class TokenTemplate
 {
 	public static final int QUOTED_STRING = 1;
 	public static final int FORMAT_STRING = 2;

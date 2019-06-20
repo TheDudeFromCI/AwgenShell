@@ -1,6 +1,6 @@
 package net.whg.awgenshell;
 
-public interface GrammerStack
+interface GrammerStack
 {
 	/**
 	 * This command tries to create this layer in the grammer stack by consuming as

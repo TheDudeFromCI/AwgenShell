@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-public class Tokenizer
+class Tokenizer
 {
 	private String tokenTerminator = "(?=$|\\s|\\=|\\,|\\&|\\(|\\)|\\{|\\}|\\;|\\|))";
 	private String symbolTerminator = ")";

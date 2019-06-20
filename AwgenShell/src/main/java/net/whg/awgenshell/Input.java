@@ -3,7 +3,7 @@ package net.whg.awgenshell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Input implements GrammerStack
+class Input implements GrammerStack
 {
 	private class ExpressionSequence
 	{
@@ -62,7 +62,7 @@ public class Input implements GrammerStack
 		}
 
 		if (response == null)
-			response = environment.getTempVariable();
+			response = new Variable("0");
 
 		return response;
 	}

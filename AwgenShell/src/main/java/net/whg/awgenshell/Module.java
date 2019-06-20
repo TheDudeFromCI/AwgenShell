@@ -5,6 +5,12 @@ import java.util.List;
 import net.whg.awgenshell.lang.PrintCommand;
 import net.whg.awgenshell.lang.RandomCommand;
 
+/**
+ * A module is a collection of commands which can be loaded together into a
+ * shell environment.
+ *
+ * @author TheDudeFromCI
+ */
 public class Module
 {
 	static Module newLangModule()
@@ -19,6 +25,13 @@ public class Module
 
 	private List<CommandHandler> commands = new ArrayList<>();
 
+	/**
+	 * Gets a command handler with the given name or alias.
+	 *
+	 * @param name
+	 *     - The name of the command.
+	 * @return The command with the given name, or null if nothing is found.
+	 */
 	public CommandHandler getCommand(String name)
 	{
 		for (CommandHandler c : commands)
@@ -33,8 +46,20 @@ public class Module
 		return null;
 	}
 
+	/**
+	 * Loads a new command into this module.
+	 *
+	 * @param command
+	 *     - The command.
+	 */
 	public void loadCommand(CommandHandler command)
 	{
+		if (command == null)
+			return;
+
+		if (commands.contains(command))
+			return;
+
 		commands.add(command);
 	}
 }
