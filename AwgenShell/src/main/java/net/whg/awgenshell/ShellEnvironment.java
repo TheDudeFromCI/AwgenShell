@@ -103,6 +103,14 @@ public class ShellEnvironment
 				return c;
 		}
 
+		for (Module m : modules)
+		{
+			CommandHandler c = m.getCommandByAlias(name);
+
+			if (c != null)
+				return c;
+		}
+
 		return null;
 	}
 

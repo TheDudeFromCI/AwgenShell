@@ -38,7 +38,7 @@ public class Module
 	private List<CommandHandler> commands = new ArrayList<>();
 
 	/**
-	 * Gets a command handler with the given name or alias.
+	 * Gets a command handler with the given name.
 	 *
 	 * @param name
 	 *     - The name of the command.
@@ -50,9 +50,21 @@ public class Module
 			if (c.getName().equalsIgnoreCase(name))
 				return c;
 
+		return null;
+	}
+
+	/**
+	 * Gets a command handler with the given alias.
+	 *
+	 * @param alias
+	 *     - The alias of the command.
+	 * @return The command with the given alias, or null if nothing is found.
+	 */
+	public CommandHandler getCommandByAlias(String alias)
+	{
 		for (CommandHandler c : commands)
 			for (String a : c.getAliases())
-				if (a.equalsIgnoreCase(name))
+				if (a.equalsIgnoreCase(alias))
 					return c;
 
 		return null;
