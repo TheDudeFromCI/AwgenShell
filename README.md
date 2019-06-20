@@ -37,7 +37,7 @@ Then simple adding Awgen Shell as a dependency as such:
 <dependency>
 	  <groupId>com.github.Wraithaven</groupId>
 	  <artifactId>AwgenShell</artifactId>
-	  <version>Tag</version>
+	  <version> AGWEN SHELL VERSION </version>
 </dependency>
 ```
 
