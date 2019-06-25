@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.whg.awgen-shell</groupId>
 	<artifactId>AwgenShell</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>AwgenShell</name>
 	<description>An interactive and flexible command line and library for the Awgen command line language.</description>
 
