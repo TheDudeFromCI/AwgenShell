@@ -10,8 +10,6 @@
 	<description>An interactive and flexible command line and library for the Awgen command line language.</description>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
