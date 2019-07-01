@@ -14,10 +14,10 @@ public class CommandResult
 	public static final CommandResult ERROR = new CommandResult("", false, true);
 
 	/**
-	 * A shorthand for <code>new CommandResult("", true, false)</code>, assuming the
+	 * A shorthand for <code>new CommandResult("", true, true)</code>, assuming the
 	 * command has no outputs.
 	 */
-	public static final CommandResult SUCCESS = new CommandResult("", true, false);
+	public static final CommandResult SUCCESS = new CommandResult("", true, true);
 
 	private final String value;
 	private final boolean normalExit;
