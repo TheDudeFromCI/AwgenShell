@@ -58,6 +58,11 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>2.7</version>
 		</dependency>
+		<dependency>
+			<groupId>ch.obermuhlner</groupId>
+			<artifactId>big-math</artifactId>
+			<version>2.1.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
