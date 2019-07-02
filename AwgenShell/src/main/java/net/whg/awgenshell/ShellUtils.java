@@ -19,7 +19,7 @@ public class ShellUtils
 	 */
 	public static boolean stringToBoolean(String val)
 	{
-		if (val.isBlank())
+		if (val.matches("\\s+"))
 			return false;
 		if (val.equals("0"))
 			return false;
