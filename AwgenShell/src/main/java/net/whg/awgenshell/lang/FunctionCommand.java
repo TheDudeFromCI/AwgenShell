@@ -18,7 +18,7 @@ public class FunctionCommand implements CommandHandler
 {
 	private static final String[] ALIASES =
 	{
-		"func", "def"
+		"func", "def", "run"
 	};
 
 	private Map<ShellEnvironment, Map<String, ArgumentValue>> functions = new HashMap<>();
