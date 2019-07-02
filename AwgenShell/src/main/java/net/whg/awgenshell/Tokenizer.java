@@ -32,13 +32,17 @@ class Tokenizer
 
 	private List<Token> tokens = new ArrayList<>();
 	private int index;
+	private String fullCode;
 
 	public Tokenizer(String code)
 	{
 		code = safeRemoveNewlines(code);
+		fullCode = code;
 
+		int index = 0;
 		while (!code.isEmpty())
 		{
+			index += countLeadingWhitespace(code);
 			code = code.trim();
 
 			boolean parsedNext = false;
@@ -50,7 +54,9 @@ class Tokenizer
 					String token = matcher.group().trim();
 					code = matcher.replaceAll("");
 
-					Token t = new Token(tem.getType(), token);
+					Token t = new Token(tem.getType(), token, index);
+					index += t.getValue().length();
+
 					formatToken(t);
 
 					tokens.add(t);
@@ -66,12 +72,23 @@ class Tokenizer
 				if (matcher.find())
 				{
 					String token = matcher.group().trim();
-					throw new CommandParseException("Failed to parse " + token + "!");
+					throw new CommandParseException("Unknown token!", new Token(TokenTemplate.UNKNOWN, token, index));
 				}
 				else
-					throw new CommandParseException("Failed to parse " + code + "!");
+					throw new CommandParseException("Unknown token!", new Token(TokenTemplate.UNKNOWN, code, index));
 			}
 		}
+	}
+
+	private int countLeadingWhitespace(String code)
+	{
+		int c = 0;
+		for (int i = 0; i < code.length(); i++)
+			if (Character.isWhitespace(code.charAt(i)))
+				c++;
+			else
+				break;
+		return c;
 	}
 
 	private String safeRemoveNewlines(String code)
@@ -113,7 +130,8 @@ class Tokenizer
 	public Token nextToken()
 	{
 		if (index >= tokens.size())
-			throw new CommandParseException("Unexpected end of line!");
+			throw new CommandParseException("Unexpected end of line!",
+					new Token(TokenTemplate.UNKNOWN, "", fullCode.length()));
 
 		return tokens.get(index++);
 	}
@@ -121,7 +139,8 @@ class Tokenizer
 	public Token peekNextToken()
 	{
 		if (index >= tokens.size())
-			throw new CommandParseException("Unexpected end of line!");
+			throw new CommandParseException("Unexpected end of line!",
+					new Token(TokenTemplate.UNKNOWN, "", fullCode.length()));
 
 		return tokens.get(index);
 	}
@@ -139,7 +158,8 @@ class Tokenizer
 	public Token getToken(int index)
 	{
 		if (index >= tokens.size())
-			throw new CommandParseException("Unexpected end of line!");
+			throw new CommandParseException("Unexpected end of line!",
+					new Token(TokenTemplate.UNKNOWN, "", fullCode.length()));
 
 		return tokens.get(index);
 	}

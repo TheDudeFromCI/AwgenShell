@@ -84,7 +84,7 @@ class Input
 
 					expression = Expression.consumeTokens(env, tokenizer);
 					if (expression == null)
-						throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+						throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 					input.appendExpression(expression);
 					input.setSeperator(ExpressionSeperator.AND);
 				}
@@ -94,7 +94,7 @@ class Input
 
 					expression = Expression.consumeTokens(env, tokenizer);
 					if (expression == null)
-						throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+						throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 					input.appendExpression(expression);
 					input.setSeperator(ExpressionSeperator.OR);
 				}

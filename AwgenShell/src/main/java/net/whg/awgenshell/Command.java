@@ -51,7 +51,7 @@ class Command
 
 				Token closer = tokenizer.nextToken();
 				if (closer.getType() != TokenTemplate.CLOSE_PARENTHESIS_SYMBOL)
-					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
+					throw new CommandParseException("Unexpected token!", closer);
 
 				return new CommandArgument(input, true);
 			}
@@ -64,7 +64,7 @@ class Command
 
 				Token closer = tokenizer.nextToken();
 				if (closer.getType() != TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL)
-					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
+					throw new CommandParseException("Unexpected token!", closer);
 
 				return new CommandArgument(input, false);
 			}
@@ -111,8 +111,7 @@ class Command
 						if (argument != null)
 							arguments.add(argument);
 						else
-							throw new CommandParseException(
-									"Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+							throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 					}
 					else
 					{

@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 class TokenTemplate
 {
+	public static final int UNKNOWN = -1;
 	public static final int QUOTED_STRING = 1;
 	public static final int FORMAT_STRING = 2;
 	public static final int VARIABLE = 3;

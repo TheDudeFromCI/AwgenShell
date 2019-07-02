@@ -25,7 +25,7 @@ public class CommandParser
 		Input input = Input.consumeTokens(environment, tokenizer);
 
 		if (tokenizer.hasNextToken())
-			throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+			throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 
 		if (input == null)
 			input = new Input(environment);
