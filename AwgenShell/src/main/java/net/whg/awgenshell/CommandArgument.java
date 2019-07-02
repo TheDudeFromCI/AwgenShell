@@ -47,8 +47,18 @@ public class CommandArgument implements ArgumentValue
 	 */
 	public void evaluate()
 	{
+		markUnevaluated();
+
 		if (direct)
 			getValue();
+	}
+
+	/**
+	 * Marks this command argument as if it has not yet been evaluated.
+	 */
+	public void markUnevaluated()
+	{
+		value = null;
 	}
 
 	@Override
