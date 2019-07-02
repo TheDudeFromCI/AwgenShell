@@ -3,6 +3,7 @@ package net.whg.awgenshell;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class Tokenizer
 {
@@ -60,7 +61,16 @@ class Tokenizer
 			}
 
 			if (!parsedNext)
-				throw new CommandParseException("Failed to parse " + code + "!");
+			{
+				Matcher matcher = Pattern.compile("^(.*?" + tokenTerminator).matcher(code);
+				if (matcher.find())
+				{
+					String token = matcher.group().trim();
+					throw new CommandParseException("Failed to parse " + token + "!");
+				}
+				else
+					throw new CommandParseException("Failed to parse " + code + "!");
+			}
 		}
 	}
 
