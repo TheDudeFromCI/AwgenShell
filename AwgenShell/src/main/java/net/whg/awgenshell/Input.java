@@ -177,7 +177,7 @@ class Input
 		}
 
 		if (response == null) // Empty expression list
-			response = new CommandResult("", true, true);
+			response = CommandResult.SUCCESS;
 
 		return response;
 	}

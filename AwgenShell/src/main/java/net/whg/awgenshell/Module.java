@@ -5,6 +5,7 @@ import java.util.List;
 import net.whg.awgenshell.lang.AppendCommand;
 import net.whg.awgenshell.lang.ArrayCommand;
 import net.whg.awgenshell.lang.CalcCommand;
+import net.whg.awgenshell.lang.ExecCommand;
 import net.whg.awgenshell.lang.ForCommand;
 import net.whg.awgenshell.lang.FunctionCommand;
 import net.whg.awgenshell.lang.IfCommand;
@@ -35,6 +36,7 @@ public class Module
 		m.loadCommand(new FunctionCommand());
 		m.loadCommand(new CalcCommand());
 		m.loadCommand(new ArrayCommand());
+		m.loadCommand(new ExecCommand());
 
 		return m;
 	}

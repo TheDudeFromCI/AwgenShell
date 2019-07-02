@@ -60,17 +60,21 @@ public class ShellEnvironment
 	 *
 	 * @param line
 	 *     - The input function to parse and run.
+	 * @return True if the command was successfully parsed and executed, false
+	 *     otherwise. If multiple commands are present, returns the execution state
+	 *     of the last command.
 	 */
-	public void runCommand(String line)
+	public boolean runCommand(String line)
 	{
 		try
 		{
 			Input in = CommandParser.parse(this, line);
-			in.execute(false);
+			return in.execute(false).isNormalExit();
 		}
 		catch (Exception exception)
 		{
 			exception.printStackTrace();
+			return false;
 		}
 	}
 
