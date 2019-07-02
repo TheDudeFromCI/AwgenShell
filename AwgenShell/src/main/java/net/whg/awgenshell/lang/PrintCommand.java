@@ -3,6 +3,7 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
 
 /**
@@ -20,6 +21,8 @@ public class PrintCommand implements CommandHandler
 		"echo", "say"
 	};
 
+	private static final PermissionNode PERMS = new PermissionNode("lang.print");
+
 	@Override
 	public String getName()
 	{
@@ -29,6 +32,12 @@ public class PrintCommand implements CommandHandler
 	@Override
 	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
+		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
+		{
+			env.getCommandSender().println("You do not have permission to use this command!");
+			return CommandResult.ERROR;
+		}
+
 		String line = "";
 
 		for (int i = 0; i < args.length; i++)

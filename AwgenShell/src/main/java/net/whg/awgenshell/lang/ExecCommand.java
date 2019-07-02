@@ -3,6 +3,7 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
 
 /**
@@ -18,6 +19,8 @@ public class ExecCommand implements CommandHandler
 		"execute"
 	};
 
+	private static final PermissionNode PERMS = new PermissionNode("lang.exec");
+
 	@Override
 	public String getName()
 	{
@@ -27,6 +30,12 @@ public class ExecCommand implements CommandHandler
 	@Override
 	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
+		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
+		{
+			env.getCommandSender().println("You do not have permission to use this command!");
+			return CommandResult.ERROR;
+		}
+
 		if (args.length != 1)
 		{
 			env.getCommandSender().println("Unknown number of arguments!");

@@ -3,6 +3,7 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
 import net.whg.awgenshell.Variable;
 import net.whg.awgenshell.VariableArgument;
@@ -24,6 +25,8 @@ public class ForCommand implements CommandHandler
 		"foreach"
 	};
 
+	private static final PermissionNode PERMS = new PermissionNode("lang.for");
+
 	@Override
 	public String getName()
 	{
@@ -38,6 +41,12 @@ public class ForCommand implements CommandHandler
 	@Override
 	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
+		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
+		{
+			env.getCommandSender().println("You do not have permission to use this command!");
+			return CommandResult.ERROR;
+		}
+
 		if (args.length == 6)
 		{
 			String doStatement = args[4].getValue();
