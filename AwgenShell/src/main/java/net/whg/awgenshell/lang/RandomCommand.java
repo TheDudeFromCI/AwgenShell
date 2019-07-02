@@ -1,5 +1,9 @@
 package net.whg.awgenshell.lang;
 
+import static net.whg.awgenshell.ShellUtils.asFloat;
+import static net.whg.awgenshell.ShellUtils.asInt;
+import static net.whg.awgenshell.ShellUtils.isFloat;
+import static net.whg.awgenshell.ShellUtils.isInteger;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
@@ -23,16 +27,6 @@ public class RandomCommand implements CommandHandler
 	public String getName()
 	{
 		return "random";
-	}
-
-	private boolean isInteger(String num)
-	{
-		return num.matches("[0-9]+");
-	}
-
-	private boolean isFloat(String num)
-	{
-		return num.matches("[0-9]+\\.[0-9]*|[0-9]*\\.[0-9]+|[0-9]+");
 	}
 
 	@Override
@@ -62,16 +56,16 @@ public class RandomCommand implements CommandHandler
 
 			if (isInteger(min) && isInteger(max))
 			{
-				int maxI = Integer.valueOf(max);
-				int minI = Integer.valueOf(min);
+				int maxI = asInt(max);
+				int minI = asInt(min);
 
 				return new CommandResult((int) Math.round(Math.random() * (maxI - minI)) + minI + "", true, false);
 			}
 
 			if (isFloat(min) && isFloat(max))
 			{
-				float maxI = Float.valueOf(max);
-				float minI = Float.valueOf(min);
+				float maxI = asFloat(max);
+				float minI = asFloat(min);
 
 				return new CommandResult((float) (Math.random() * (maxI - minI)) + minI + "", true, false);
 			}

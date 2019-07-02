@@ -3,7 +3,7 @@ package net.whg.awgenshell;
 /**
  * A collection of common utility functions for handling events within
  * AwgenShell.
- * 
+ *
  * @author TheDudeFromCI
  */
 public class ShellUtils
@@ -27,5 +27,69 @@ public class ShellUtils
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Checks if the given input is an integer value.
+	 *
+	 * @param val
+	 *     - The input.
+	 * @return True if the value can be represented as an integer, false otherwise.
+	 */
+	public static boolean isInteger(String val)
+	{
+		return val.matches("[\\-]?[0-9]+");
+	}
+
+	/**
+	 * Converts the given input in a string to an integer. If the value cannot be
+	 * represented as a integer, 0 is returned.
+	 *
+	 * @param val
+	 *     - The value to convert.
+	 * @return A integer representation of the input.
+	 */
+	public static int asInt(String val)
+	{
+		try
+		{
+			return Integer.valueOf(val);
+		}
+		catch (Exception e)
+		{
+			return 0;
+		}
+	}
+
+	/**
+	 * Checks if the given input is a float value.
+	 *
+	 * @param val
+	 *     - The input.
+	 * @return True if the value can be represented as an float, false otherwise.
+	 */
+	public static boolean isFloat(String val)
+	{
+		return val.matches("[\\-]?([0-9]+\\\\.[0-9]*|[0-9]*\\\\.[0-9]+|[0-9]+)");
+	}
+
+	/**
+	 * Converts the given input in a string to a float. If the value cannot be
+	 * represented as a float, 0 is returned.
+	 *
+	 * @param val
+	 *     - The value to convert.
+	 * @return A integer representation of the input.
+	 */
+	public static float asFloat(String val)
+	{
+		try
+		{
+			return Float.valueOf(val);
+		}
+		catch (Exception e)
+		{
+			return 0;
+		}
 	}
 }
