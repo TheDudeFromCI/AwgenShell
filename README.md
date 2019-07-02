@@ -14,20 +14,20 @@ One of the core inspirations behind Awgen Shell is to ease the debugging process
 
 ### Jar
 
-The Awgen Shell releases can be found in the releases [here.](https://github.com/Wraithaven/AwgenShell/releases) tab for this repository. The entire language is packaged within a single jar file for maximum portability. Just add to your build path and you're all done.
+The Awgen Shell releases can be found in the [releases tab](https://github.com/Wraithaven/AwgenShell/releases) for this repository. The entire language is packaged within a single jar file for maximum portability. Just add to your build path and you're all done.
 
 ### Maven
 
 Awgen Shell is not yet in the Maven Central Repository, however, can still be used with Maven through plugins like [JitPack](https://jitpack.io/).
 
-The Maven setup, using JitPack is done by adding JitPack to your repositories list in your POM file.\
+The Maven setup, using JitPack is done by adding JitPack to your repositories list in your POM file.
 
 ```xml
 <repositories>
-	  <repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-	  </repository>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
 </repositories>
 ```
   
@@ -35,9 +35,12 @@ Then simple adding Awgen Shell as a dependency as such:
     
 ```xml
 <dependency>
-	  <groupId>com.github.Wraithaven</groupId>
-	  <artifactId>AwgenShell</artifactId>
-	  <version> AGWEN SHELL VERSION </version>
+	<groupId>com.github.Wraithaven</groupId>
+	<artifactId>AwgenShell</artifactId>
+	<version> AGWEN SHELL VERSION </version>
+	
+	<!-- Note, sometimes versions fail to resolve in Jitpack. If this happens, using the first 10 characters of the commit hash also works. -->
+	
 </dependency>
 ```
 
