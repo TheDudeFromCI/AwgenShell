@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=master)](https://travis-ci.org/Wraithaven/AwgenShell)
+[![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=master)](https://bettercodehub.com/)
+
+---
+
 # AwgenShell
 
 An interactive and flexible command line and library for the Awgen Shell language.
