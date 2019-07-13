@@ -4,6 +4,9 @@ language: java
 jdk:
   - openjdk8
 
+before_install:
+  - cd AwgenShell
+
 cache:
   apt: true
   directories:
