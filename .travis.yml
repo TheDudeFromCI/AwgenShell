@@ -1,0 +1,17 @@
+sudo: false
+language: java
+
+jdk:
+  - openjdk8
+
+cache:
+  apt: true
+  directories:
+    - ~/.m2
+
+install: true
+script:
+  - mvn test -B;
+
+after_success:
+  - mvn jacoco:report coveralls:report
