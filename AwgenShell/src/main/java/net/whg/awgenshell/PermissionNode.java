@@ -13,6 +13,7 @@ public class PermissionNode
 	private final String raw;
 	private final String[] elements;
 	private final boolean isLiteral;
+	private final boolean isBlacklist;
 
 	/**
 	 * Creates a new permission node from the given string. A permission node
@@ -28,22 +29,39 @@ public class PermissionNode
 	 * category, which is in turn a child of the abc category. An asterisk can be
 	 * used in place of a word, to represent "true for all possible inputs" at that
 	 * location. If the asterisk is the final word in a the sequence, then all
-	 * children of that word are included and considered true as well.
+	 * children of that word are included and considered true as well.<br>
+	 * <br>
+	 * If a permission node starts with the ! symbol, it is turned into a blacklist
+	 * permission instead. A blacklist permission means that the permission is
+	 * always returned false, even if another permission node had already
+	 * whitelisted it. This is useful in cases such as adding all but a single
+	 * permission node. <br>
+	 * <br>
+	 * <code>
+	 * lang.*<br>
+	 * !lang.for<br>
+	 * !lang.while
+	 * </code><br>
+	 * <br>
+	 * Here we give the user permission to use all language commands except for
+	 * "for" and "while".
 	 *
 	 * @param node
+	 *     - The permission node string to compile.
 	 */
 	public PermissionNode(String node)
 	{
 		validate();
 
 		raw = node;
-		elements = node.split("\\.");
-		isLiteral = !node.contains("*");
+		elements = node.replace("!", "").split("\\.");
+		isLiteral = !(node.contains("*") || node.contains("!"));
+		isBlacklist = node.startsWith("!");
 	}
 
 	private void validate()
 	{
-		if (!raw.matches("([A-Za-z0-9_-]+|*)(\\.[A-Za-z0-9_-]+|*)*"))
+		if (!raw.matches("\\!?([A-Za-z0-9_-]+|*)(\\.[A-Za-z0-9_-]+|*)*"))
 			throw new IllegalArgumentException("Not a valid permission node!");
 	}
 
@@ -71,29 +89,29 @@ public class PermissionNode
 	 *     - The permssion node to check against. Must be literal.
 	 * @return True if this permssion node encapsulates the given permission node.
 	 */
-	public boolean matches(PermissionNode other)
+	public PermissionType matches(PermissionNode other)
 	{
 		if (!other.isLiteral())
-			return false;
+			return PermissionType.NEUTRAL;
 
 		for (int i = 0; i < elements.length; i++)
 		{
 			if (elements[i].equals("*"))
 			{
 				if (i == elements.length - 1)
-					return true;
+					return isBlacklist ? PermissionType.BLACKLIST : PermissionType.WHITELIST;
 			}
 			else
 			{
 				if (!elements[i].equals(other.elements[i]))
-					return false;
+					return PermissionType.NEUTRAL;
 			}
 		}
 
 		if (elements.length != other.elements.length)
-			return false;
+			return PermissionType.NEUTRAL;
 
-		return true;
+		return isBlacklist ? PermissionType.BLACKLIST : PermissionType.WHITELIST;
 	}
 
 	@Override
@@ -108,5 +126,11 @@ public class PermissionNode
 		if (obj instanceof PermissionNode)
 			return raw.equals(((PermissionNode) obj).raw);
 		return false;
+	}
+
+	@Override
+	public String toString()
+	{
+		return raw;
 	}
 }

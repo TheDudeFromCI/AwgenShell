@@ -115,14 +115,17 @@ public class Permissions
 	 */
 	public boolean hasPermission(PermissionNode node)
 	{
+		if (node.isLiteral())
+			return false;
+
+		PermissionType perm = PermissionType.NEUTRAL;
 		for (PermissionNode s : permissionNodes)
-			if (s.matches(node))
-				return true;
+			perm = perm.or(s.matches(node));
 
 		for (Permissions p : inheirated)
-			if (p.hasPermission(node))
-				return true;
+			for (PermissionNode s : p.permissionNodes)
+				perm = perm.or(s.matches(node));
 
-		return false;
+		return perm == PermissionType.WHITELIST;
 	}
 }
