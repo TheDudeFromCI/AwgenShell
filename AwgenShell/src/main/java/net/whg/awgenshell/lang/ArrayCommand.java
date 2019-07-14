@@ -5,23 +5,25 @@ import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
 import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.ShellUtils;
 
 /**
- * This class is simple a pass through command which returns the string value of
- * the argument it is provided.
+ * Returns the specified line within a given input, as if a 0-indexed array,
+ * where each line was considered a new element. Values outside of the array
+ * range return an empty string.
  *
  * @author TheDudeFromCI
  */
-public class SetCommand implements CommandHandler
+public class ArrayCommand implements CommandHandler
 {
 	private static final String[] ALIASES = {};
 
-	private static final PermissionNode PERMS = new PermissionNode("lang.set");
+	private static final PermissionNode PERMS = new PermissionNode("lang.array");
 
 	@Override
 	public String getName()
 	{
-		return "set";
+		return "array";
 	}
 
 	@Override
@@ -33,13 +35,31 @@ public class SetCommand implements CommandHandler
 			return CommandResult.ERROR;
 		}
 
-		if (args.length != 1)
+		if (args.length != 2)
 		{
 			env.getCommandSender().println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 
-		return new CommandResult(args[0].getValue(), true, false);
+		String a0 = args[0].getValue();
+		String a1 = args[1].getValue();
+
+		if (!ShellUtils.isInteger(a1))
+		{
+			env.getCommandSender().println("Not a number: '" + a1 + "'!");
+			return CommandResult.ERROR;
+		}
+
+		int index = ShellUtils.asInt(a1);
+		String[] lines = a0.split("\\r?\\n");
+
+		String v;
+		if (index < 0 || index >= lines.length)
+			v = "";
+		else
+			v = lines[index];
+
+		return new CommandResult(v, true, false);
 	}
 
 	@Override

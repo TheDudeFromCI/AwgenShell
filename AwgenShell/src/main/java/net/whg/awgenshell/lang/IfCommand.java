@@ -3,18 +3,21 @@ package net.whg.awgenshell.lang;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
 import net.whg.awgenshell.ShellUtils;
 
 /**
  * The if command only executes a command if a given condition is met.
  * Additionally, "else if" and "else" clauses can be defined and used as well.
- * 
+ *
  * @author TheDudeFromCI
  */
 public class IfCommand implements CommandHandler
 {
 	private static final String[] ALIASES = {};
+
+	private static final PermissionNode PERMS = new PermissionNode("lang.if");
 
 	@Override
 	public String getName()
@@ -25,6 +28,12 @@ public class IfCommand implements CommandHandler
 	@Override
 	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
+		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
+		{
+			env.getCommandSender().println("You do not have permission to use this command!");
+			return CommandResult.ERROR;
+		}
+
 		if (args.length < 3 || (args.length - 3) % 2 != 0)
 		{
 			env.getCommandSender().println("Unknown number of arguments!");

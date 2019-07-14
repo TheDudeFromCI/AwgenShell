@@ -1,8 +1,10 @@
 package net.whg.awgenshell.lang;
 
+import ch.obermuhlner.math.big.BigFloat;
 import net.whg.awgenshell.ArgumentValue;
 import net.whg.awgenshell.CommandHandler;
 import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
 
 /**
@@ -20,6 +22,8 @@ public class CalcCommand implements CommandHandler
 		"eval"
 	};
 
+	private static final PermissionNode PERMS = new PermissionNode("lang.calc");
+
 	/**
 	 * Evaluates a string as mathmatical equation.
 	 *
@@ -27,7 +31,7 @@ public class CalcCommand implements CommandHandler
 	 *     - The string to evaluate.
 	 * @return The final output of the equation.
 	 */
-	private static double eval(final String str)
+	private static BigFloat eval(final String str)
 	{
 		return new Object()
 		{
@@ -50,57 +54,71 @@ public class CalcCommand implements CommandHandler
 				return false;
 			}
 
-			double parse()
+			BigFloat parse()
 			{
 				nextChar();
-				double x = parseExpression();
+				BigFloat x = parseExpression();
 				if (pos < str.length())
 					throw new RuntimeException("Unexpected: " + (char) ch);
 				return x;
 			}
 
-			// Grammar:
-			// expression = term | expression `+` term | expression `-` term
-			// term = factor | term `*` factor | term `/` factor
-			// factor = `+` factor | `-` factor | `(` expression `)`
-			// | number | functionName factor | factor `^` factor
-
-			double parseExpression()
+			BigFloat parseExpression()
 			{
-				double x = parseTerm();
-				for (;;)
+				BigFloat x = parseTerm();
+
+				while (true)
 				{
 					if (eat('+'))
-						x += parseTerm(); // addition
+						x = x.add(parseTerm());
 					else if (eat('-'))
-						x -= parseTerm(); // subtraction
+						x = x.subtract(parseTerm());
 					else
 						return x;
 				}
 			}
 
-			double parseTerm()
+			BigFloat parseTerm()
 			{
-				double x = parseFactor();
+				BigFloat x = parseFactor();
 				for (;;)
 				{
 					if (eat('*'))
-						x *= parseFactor(); // multiplication
+						x = x.multiply(parseFactor());
 					else if (eat('/'))
-						x /= parseFactor(); // division
+						x = x.divide(parseFactor());
 					else
 						return x;
 				}
 			}
 
-			double parseFactor()
+			BigFloat floor(BigFloat x)
+			{
+				return x.isNegative()
+						? x.getFractionalPart().isZero() ? x.getIntegralPart() : x.getIntegralPart().subtract(1)
+						: x.getIntegralPart();
+			}
+
+			BigFloat ceil(BigFloat x)
+			{
+				return x.isNegative() ? x.getIntegralPart()
+						: x.getFractionalPart().isZero() ? x.getIntegralPart() : x.getIntegralPart().add(1);
+			}
+
+			BigFloat round(BigFloat x)
+			{
+				return x.getFractionalPart().isGreaterThanOrEqual(BigFloat.context(128).valueOf(0.5)) ? ceil(x)
+						: floor(x);
+			}
+
+			BigFloat parseFactor()
 			{
 				if (eat('+'))
 					return parseFactor(); // unary plus
 				if (eat('-'))
-					return -parseFactor(); // unary minus
+					return parseFactor().multiply(-1); // unary minus
 
-				double x;
+				BigFloat x;
 				int startPos = pos;
 				if (eat('('))
 				{ // parentheses
@@ -111,7 +129,7 @@ public class CalcCommand implements CommandHandler
 				{ // numbers
 					while (ch >= '0' && ch <= '9' || ch == '.')
 						nextChar();
-					x = Double.parseDouble(str.substring(startPos, pos));
+					x = BigFloat.context(128).valueOf(str.substring(startPos, pos));
 				}
 				else if (ch >= 'a' && ch <= 'z')
 				{ // functions
@@ -120,19 +138,19 @@ public class CalcCommand implements CommandHandler
 					String func = str.substring(startPos, pos);
 					x = parseFactor();
 					if (func.equals("sqrt"))
-						x = Math.sqrt(x);
+						x = BigFloat.sqrt(x);
 					else if (func.equals("sin"))
-						x = Math.sin(Math.toRadians(x));
+						x = BigFloat.sin(x);
 					else if (func.equals("cos"))
-						x = Math.cos(Math.toRadians(x));
+						x = BigFloat.cos(x);
 					else if (func.equals("tan"))
-						x = Math.tan(Math.toRadians(x));
+						x = BigFloat.tan(x);
 					else if (func.equals("floor"))
-						x = Math.floor(x);
+						x = floor(x);
 					else if (func.equals("ceil"))
-						x = Math.ceil(x);
+						x = ceil(x);
 					else if (func.equals("round"))
-						x = Math.round(x);
+						x = round(x);
 					else
 						throw new RuntimeException("Unknown function: " + func);
 				}
@@ -142,7 +160,7 @@ public class CalcCommand implements CommandHandler
 				}
 
 				if (eat('^'))
-					x = Math.pow(x, parseFactor()); // exponentiation
+					x = x.pow(parseFactor());
 
 				return x;
 			}
@@ -158,6 +176,12 @@ public class CalcCommand implements CommandHandler
 	@Override
 	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
+		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
+		{
+			env.getCommandSender().println("You do not have permission to use this command!");
+			return CommandResult.ERROR;
+		}
+
 		if (args.length != 1)
 		{
 			env.getCommandSender().println("Unknown number of arguments!");

@@ -2,6 +2,8 @@ package net.whg.awgenshell;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is used to represent a command that can be excuted.
@@ -10,6 +12,8 @@ import java.util.List;
  */
 class Command
 {
+	private static Logger logger = LoggerFactory.getLogger(Command.class);
+
 	/**
 	 * Attempts to create an argument value using the next few tokens if possible.
 	 *
@@ -23,7 +27,8 @@ class Command
 	{
 		Token next = tokenizer.peekNextToken();
 
-		switch (next.getType()) {
+		switch (next.getType())
+		{
 			case TokenTemplate.VARIABLE:
 				tokenizer.consumeToken();
 				return new VariableArgument(env.getVariable(next.getFormattedValue()));
@@ -46,7 +51,7 @@ class Command
 
 				Token closer = tokenizer.nextToken();
 				if (closer.getType() != TokenTemplate.CLOSE_PARENTHESIS_SYMBOL)
-					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
+					throw new CommandParseException("Unexpected token!", closer);
 
 				return new CommandArgument(input, true);
 			}
@@ -59,7 +64,7 @@ class Command
 
 				Token closer = tokenizer.nextToken();
 				if (closer.getType() != TokenTemplate.CLOSE_CURLY_BRACKET_SYMBOL)
-					throw new CommandParseException("Unexpected token: " + closer.getValue() + "!");
+					throw new CommandParseException("Unexpected token!", closer);
 
 				return new CommandArgument(input, false);
 			}
@@ -106,8 +111,7 @@ class Command
 						if (argument != null)
 							arguments.add(argument);
 						else
-							throw new CommandParseException(
-									"Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+							throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 					}
 					else
 					{
@@ -163,6 +167,16 @@ class Command
 			return new CommandResult("", false, true);
 		}
 
-		return command.execute(environment, arguments);
+		try
+		{
+			return command.execute(environment, arguments);
+		}
+		catch (Exception e)
+		{
+			environment.getCommandSender()
+					.println("There was an internal error while running the command '" + commandName + "'.");
+			logger.error("Error thrown while running the command: '" + commandName + "'.", e);
+			return CommandResult.ERROR;
+		}
 	}
 }

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.whg.awgen-shell</groupId>
 	<artifactId>AwgenShell</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<name>AwgenShell</name>
 	<description>An interactive and flexible command line and library for the Awgen command line language.</description>
 	
@@ -28,7 +28,7 @@
 				<version>3.8.0</version>
 				<configuration>
 					<source>1.8</source>
-	                <target>1.8</target>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
@@ -124,6 +124,11 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.obermuhlner</groupId>
+			<artifactId>big-math</artifactId>
+			<version>2.1.0</version>
 		</dependency>
 	</dependencies>
 

@@ -36,14 +36,14 @@ class Expression
 
 			Token equalsSign = tokenizer.nextToken();
 			if (equalsSign.getType() != TokenTemplate.EQUALS_SYMBOL)
-				throw new CommandParseException("Unexpected token: " + equalsSign.getValue() + "!");
+				throw new CommandParseException("Unexpected token!", equalsSign);
 		}
 
 		command = Command.consumeTokens(env, tokenizer);
 		if (command == null)
 		{
 			if (output != null)
-				throw new CommandParseException("Unexpected token: " + tokenizer.nextToken().getValue() + "!");
+				throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 
 			tokenizer.setPosition(pos);
 			return null;

@@ -7,21 +7,24 @@ import net.whg.awgenshell.PermissionNode;
 import net.whg.awgenshell.ShellEnvironment;
 
 /**
- * This class is simple a pass through command which returns the string value of
- * the argument it is provided.
+ * This command allows an input string to be parsed and executed as a normal
+ * command.
  *
  * @author TheDudeFromCI
  */
-public class SetCommand implements CommandHandler
+public class ExecCommand implements CommandHandler
 {
-	private static final String[] ALIASES = {};
+	private static final String[] ALIASES =
+	{
+		"execute"
+	};
 
-	private static final PermissionNode PERMS = new PermissionNode("lang.set");
+	private static final PermissionNode PERMS = new PermissionNode("lang.exec");
 
 	@Override
 	public String getName()
 	{
-		return "set";
+		return "exec";
 	}
 
 	@Override
@@ -39,7 +42,7 @@ public class SetCommand implements CommandHandler
 			return CommandResult.ERROR;
 		}
 
-		return new CommandResult(args[0].getValue(), true, false);
+		return new CommandResult("", env.runCommand(args[0].getValue()), true);
 	}
 
 	@Override
