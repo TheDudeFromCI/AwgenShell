@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=master)](https://travis-ci.org/Wraithaven/AwgenShell)
 [![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=master)](https://bettercodehub.com/)
-[![Latest Version](https://img.shields.io/github/release/Wraithaven/AwgenShell.svg)]
+[![Latest Version](https://img.shields.io/github/release/Wraithaven/AwgenShell.svg)](https://github.com/Wraithaven/AwgenShell/releases)
 
 ---
 
