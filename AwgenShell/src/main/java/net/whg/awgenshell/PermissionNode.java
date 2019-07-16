@@ -51,9 +51,9 @@ public class PermissionNode
 	 */
 	public PermissionNode(String node)
 	{
+		raw = node;
 		validate();
 
-		raw = node;
 		elements = node.replace("!", "").split("\\.");
 		isLiteral = !(node.contains("*") || node.contains("!"));
 		isBlacklist = node.startsWith("!");
@@ -61,8 +61,8 @@ public class PermissionNode
 
 	private void validate()
 	{
-		if (!raw.matches("\\!?([A-Za-z0-9_-]+|*)(\\.[A-Za-z0-9_-]+|*)*"))
-			throw new IllegalArgumentException("Not a valid permission node!");
+		if (!raw.matches("\\!?([A-Za-z0-9_\\-]+|\\*)(\\.([A-Za-z0-9_\\-]+|\\*))*"))
+			throw new IllegalArgumentException("Not a valid permission node! '" + raw + "'");
 	}
 
 	/**

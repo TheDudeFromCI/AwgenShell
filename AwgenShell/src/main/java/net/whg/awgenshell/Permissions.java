@@ -115,10 +115,11 @@ public class Permissions
 	 */
 	public boolean hasPermission(PermissionNode node)
 	{
-		if (node.isLiteral())
+		if (!node.isLiteral())
 			return false;
 
 		PermissionType perm = PermissionType.NEUTRAL;
+
 		for (PermissionNode s : permissionNodes)
 			perm = perm.or(s.matches(node));
 

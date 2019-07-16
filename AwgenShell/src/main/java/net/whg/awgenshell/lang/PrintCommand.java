@@ -39,7 +39,6 @@ public class PrintCommand implements CommandHandler
 		}
 
 		String line = "";
-
 		for (int i = 0; i < args.length; i++)
 		{
 			String a = args[i].getValue();
