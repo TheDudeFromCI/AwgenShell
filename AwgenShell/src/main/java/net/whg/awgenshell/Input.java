@@ -71,32 +71,32 @@ class Input
 				if (token.getType() == TokenTemplate.SEMICOLON_SYMBOL)
 				{
 					tokenizer.consumeToken();
+					input.setSeperator(ExpressionSeperator.NORMAL);
 
 					expression = Expression.consumeTokens(env, tokenizer);
 					if (expression == null)
 						return input;
 					input.appendExpression(expression);
-					input.setSeperator(ExpressionSeperator.NORMAL);
 				}
 				else if (token.getType() == TokenTemplate.AND_SYMBOL)
 				{
 					tokenizer.consumeToken();
+					input.setSeperator(ExpressionSeperator.AND);
 
 					expression = Expression.consumeTokens(env, tokenizer);
 					if (expression == null)
 						throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 					input.appendExpression(expression);
-					input.setSeperator(ExpressionSeperator.AND);
 				}
 				else if (token.getType() == TokenTemplate.PIPE_SYMBOL)
 				{
 					tokenizer.consumeToken();
+					input.setSeperator(ExpressionSeperator.OR);
 
 					expression = Expression.consumeTokens(env, tokenizer);
 					if (expression == null)
 						throw new CommandParseException("Unexpected token!", tokenizer.nextToken());
 					input.appendExpression(expression);
-					input.setSeperator(ExpressionSeperator.OR);
 				}
 				else
 					break;
