@@ -1,16 +1,24 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.parse;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.whg.awgenshell.ArgumentValue;
+import net.whg.awgenshell.CommandArgument;
+import net.whg.awgenshell.CommandHandler;
+import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.FormattedStringArgument;
+import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.StringArgument;
+import net.whg.awgenshell.VariableArgument;
 
 /**
  * This class is used to represent a command that can be excuted.
  *
  * @author TheDudeFromCI
  */
-class Command
+public class Command
 {
 	private static Logger logger = LoggerFactory.getLogger(Command.class);
 
@@ -82,7 +90,7 @@ class Command
 	 *     - The tokenizer to supply the tokens.
 	 * @return A command if one could be made, null otherwise.
 	 */
-	static Command consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
+	public static Command consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
 		Token cmdName = tokenizer.peekNextToken();
 
@@ -155,7 +163,7 @@ class Command
 	 *     - The environment to execute this command in.
 	 * @return The outcome of the command execution.
 	 */
-	CommandResult execute(ShellEnvironment environment)
+	public CommandResult execute(ShellEnvironment environment)
 	{
 		for (ArgumentValue arg : arguments)
 			if (arg instanceof CommandArgument)

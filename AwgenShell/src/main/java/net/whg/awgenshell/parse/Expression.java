@@ -1,11 +1,15 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.parse;
+
+import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.Variable;
 
 /**
  * A class which represents a command and optional variable assignment.
  *
  * @author TheDudeFromCI
  */
-class Expression
+public class Expression
 {
 	/**
 	 * Attempts to create a new expression grammer by consuming as many tokens as
@@ -17,7 +21,7 @@ class Expression
 	 *     - The tokenizer to supply the code tokens.
 	 * @return An expression is one could be made, null otherwise.
 	 */
-	static Expression consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
+	public static Expression consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
 		if (!tokenizer.hasNextToken())
 			return null;
@@ -73,7 +77,7 @@ class Expression
 	 *     otherwise.
 	 * @return
 	 */
-	CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
+	public CommandResult execute(ShellEnvironment environment, boolean isDirectCommand)
 	{
 		CommandResult out = command.execute(environment);
 

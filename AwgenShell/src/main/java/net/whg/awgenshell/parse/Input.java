@@ -1,14 +1,16 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.parse;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.whg.awgenshell.CommandResult;
+import net.whg.awgenshell.ShellEnvironment;
 
 /**
  * Represents a set of expressions, given as an input.
  *
  * @author TheDudeFromCI
  */
-class Input
+public class Input
 {
 	/**
 	 * A single expression element within this input, and the given expression
@@ -50,7 +52,7 @@ class Input
 	 * @return An input if one could be constructed, or null if an input grammer
 	 *     could not be made.
 	 */
-	static Input consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
+	public static Input consumeTokens(ShellEnvironment env, Tokenizer tokenizer)
 	{
 		Input input = null;
 
@@ -115,7 +117,7 @@ class Input
 	 * @param env
 	 *     - The environment this grammer is compiled for.
 	 */
-	Input(ShellEnvironment env)
+	public Input(ShellEnvironment env)
 	{
 		this.env = env;
 	}
@@ -154,7 +156,7 @@ class Input
 	 *     false otherwise.
 	 * @return The result of the last expression within this set.
 	 */
-	CommandResult execute(boolean isDirectCommand)
+	public CommandResult execute(boolean isDirectCommand)
 	{
 		ExpressionSeperator last = ExpressionSeperator.NORMAL;
 		boolean lastState = true;

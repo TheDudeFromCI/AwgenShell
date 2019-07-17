@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.parse;
 
 /**
  * Thrown if there is an issue with parsing the input string.

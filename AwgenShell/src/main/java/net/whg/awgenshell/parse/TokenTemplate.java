@@ -1,8 +1,8 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.parse;
 
 import java.util.regex.Pattern;
 
-class TokenTemplate
+public class TokenTemplate
 {
 	public static final int UNKNOWN = -1;
 	public static final int QUOTED_STRING = 1;

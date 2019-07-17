@@ -1,6 +1,6 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.parse;
 
-class Token
+public class Token
 {
 	private int type;
 	private String value;

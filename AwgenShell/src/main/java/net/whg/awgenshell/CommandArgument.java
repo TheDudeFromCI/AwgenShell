@@ -1,5 +1,7 @@
 package net.whg.awgenshell;
 
+import net.whg.awgenshell.parse.Input;
+
 /**
  * An input argument for a command which, in itself, is also a command. This
  * class can either be a direct command or indirect command.
