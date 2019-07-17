@@ -1,5 +1,6 @@
 package tokenization;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -99,5 +100,18 @@ public class CommnadChainsTest
 		shell.runCommand("random apple & print Sup? | print Hey");
 		verify(sender, never()).println("Sup?");
 		verify(sender).println("Hey");
+	}
+
+	@Test
+	public void unknownCharacter_percent_fail()
+	{
+		CommandSender sender = mock(CommandSender.class);
+		when(sender.getPermissions()).thenReturn(Permissions.ALL);
+
+		ShellEnvironment shell = new ShellEnvironment(sender);
+
+		assertFalse(shell.runCommand("print hi % print Hey"));
+		verify(sender, never()).println("Hey");
+		verify(sender, never()).println("Sup?");
 	}
 }

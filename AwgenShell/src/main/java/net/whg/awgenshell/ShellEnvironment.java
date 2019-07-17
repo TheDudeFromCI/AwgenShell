@@ -2,6 +2,8 @@ package net.whg.awgenshell;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a virtual environment to execute commands within.
@@ -10,6 +12,8 @@ import java.util.List;
  */
 public class ShellEnvironment
 {
+	private static final Logger logger = LoggerFactory.getLogger(ShellEnvironment.class);
+
 	private List<Variable> variables = new ArrayList<>();
 	private List<Module> modules = new ArrayList<>();
 	private CommandSender sender;
@@ -60,20 +64,24 @@ public class ShellEnvironment
 	 *
 	 * @param line
 	 *     - The input function to parse and run.
-	 * @return True if the command was successfully parsed and executed, false
-	 *     otherwise. If multiple commands are present, returns the execution state
-	 *     of the last command.
+	 * @return True if the command was successfully parsed, false otherwise.
 	 */
 	public boolean runCommand(String line)
 	{
 		try
 		{
 			Input in = CommandParser.parse(this, line);
-			return in.execute(false).isNormalExit();
+			in.execute(false);
+			return true;
+		}
+		catch (CommandParseException exception)
+		{
+			logger.error("Failed to parse command!", exception);
+			return false;
 		}
 		catch (Exception exception)
 		{
-			exception.printStackTrace();
+			logger.error("Unexcepted error occured while running command!", exception);
 			return false;
 		}
 	}
