@@ -1,8 +1,8 @@
 package net.whg.awgenshell.parse;
 
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.ShellEnvironment;
-import net.whg.awgenshell.Variable;
+import net.whg.awgenshell.arg.Variable;
+import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.util.CommandResult;
 
 /**
  * A class which represents a command and optional variable assignment.

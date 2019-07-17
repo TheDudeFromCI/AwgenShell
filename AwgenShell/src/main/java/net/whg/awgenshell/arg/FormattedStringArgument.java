@@ -1,4 +1,6 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.arg;
+
+import net.whg.awgenshell.exec.ShellEnvironment;
 
 /**
  * A class representing a formatting string argument, which acts as a string,

@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.exec;
 
 import java.util.ArrayList;
 import java.util.List;

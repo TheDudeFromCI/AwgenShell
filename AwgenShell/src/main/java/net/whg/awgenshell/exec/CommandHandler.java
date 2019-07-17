@@ -1,4 +1,7 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.exec;
+
+import net.whg.awgenshell.arg.ArgumentValue;
+import net.whg.awgenshell.util.CommandResult;
 
 /**
  * This is the base interface for all command implementations used within

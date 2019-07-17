@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.perms;
 
 /**
  * Usered to determine the coverage level of permission nodes when validating

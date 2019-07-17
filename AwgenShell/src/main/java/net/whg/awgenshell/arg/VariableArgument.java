@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.arg;
 
 /**
  * A variable argumemt. This argument simple returns the current value of the

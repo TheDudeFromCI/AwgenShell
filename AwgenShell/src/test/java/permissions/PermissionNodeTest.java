@@ -2,8 +2,8 @@ package permissions;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import net.whg.awgenshell.PermissionNode;
-import net.whg.awgenshell.PermissionType;
+import net.whg.awgenshell.perms.PermissionNode;
+import net.whg.awgenshell.perms.PermissionType;
 
 public class PermissionNodeTest
 {

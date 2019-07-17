@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.arg;
 
 /**
  * A single argument that is provided to the command when it is executed.

@@ -1,11 +1,11 @@
 package net.whg.awgenshell.lang;
 
-import net.whg.awgenshell.ArgumentValue;
-import net.whg.awgenshell.CommandHandler;
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.PermissionNode;
-import net.whg.awgenshell.ShellEnvironment;
-import net.whg.awgenshell.ShellUtils;
+import net.whg.awgenshell.arg.ArgumentValue;
+import net.whg.awgenshell.exec.CommandHandler;
+import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.perms.PermissionNode;
+import net.whg.awgenshell.util.CommandResult;
+import net.whg.awgenshell.util.ShellUtils;
 
 /**
  * Preforms a command continuously while the given condition returns true.

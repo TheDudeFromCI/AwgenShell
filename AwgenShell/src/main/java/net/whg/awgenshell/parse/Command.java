@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.whg.awgenshell.ArgumentValue;
-import net.whg.awgenshell.CommandArgument;
-import net.whg.awgenshell.CommandHandler;
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.FormattedStringArgument;
-import net.whg.awgenshell.ShellEnvironment;
-import net.whg.awgenshell.StringArgument;
-import net.whg.awgenshell.VariableArgument;
+import net.whg.awgenshell.arg.ArgumentValue;
+import net.whg.awgenshell.arg.CommandArgument;
+import net.whg.awgenshell.arg.FormattedStringArgument;
+import net.whg.awgenshell.arg.StringArgument;
+import net.whg.awgenshell.arg.VariableArgument;
+import net.whg.awgenshell.exec.CommandHandler;
+import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.util.CommandResult;
 
 /**
  * This class is used to represent a command that can be excuted.

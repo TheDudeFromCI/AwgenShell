@@ -2,8 +2,8 @@ package net.whg.awgenshell.parse;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.util.CommandResult;
 
 /**
  * Represents a set of expressions, given as an input.

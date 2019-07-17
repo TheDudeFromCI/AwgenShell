@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.arg;
 
 import net.whg.awgenshell.parse.Input;
 

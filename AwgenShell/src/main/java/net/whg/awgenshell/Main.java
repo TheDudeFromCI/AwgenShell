@@ -3,6 +3,8 @@ package net.whg.awgenshell;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
+import net.whg.awgenshell.exec.CommandSender;
+import net.whg.awgenshell.exec.ShellEnvironment;
 
 class Main
 {

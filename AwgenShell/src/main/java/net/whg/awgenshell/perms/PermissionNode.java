@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.perms;
 
 /**
  * This class represents an immutable single permission node which an indvidual

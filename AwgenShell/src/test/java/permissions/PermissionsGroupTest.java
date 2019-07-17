@@ -3,8 +3,8 @@ package permissions;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import net.whg.awgenshell.PermissionNode;
-import net.whg.awgenshell.Permissions;
+import net.whg.awgenshell.perms.PermissionNode;
+import net.whg.awgenshell.perms.Permissions;
 
 public class PermissionsGroupTest
 {

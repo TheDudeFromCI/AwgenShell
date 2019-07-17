@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.util;
 
 /**
  * A collection of common utility functions for handling events within

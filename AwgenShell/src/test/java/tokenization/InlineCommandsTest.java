@@ -6,9 +6,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
-import net.whg.awgenshell.CommandSender;
-import net.whg.awgenshell.Permissions;
-import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.exec.CommandSender;
+import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.perms.Permissions;
 
 public class InlineCommandsTest
 {

@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.util;
 
 /**
  * Represents the immutable output of command execution.

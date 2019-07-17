@@ -1,6 +1,6 @@
 package net.whg.awgenshell.parse;
 
-import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.exec.ShellEnvironment;
 
 /**
  * The functional class used to parse inputs.

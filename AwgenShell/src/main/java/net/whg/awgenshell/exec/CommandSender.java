@@ -1,4 +1,6 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.exec;
+
+import net.whg.awgenshell.perms.Permissions;
 
 /**
  * And instance of the the command wrapper for who executed the command.

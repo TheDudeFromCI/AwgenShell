@@ -1,9 +1,10 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.exec;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.whg.awgenshell.arg.Variable;
 import net.whg.awgenshell.parse.CommandParseException;
 import net.whg.awgenshell.parse.CommandParser;
 import net.whg.awgenshell.parse.Input;
@@ -57,7 +58,7 @@ public class ShellEnvironment
 	 *
 	 * @return A list of all variables.
 	 */
-	List<Variable> getVariables()
+	public List<Variable> getVariables()
 	{
 		return variables;
 	}

@@ -1,4 +1,4 @@
-package net.whg.awgenshell;
+package net.whg.awgenshell.arg;
 
 /**
  * A command argument that represents a simple string input.
