@@ -1,6 +1,13 @@
+#### *Main Branch:*
 [![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=master)](https://travis-ci.org/Wraithaven/AwgenShell)
+[![Coverage Status](https://coveralls.io/repos/github/Wraithaven/AwgenShell/badge.svg?branch=master)](https://coveralls.io/github/Wraithaven/AwgenShell?branch=master)
 [![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=master)](https://bettercodehub.com/)
 [![Latest Version](https://img.shields.io/github/release/Wraithaven/AwgenShell.svg)](https://github.com/Wraithaven/AwgenShell/releases)
+
+#### *Development Branch:*
+[![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=dev)](https://travis-ci.org/Wraithaven/AwgenShell)
+[![Coverage Status](https://coveralls.io/repos/github/Wraithaven/AwgenShell/badge.svg?branch=dev)](https://coveralls.io/github/Wraithaven/AwgenShell?branch=dev)
+[![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=dev)](https://bettercodehub.com/)
 
 ---
 
