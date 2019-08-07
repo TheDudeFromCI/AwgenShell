@@ -1,5 +1,6 @@
 package net.whg.awgenshell.lang.equation;
 
+import java.util.Arrays;
 import ch.obermuhlner.math.big.BigFloat;
 
 /**
@@ -25,7 +26,13 @@ public class Val
 	{
 		if (a.type != b.type)
 		{
-			if (!(a.type == VECTOR && b.type == a.get(0).type))
+			if (a.type == VECTOR && (b.type == COMPLEX_NUMBER || b.type == NUMBER))
+				;// ALLOW
+			else if (a.type == COMPLEX_NUMBER && b.type == NUMBER)
+				b = new Val(COMPLEX_NUMBER, b, Val.ZERO);
+			else if (a.type == NUMBER && b.type == COMPLEX_NUMBER)
+				a = new Val(COMPLEX_NUMBER, a, Val.ZERO);
+			else
 				throw new EquationParserException("Cannot add the two given value types!");
 		}
 
@@ -81,10 +88,14 @@ public class Val
 	public static Val sub(Val a, Val b)
 	{
 		if (a.type != b.type)
-		{
-			if (!(a.type == VECTOR && b.type == a.get(0).type))
+			if (a.type == VECTOR && b.type == COMPLEX_NUMBER || b.type == NUMBER)
+				;// ALLOW
+			else if (a.type == COMPLEX_NUMBER && b.type == NUMBER)
+				b = new Val(COMPLEX_NUMBER, b, Val.ZERO);
+			else if (a.type == NUMBER && b.type == COMPLEX_NUMBER)
+				a = new Val(COMPLEX_NUMBER, a, Val.ZERO);
+			else
 				throw new EquationParserException("Cannot subtract the two given value types!");
-		}
 
 		switch (a.type)
 		{
@@ -138,7 +149,14 @@ public class Val
 	public static Val mul(Val a, Val b)
 	{
 		if (a.type != b.type)
-			throw new EquationParserException("Cannot multiply the two given value types!");
+			if (a.type == VECTOR && b.type == COMPLEX_NUMBER || b.type == NUMBER)
+				;// ALLOW
+			else if (a.type == COMPLEX_NUMBER && b.type == NUMBER)
+				b = new Val(COMPLEX_NUMBER, b, Val.ZERO);
+			else if (a.type == NUMBER && b.type == COMPLEX_NUMBER)
+				a = new Val(COMPLEX_NUMBER, a, Val.ZERO);
+			else
+				throw new EquationParserException("Cannot multiply the two given value types!");
 
 		switch (a.type)
 		{
@@ -146,7 +164,25 @@ public class Val
 				return new Val(a.value.multiply(b.value));
 
 			case VECTOR:
-				throw new EquationParserException("Cannot multiply vector values!");
+				if (b.type != VECTOR)
+				{
+					Val[] elements = new Val[a.size];
+					for (int i = 0; i < a.size; i++)
+						elements[i] = mul(a.get(i), b);
+
+					return new Val(VECTOR, elements);
+				}
+				else
+				{
+					if (a.size != b.size)
+						throw new EquationParserException("Cannot multiply vectors of different sizes!");
+
+					Val s = Val.ZERO;
+					for (int i = 0; i < a.size; i++)
+						s = add(s, mul(a.get(i), b.get(i)));
+
+					return s;
+				}
 
 			case COMPLEX_NUMBER:
 				Val a1 = a.get(0);
@@ -306,6 +342,35 @@ public class Val
 		array[list.size] = v;
 
 		return new Val(LIST, array);
+	}
+
+	/**
+	 * Checks if this value exists within the real number line or not. Numbers will
+	 * always return true. For case of complex numbers, this method will return true
+	 * only is the imaginary value is equal to zero. For vectors, will return true
+	 * if all elements within the vector are real. Lists will always return false.
+	 *
+	 * @param x
+	 *     - The value to check.
+	 * @return True if this value is considered real. False otherwise.
+	 */
+	public static boolean isReal(Val x)
+	{
+		if (x.type == NUMBER)
+			return true;
+
+		if (x.type == COMPLEX_NUMBER)
+			return x.get(0).equals(Val.ZERO);
+
+		if (x.type == VECTOR)
+		{
+			for (Val v : x.elements)
+				if (!isReal(v))
+					return false;
+			return true;
+		}
+
+		return false;
 	}
 
 	// =================================================================================================================
@@ -505,9 +570,21 @@ public class Val
 				if (value != null)
 					throw new EquationParserException("Vectors cannot have a value!");
 
+				boolean containsComplex = false;
+				boolean containsReal = false;
 				for (Val v : elements)
-					if (v.type != NUMBER && v.type != COMPLEX_NUMBER)
+					if (v.type == COMPLEX_NUMBER)
+						containsComplex = true;
+					else if (v.type == NUMBER)
+						containsReal = true;
+					else
 						throw new EquationParserException("Vectors may only contain numbers or complex numbers!");
+
+				if (containsComplex && containsReal) // Convert real numbers to complex numbers
+					for (int i = 0; i < size; i++)
+						if (elements[i].type == NUMBER)
+							elements[i] = new Val(COMPLEX_NUMBER, elements[i], Val.ZERO);
+
 				break;
 
 			case COMPLEX_NUMBER:
@@ -543,6 +620,70 @@ public class Val
 	public Val get(int index)
 	{
 		return elements[index];
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(elements);
+		result = prime * result + size;
+		result = prime * result + type;
+		result = prime * result + (value == null ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+
+		if (obj == null)
+			return false;
+
+		if (getClass() != obj.getClass())
+			return false;
+
+		Val other = (Val) obj;
+		if (type != other.type)
+		{
+			if (type == NUMBER && other.type == COMPLEX_NUMBER)
+			{
+				if (!other.get(1).equals(Val.ZERO))
+					return false;
+
+				if (!get(0).equals(other.get(0)))
+					return false;
+			}
+			else if (type == COMPLEX_NUMBER && other.type == NUMBER)
+			{
+				if (!get(1).equals(Val.ZERO))
+					return false;
+
+				if (!get(0).equals(other.get(0)))
+					return false;
+			}
+			else
+				return false;
+		}
+
+		if (type == VECTOR || type == LIST)
+		{
+			if (!Arrays.equals(elements, other.elements))
+				return false;
+		}
+
+		if (value == null)
+		{
+			if (other.value != null)
+				return false;
+		}
+		else if (!value.isEqual(other.value))
+			return false;
+
+		return true;
 	}
 
 	@Override
@@ -599,7 +740,7 @@ public class Val
 					if (sb.length() != 0)
 						sb.append(" + ");
 
-					if (!get(1).value.isEqual(new Val(0).value))
+					if (!get(1).equals(Val.ONE))
 						sb.append(get(1));
 					sb.append('i');
 				}

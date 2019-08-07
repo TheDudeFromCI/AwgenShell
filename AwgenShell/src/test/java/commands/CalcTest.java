@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import net.whg.awgenshell.exec.CommandSender;
 import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.lang.equation.EquationParserException;
+import net.whg.awgenshell.lang.equation.EquationSolver;
 import net.whg.awgenshell.perms.Permissions;
 
 public class CalcTest
@@ -50,11 +52,24 @@ public class CalcTest
 	public void complexNumbers()
 	{
 		checkFormula("c(1, 0) + c(3, 3)", "4 + 3i");
+		checkFormula("c(0, 1) * c(0, 1)", "-1");
+		checkFormula("1 + c(0, 1)", "1 + i");
+		checkFormula("3 + 5i", "3 + 5i");
+		checkFormula("3 + 5i + 3 * 5 + 4i", "18 + 9i");
+		checkFormula("3 + i", "3 + i");
 	}
 
 	@Test
 	public void vectors()
 	{
+		checkFormula("v(0, 3, 6) + v(1, -4, -2)", "(1, -1, 4)");
+		checkFormula("v(1, 2, 3) * 3", "(3, 6, 9)");
+		checkFormula("v(1, 2, 3) * (1 + 3i)", "(1 + 3i, 2 + 6i, 3 + 9i)");
+	}
 
+	@Test(expected = EquationParserException.class)
+	public void doubleDecimals()
+	{
+		new EquationSolver().parse("1.2.3");
 	}
 }

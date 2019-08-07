@@ -106,6 +106,11 @@ public class EquationSolver
 		return false;
 	}
 
+	private int peek()
+	{
+		return pos + 1 < str.length() ? str.charAt(pos + 1) : -1;
+	}
+
 	private Val parseExpression()
 	{
 		Val x = parseTerm();
@@ -172,7 +177,26 @@ public class EquationSolver
 			while (ch >= '0' && ch <= '9' || ch == '.')
 				nextChar();
 
-			x = new Val(str.substring(startPos, pos));
+			String numStr = str.substring(startPos, pos);
+			try
+			{
+				x = new Val(numStr);
+			}
+			catch (NumberFormatException e)
+			{
+				throw new EquationParserException("Not a valid number: " + numStr);
+			}
+
+			if (ch == 'i')
+			{
+				nextChar();
+				x = new Val(Val.COMPLEX_NUMBER, Val.ZERO, x);
+			}
+		}
+		else if (ch == 'i' && !(peek() >= 'a' && peek() <= 'z' || peek() == '_'))
+		{
+			nextChar();
+			x = Val.I_COMPLEX;
 		}
 		else if (ch >= 'a' && ch <= 'z' || ch == '_')
 		{
@@ -189,7 +213,7 @@ public class EquationSolver
 				throw new EquationParserException("Unknown function: " + func);
 		}
 		else
-			throw new EquationParserException("Unexpected: " + (char) ch);
+			throw new EquationParserException("Unexpected: '" + (char) ch + "'");
 
 		if (eat('^'))
 			x = Val.pow(x, parseFactor());
