@@ -94,6 +94,20 @@
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>4.3.0</version>
 			</plugin>
+
+			<plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+       			<artifactId>appassembler-maven-plugin</artifactId>
+        		<version>1.10</version>
+        		<configuration>
+          			<programs>
+            			<program>
+              				<mainClass>net.whg.awgenshell.Main</mainClass>
+              				<id>app</id>
+            			</program>
+          			</programs>
+        		</configuration>
+      		</plugin>
 		</plugins>
 	</build>
 
