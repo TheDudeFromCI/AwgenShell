@@ -10,12 +10,11 @@ public class Tokenizer
 	private String tokenTerminator = "(?=$|\\s|\\=|\\,|\\&|\\(|\\)|\\{|\\}|\\;|\\|))";
 	private String symbolTerminator = ")";
 
-	private TokenTemplate[] tokenTemplates =
-	{
+	private TokenTemplate[] tokenTemplates = {
 		// @formatter:off
 		new TokenTemplate(TokenTemplate.SOFT_STRING, "^([a-zA-Z][a-zA-Z0-9\\\\-_]*", tokenTerminator),
 		new TokenTemplate(TokenTemplate.HARD_STRING, "^([a-zA-Z0-9\\-_\\/\\\\\\?\\!\\:\\.]+", tokenTerminator),
-		new TokenTemplate(TokenTemplate.QUOTED_STRING, "^(\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*", tokenTerminator),
+		new TokenTemplate(TokenTemplate.QUOTED_STRING, "^(\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'", tokenTerminator),
 		new TokenTemplate(TokenTemplate.FORMAT_STRING, "^(`(?:[^`\\\\]|\\\\.)*`", tokenTerminator),
 		new TokenTemplate(TokenTemplate.VARIABLE, "^(\\$[a-zA-Z][a-zA-Z0-9\\\\-_]*", tokenTerminator),
 		new TokenTemplate(TokenTemplate.EQUALS_SYMBOL, "^(\\=", symbolTerminator),

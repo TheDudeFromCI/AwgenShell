@@ -57,4 +57,28 @@ public class PrintTest
 		shell.runCommand("print");
 		verify(sender).println("");
 	}
+
+	@Test
+	public void quoted_string()
+	{
+		CommandSender sender = mock(CommandSender.class);
+		when(sender.getPermissions()).thenReturn(Permissions.ALL);
+
+		ShellEnvironment shell = new ShellEnvironment(sender);
+
+		shell.runCommand("print \"This is a sentence.\"");
+		verify(sender).println("This is a sentence.");
+	}
+
+	@Test
+	public void single_quoted_string()
+	{
+		CommandSender sender = mock(CommandSender.class);
+		when(sender.getPermissions()).thenReturn(Permissions.ALL);
+
+		ShellEnvironment shell = new ShellEnvironment(sender);
+
+		shell.runCommand("print 'This is a sentence.'");
+		verify(sender).println("This is a sentence.");
+	}
 }
