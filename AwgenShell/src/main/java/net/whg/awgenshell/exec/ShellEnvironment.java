@@ -74,8 +74,7 @@ public class ShellEnvironment
 	{
 		try
 		{
-			Input in = CommandParser.parse(this, line);
-			in.execute(false);
+			runCommandNoisy(line);
 			return true;
 		}
 		catch (CommandParseException exception)
@@ -88,6 +87,22 @@ public class ShellEnvironment
 			logger.error("Unexcepted error occured while running command!", exception);
 			return false;
 		}
+	}
+
+	/**
+	 * Parses and runs a command input. This method is identicle to
+	 * {@link #runCommand(String)} with the difference that this method will not
+	 * capture any errors and will send them out.
+	 *
+	 * @param line
+	 *     - The input function to parse and run.
+	 * @throws CommandParseException
+	 *     - If the command could not be parsed.
+	 */
+	public void runCommandNoisy(String line)
+	{
+		Input in = CommandParser.parse(this, line);
+		in.execute(false);
 	}
 
 	/**
