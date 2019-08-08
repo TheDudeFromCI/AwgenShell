@@ -63,6 +63,9 @@ public class SubCommand
 			if (word.equals("{}"))
 				return new IndirectCommandPattern();
 
+			if (word.equals("$"))
+				return new VariablePattern();
+
 			throw new IllegalArgumentException("Unknown pattern type! %" + word);
 		}
 		else

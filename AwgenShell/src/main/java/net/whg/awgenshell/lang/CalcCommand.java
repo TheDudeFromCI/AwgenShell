@@ -50,7 +50,6 @@ public class CalcCommand implements CommandHandler
 		catch (Exception exception)
 		{
 			env.getCommandSender().println("Failed to parse equation! " + exception.getMessage());
-			exception.printStackTrace();
 			return CommandResult.ERROR;
 		}
 	}

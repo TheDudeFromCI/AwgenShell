@@ -30,10 +30,6 @@ public abstract class BaseCommand implements CommandHandler
 	@Override
 	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
 	{
-		String[] values = new String[args.length];
-		for (int i = 0; i < args.length; i++)
-			values[i] = args[i].getValue();
-
 		InputArgument[] parameters = new InputArgument[args.length];
 		for (int i = 0; i < parameters.length; i++)
 			parameters[i] = new InputArgument(args[i]);
