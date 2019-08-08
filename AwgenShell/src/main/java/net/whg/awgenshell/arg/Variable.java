@@ -12,7 +12,8 @@ public class Variable
 	private String value;
 
 	/**
-	 * Creates a new variable instance, with the current value as an empty string.
+	 * Creates a new variable instance with given name and the current value set to
+	 * an empty string.
 	 *
 	 * @param name
 	 *     - The name of this variable.
@@ -21,6 +22,20 @@ public class Variable
 	{
 		this.name = name;
 		value = "";
+	}
+
+	/**
+	 * Creates a new variable instance with the given name and value.
+	 * 
+	 * @param name
+	 *     - The name of the variable.
+	 * @param value
+	 *     - The value of the variable.
+	 */
+	public Variable(String name, String value)
+	{
+		this.name = name;
+		this.value = value;
 	}
 
 	/**

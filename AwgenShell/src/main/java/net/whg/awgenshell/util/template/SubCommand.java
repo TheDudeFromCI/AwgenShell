@@ -1,6 +1,5 @@
 package net.whg.awgenshell.util.template;
 
-import net.whg.awgenshell.arg.ArgumentValue;
 import net.whg.awgenshell.perms.PermissionNode;
 
 /**
@@ -25,6 +24,17 @@ public class SubCommand
 
 	private static CommandTemplateArg compileArg(String word)
 	{
+		if (word.contains("|"))
+		{
+			String[] subwords = word.split("\\|");
+			CommandTemplateArg[] subpatterns = new CommandTemplateArg[subwords.length];
+
+			for (int i = 0; i < subwords.length; i++)
+				subpatterns[i] = compileArg(subwords[i]);
+
+			return new OrPattern(subpatterns);
+		}
+
 		if (word.startsWith("%"))
 		{
 			word = word.substring(1);
@@ -49,6 +59,9 @@ public class SubCommand
 
 			if (word.equals("#f"))
 				return new NumberPattern(true);
+
+			if (word.equals("{}"))
+				return new IndirectCommandPattern();
 
 			throw new IllegalArgumentException("Unknown pattern type! %" + word);
 		}
@@ -78,21 +91,20 @@ public class SubCommand
 	/**
 	 * Checks if the given set of inputs arguments matches this subcommand.
 	 *
-	 * @param arg
-	 *     - The raw arguments to check against.
-	 * @param value
-	 *     - The solved values for the arguments, to prevent repeated solves for
-	 *     indirect commands.
+	 * @param args
+	 *     - The input arguments
 	 * @return True if this subcommand is a valid match, false otherwise.
 	 */
-	public boolean matches(ArgumentValue[] args, String[] values)
+	public boolean matches(InputArgument[] args)
 	{
 		int offset = 0;
 		for (CommandTemplateArg a : pattern)
 		{
-			offset = a.matchArguments(args, values, offset);
-			if (offset == -1)
+			int out = a.matchArguments(args, offset);
+			if (out < 0)
 				return false;
+
+			offset += out;
 		}
 
 		return true;
@@ -111,7 +123,7 @@ public class SubCommand
 	/**
 	 * Gets the permission node required to use this subcommand. Value returns null
 	 * if the parent permission node of the command is intended to be used instead.
-	 * 
+	 *
 	 * @return The required permission node. May be null.
 	 */
 	public PermissionNode getPermissions()

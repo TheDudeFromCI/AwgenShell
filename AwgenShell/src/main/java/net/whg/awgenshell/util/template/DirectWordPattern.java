@@ -1,7 +1,5 @@
 package net.whg.awgenshell.util.template;
 
-import net.whg.awgenshell.arg.ArgumentValue;
-
 /**
  * Matches true when the input argument matches the given word.
  *
@@ -17,12 +15,15 @@ public class DirectWordPattern implements CommandTemplateArg
 	}
 
 	@Override
-	public int matchArguments(ArgumentValue[] args, String[] values, int offset)
+	public int matchArguments(InputArgument[] args, int offset)
 	{
-		if (offset >= values.length)
+		if (offset >= args.length)
 			return -1;
 
-		if (!values[offset].equals(word))
+		if (args[offset].isIndirectCommand())
+			return -1;
+
+		if (!args[offset].getLast().equals(word))
 			return -1;
 
 		return 1;

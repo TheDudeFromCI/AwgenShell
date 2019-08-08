@@ -1,7 +1,5 @@
 package net.whg.awgenshell.util.template;
 
-import net.whg.awgenshell.arg.ArgumentValue;
-
 /**
  * Matches true if there are not more arguments after this pattern. False
  * otherwise.
@@ -11,7 +9,7 @@ import net.whg.awgenshell.arg.ArgumentValue;
 public class EndOfLinePattern implements CommandTemplateArg
 {
 	@Override
-	public int matchArguments(ArgumentValue[] args, String[] values, int offset)
+	public int matchArguments(InputArgument[] args, int offset)
 	{
 		if (offset == args.length)
 			return 0;

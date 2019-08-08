@@ -17,15 +17,15 @@ public class PrintCommand extends BaseCommand
 	public PrintCommand()
 	{
 		super(new CommandTemplateBuilder().name("print").alias("echo").alias("say").perm("lang.print")
-				.subcommand("%**", (shell, args, values) ->
+				.subcommand("%**", (shell, args) ->
 				{
 					String line = "";
-					for (int i = 0; i < values.length; i++)
+					for (int i = 0; i < args.length; i++)
 					{
-						if (i > 0 && !line.endsWith(" ") && values[i].matches("[a-zA-z0-9].*"))
+						if (i > 0 && !line.endsWith(" ") && args[i].getLast().matches("[a-zA-z0-9].*"))
 							line += " ";
 
-						line += values[i];
+						line += args[i].getLast();
 					}
 
 					shell.getCommandSender().println(line);

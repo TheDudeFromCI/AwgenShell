@@ -34,7 +34,11 @@ public abstract class BaseCommand implements CommandHandler
 		for (int i = 0; i < args.length; i++)
 			values[i] = args[i].getValue();
 
-		SubCommand sub = template.getSubcommand(args, values);
+		InputArgument[] parameters = new InputArgument[args.length];
+		for (int i = 0; i < parameters.length; i++)
+			parameters[i] = new InputArgument(args[i]);
+
+		SubCommand sub = template.getSubcommand(parameters);
 		if (sub == null)
 		{
 			env.getCommandSender().println("Unknown subcommand!");
@@ -51,7 +55,7 @@ public abstract class BaseCommand implements CommandHandler
 			return CommandResult.ERROR;
 		}
 
-		return sub.getExecutor().run(env, args, values);
+		return sub.getExecutor().run(env, parameters);
 	}
 
 	@Override

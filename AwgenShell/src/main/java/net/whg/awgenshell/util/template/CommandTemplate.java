@@ -1,6 +1,5 @@
 package net.whg.awgenshell.util.template;
 
-import net.whg.awgenshell.arg.ArgumentValue;
 import net.whg.awgenshell.perms.PermissionNode;
 
 /**
@@ -39,17 +38,14 @@ public class CommandTemplate
 	 * Retrieves the first matching subcommand for the given input arguments.
 	 *
 	 * @param args
-	 *     - The raw input arguments.
-	 * @param values
-	 *     - The solved values for the given arguments to prevent repeated solving
-	 *     of indirect commands.
+	 *     - The input arguments.
 	 * @return The first matching subcommand within this command template, or null
 	 *     if there is no matching subcommand.
 	 */
-	public SubCommand getSubcommand(ArgumentValue[] args, String[] values)
+	public SubCommand getSubcommand(InputArgument[] args)
 	{
 		for (SubCommand sub : subcommands)
-			if (sub.matches(args, values))
+			if (sub.matches(args))
 				return sub;
 
 		return null;
@@ -77,7 +73,7 @@ public class CommandTemplate
 
 	/**
 	 * Gets the permission node for this subcommand.
-	 * 
+	 *
 	 * @return The permission node.
 	 */
 	public PermissionNode getPermissions()

@@ -1,6 +1,5 @@
 package net.whg.awgenshell.util.template;
 
-import net.whg.awgenshell.arg.ArgumentValue;
 import net.whg.awgenshell.exec.ShellEnvironment;
 import net.whg.awgenshell.util.CommandResult;
 
@@ -17,12 +16,9 @@ public interface SubCommandExecutor
 	 *
 	 * @param env
 	 *     - The shell environment to operate within.
-	 * @param arg
-	 *     - The raw arguments to check against.
-	 * @param value
-	 *     - The solved values for the arguments, to prevent repeated solves for
-	 *     indirect commands.
+	 * @param args
+	 *     - The input arguments.
 	 * @return The command result for this command execution.
 	 */
-	CommandResult run(ShellEnvironment env, ArgumentValue[] args, String[] values);
+	CommandResult run(ShellEnvironment env, InputArgument[] args);
 }
