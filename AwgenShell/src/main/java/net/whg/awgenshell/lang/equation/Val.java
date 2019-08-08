@@ -88,7 +88,7 @@ public class Val
 	public static Val sub(Val a, Val b)
 	{
 		if (a.type != b.type)
-			if (a.type == VECTOR && b.type == COMPLEX_NUMBER || b.type == NUMBER)
+			if (a.type == VECTOR && (b.type == COMPLEX_NUMBER || b.type == NUMBER))
 				;// ALLOW
 			else if (a.type == COMPLEX_NUMBER && b.type == NUMBER)
 				b = new Val(COMPLEX_NUMBER, b, Val.ZERO);
@@ -149,7 +149,7 @@ public class Val
 	public static Val mul(Val a, Val b)
 	{
 		if (a.type != b.type)
-			if (a.type == VECTOR && b.type == COMPLEX_NUMBER || b.type == NUMBER)
+			if (a.type == VECTOR && (b.type == COMPLEX_NUMBER || b.type == NUMBER))
 				;// ALLOW
 			else if (a.type == COMPLEX_NUMBER && b.type == NUMBER)
 				b = new Val(COMPLEX_NUMBER, b, Val.ZERO);

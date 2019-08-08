@@ -57,6 +57,7 @@ public class CalcTest
 		checkFormula("3 + 5i", "3 + 5i");
 		checkFormula("3 + 5i + 3 * 5 + 4i", "18 + 9i");
 		checkFormula("3 + i", "3 + i");
+		checkFormula("(3 + 4i) * 27 + 12i * (1 + i)", "69 + 120i");
 	}
 
 	@Test
