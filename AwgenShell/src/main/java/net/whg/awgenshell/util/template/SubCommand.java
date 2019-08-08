@@ -1,6 +1,7 @@
 package net.whg.awgenshell.util.template;
 
 import net.whg.awgenshell.arg.ArgumentValue;
+import net.whg.awgenshell.perms.PermissionNode;
 
 /**
  * Represents a compiled subcommand which checks if a given set of inputs match
@@ -10,7 +11,7 @@ import net.whg.awgenshell.arg.ArgumentValue;
  */
 public class SubCommand
 {
-	public static SubCommand compile(String pattern, SubCommandExecutor executor)
+	public static SubCommand compile(String pattern, SubCommandExecutor executor, PermissionNode permission)
 	{
 		String[] parts = pattern.split("\\s");
 		CommandTemplateArg[] args = new CommandTemplateArg[parts.length];
@@ -18,7 +19,7 @@ public class SubCommand
 		for (int i = 0; i < args.length; i++)
 			args[i] = compileArg(parts[i]);
 
-		return new SubCommand(args, executor);
+		return new SubCommand(args, executor, permission);
 
 	}
 
@@ -57,6 +58,7 @@ public class SubCommand
 
 	private final CommandTemplateArg[] pattern;
 	private final SubCommandExecutor executor;
+	private final PermissionNode permission;
 
 	/**
 	 * Creates a new subcommand with a given of compiled template arguments.
@@ -66,10 +68,11 @@ public class SubCommand
 	 * @param executor
 	 *     - The executor for this subcommand.
 	 */
-	public SubCommand(CommandTemplateArg[] pattern, SubCommandExecutor executor)
+	public SubCommand(CommandTemplateArg[] pattern, SubCommandExecutor executor, PermissionNode permission)
 	{
 		this.pattern = pattern;
 		this.executor = executor;
+		this.permission = permission;
 	}
 
 	/**
@@ -103,5 +106,16 @@ public class SubCommand
 	public SubCommandExecutor getExecutor()
 	{
 		return executor;
+	}
+
+	/**
+	 * Gets the permission node required to use this subcommand. Value returns null
+	 * if the parent permission node of the command is intended to be used instead.
+	 * 
+	 * @return The required permission node. May be null.
+	 */
+	public PermissionNode getPermissions()
+	{
+		return permission;
 	}
 }

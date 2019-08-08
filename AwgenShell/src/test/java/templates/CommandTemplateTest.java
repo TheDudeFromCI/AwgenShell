@@ -37,7 +37,7 @@ public class CommandTemplateTest
 	public void matchesSingleWord()
 	{
 		SubCommandExecutor exe = mock(SubCommandExecutor.class);
-		CommandTemplate template = new CommandTemplateBuilder().subCommand("hello %n", exe).build();
+		CommandTemplate template = new CommandTemplateBuilder().subcommand("hello %n", exe).build();
 
 		assertNotNull(getSubCommand(template, "hello"));
 
@@ -51,7 +51,7 @@ public class CommandTemplateTest
 	public void matchesNumber()
 	{
 		SubCommandExecutor exe = mock(SubCommandExecutor.class);
-		CommandTemplate template = new CommandTemplateBuilder().subCommand("%# %n", exe).build();
+		CommandTemplate template = new CommandTemplateBuilder().subcommand("%# %n", exe).build();
 
 		assertNotNull(getSubCommand(template, "-1"));
 		assertNotNull(getSubCommand(template, "3"));
@@ -67,12 +67,12 @@ public class CommandTemplateTest
 	public void matchesAnyNumberOfArgs()
 	{
 		SubCommandExecutor exe = mock(SubCommandExecutor.class);
-		CommandTemplate template = new CommandTemplateBuilder().subCommand("%**", exe).build();
+		CommandTemplate template = new CommandTemplateBuilder().subcommand("%**", exe).build();
 
 		assertNotNull(getSubCommand(template));
 		assertNotNull(getSubCommand(template, "1"));
-		assertNotNull(getSubCommand(template, "1", "2"));
-		assertNotNull(getSubCommand(template, "1", "2", "3"));
-		assertNotNull(getSubCommand(template, "1", "2", "3", "4"));
+		assertNotNull(getSubCommand(template, "1", "hello"));
+		assertNotNull(getSubCommand(template, "1.654", "", "3"));
+		assertNotNull(getSubCommand(template, "$", "2", "$", "{}", "{}"));
 	}
 }

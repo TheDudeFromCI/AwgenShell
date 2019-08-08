@@ -3,6 +3,7 @@ package net.whg.awgenshell.util.template;
 import net.whg.awgenshell.arg.ArgumentValue;
 import net.whg.awgenshell.exec.CommandHandler;
 import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.perms.PermissionNode;
 import net.whg.awgenshell.util.CommandResult;
 
 /**
@@ -13,21 +14,17 @@ import net.whg.awgenshell.util.CommandResult;
  */
 public abstract class BaseCommand implements CommandHandler
 {
-	private static final String[] ALIASES = {};
-
-	private final String name;
 	private final CommandTemplate template;
 
-	public BaseCommand(String name, CommandTemplate template)
+	public BaseCommand(CommandTemplate template)
 	{
-		this.name = name;
 		this.template = template;
 	}
 
 	@Override
 	public String getName()
 	{
-		return name;
+		return template.getName();
 	}
 
 	@Override
@@ -44,12 +41,22 @@ public abstract class BaseCommand implements CommandHandler
 			return CommandResult.ERROR;
 		}
 
+		PermissionNode perms = sub.getPermissions();
+		if (perms == null)
+			perms = template.getPermissions();
+
+		if (!env.getCommandSender().getPermissions().hasPermission(perms))
+		{
+			env.getCommandSender().println("You do not have permission to preform this action!");
+			return CommandResult.ERROR;
+		}
+
 		return sub.getExecutor().run(env, args, values);
 	}
 
 	@Override
 	public String[] getAliases()
 	{
-		return ALIASES;
+		return template.getAliases();
 	}
 }
