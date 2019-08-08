@@ -3,7 +3,7 @@ package net.whg.awgenshell.arg;
 /**
  * A name variable that is stored within a shell environment. A variable
  * contains a single string value.
- * 
+ *
  * @author TheDudeFromCI
  */
 public class Variable
@@ -13,7 +13,7 @@ public class Variable
 
 	/**
 	 * Creates a new variable instance, with the current value as an empty string.
-	 * 
+	 *
 	 * @param name
 	 *     - The name of this variable.
 	 */
@@ -25,7 +25,7 @@ public class Variable
 
 	/**
 	 * Gets the name of this variable.
-	 * 
+	 *
 	 * @return The name.
 	 */
 	public String getName()
@@ -35,7 +35,7 @@ public class Variable
 
 	/**
 	 * Gets the current value of this variable.
-	 * 
+	 *
 	 * @return The value.
 	 */
 	public String getValue()
@@ -45,7 +45,7 @@ public class Variable
 
 	/**
 	 * Assigns a new value to this variable.
-	 * 
+	 *
 	 * @param value
 	 *     - The value to assign.
 	 */
