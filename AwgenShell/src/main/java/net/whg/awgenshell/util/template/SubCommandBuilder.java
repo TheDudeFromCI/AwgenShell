@@ -15,7 +15,7 @@ public class SubCommandBuilder
 	private final String pattern;
 	private final SubCommandExecutor executor;
 	private PermissionNode permissionNode;
-	private List<CommandFlag> flags = new LinkedList<>();
+	private List<CommandFlagTemplate> flags = new LinkedList<>();
 
 	public SubCommandBuilder(CommandTemplateBuilder templateBuilder, String pattern, SubCommandExecutor executor)
 	{
@@ -33,22 +33,28 @@ public class SubCommandBuilder
 	/**
 	 * Adds a new potential flag to this subcommand. If user specifies this value
 	 * with no value, the defaulyt value is used.
-	 * 
+	 *
 	 * @param flag
 	 *     - The name of the flag, including a dash.
-	 * @param defaultValue
-	 *     - The default value of the flag.
+	 * @param numberValues
+	 *     - The number of values this flag requires.
 	 * @return This object.
 	 */
-	public SubCommandBuilder flag(String flag, String defaultValue)
+	public SubCommandBuilder flag(String flag, int numberValues)
 	{
-		flags.add(new CommandFlag(flag, defaultValue));
+		flags.add(new CommandFlagTemplate(flag, numberValues));
 		return this;
 	}
 
+	/**
+	 * Stops editing this subcommand and returns to editing the main command
+	 * template builder.
+	 * 
+	 * @return The parent command template builder.
+	 */
 	public CommandTemplateBuilder finishSubCommand()
 	{
-		CommandFlag[] flagList = flags.toArray(new CommandFlag[flags.size()]);
+		CommandFlagTemplate[] flagList = flags.toArray(new CommandFlagTemplate[flags.size()]);
 
 		SubCommand sub = SubCommand.compile(pattern, executor, permissionNode, flagList);
 		templateBuilder.addSubCommand(sub);

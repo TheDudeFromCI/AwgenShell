@@ -25,7 +25,7 @@ public class AppendCommand extends BaseCommand
 						if (f.getName().equals("-n"))
 							seperator = "\n";
 						else if (f.getName().equals("-s"))
-							seperator = f.getValue();
+							seperator = f.getValues()[0];
 					}
 
 					String line = "";
@@ -38,6 +38,6 @@ public class AppendCommand extends BaseCommand
 					}
 
 					return new CommandResult(line, true, false);
-				}).flag("-n", "").flag("-s", "").finishSubCommand().build());
+				}).flag("-n", 0).flag("-s", 1).finishSubCommand().build());
 	}
 }

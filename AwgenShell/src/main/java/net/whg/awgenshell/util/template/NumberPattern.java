@@ -17,7 +17,7 @@ public class NumberPattern implements CommandTemplateArg
 	}
 
 	@Override
-	public int matchArguments(List<InputArgument> args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset, SubCommand sub)
 	{
 		if (args.size() <= offset)
 			return -1;

@@ -13,7 +13,7 @@ import net.whg.awgenshell.perms.PermissionNode;
 public class SubCommand
 {
 	public static SubCommand compile(String pattern, SubCommandExecutor executor, PermissionNode permission,
-			CommandFlag[] flags)
+			CommandFlagTemplate[] flags)
 	{
 		String[] parts = pattern.split("\\s");
 		CommandTemplateArg[] args = new CommandTemplateArg[parts.length];
@@ -83,7 +83,7 @@ public class SubCommand
 	private final CommandTemplateArg[] pattern;
 	private final SubCommandExecutor executor;
 	private final PermissionNode permission;
-	private final CommandFlag[] flags;
+	private final CommandFlagTemplate[] flags;
 
 	/**
 	 * Creates a new subcommand with a given of compiled template arguments.
@@ -94,7 +94,7 @@ public class SubCommand
 	 *     - The executor for this subcommand.
 	 */
 	public SubCommand(CommandTemplateArg[] pattern, SubCommandExecutor executor, PermissionNode permission,
-			CommandFlag[] flags)
+			CommandFlagTemplate[] flags)
 	{
 		this.pattern = pattern;
 		this.executor = executor;
@@ -116,7 +116,7 @@ public class SubCommand
 		int offset = 0;
 		for (CommandTemplateArg a : pattern)
 		{
-			int out = a.matchArguments(args, offset);
+			int out = a.matchArguments(args, offset, this);
 			if (out < 0)
 				return false;
 
@@ -156,11 +156,10 @@ public class SubCommand
 
 	/**
 	 * Gets a list of all possible flags which can be applied to this subcommand.
-	 * The value of the flags is the default value for all flags.
 	 *
 	 * @return An array of all possible flags.
 	 */
-	public CommandFlag[] getFlags()
+	public CommandFlagTemplate[] getFlags()
 	{
 		return flags;
 	}

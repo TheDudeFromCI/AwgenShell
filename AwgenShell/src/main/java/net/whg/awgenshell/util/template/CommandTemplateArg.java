@@ -18,10 +18,12 @@ public interface CommandTemplateArg
 	 *     - The input arguments to check against.
 	 * @param offset
 	 *     - The position within the argument list to start checking at.
+	 * @param sub
+	 *     - The subcommand which this pattern belongs to.
 	 * @return The number of elements matched, or negative -1 if the arguments do
 	 *     are not compatible with this template.
 	 */
-	int matchArguments(List<InputArgument> args, int offset);
+	int matchArguments(List<InputArgument> args, int offset, SubCommand sub);
 
 	/**
 	 * This function checks if this results of the pattern should remove the input

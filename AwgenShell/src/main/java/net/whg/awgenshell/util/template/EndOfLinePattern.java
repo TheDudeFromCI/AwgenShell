@@ -11,7 +11,7 @@ import java.util.List;
 public class EndOfLinePattern implements CommandTemplateArg
 {
 	@Override
-	public int matchArguments(List<InputArgument> args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset, SubCommand sub)
 	{
 		if (offset == args.size())
 			return 0;

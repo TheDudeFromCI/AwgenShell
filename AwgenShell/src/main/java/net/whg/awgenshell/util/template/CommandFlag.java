@@ -2,34 +2,34 @@ package net.whg.awgenshell.util.template;
 
 /**
  * A command flag is a property which can be assigned to a command to configure
- * how it should process the given information. A flag may contain an optional
- * setting, and all commands have a default value.
+ * how it should process the given information. A flag contains a set of
+ * assigned values, if any are expected.
  *
  * @author TheDudeFromCI
  */
 public class CommandFlag
 {
 	private final String name;
-	private final String value;
+	private final String[] values;
 
 	/**
-	 * Creates a new command flag obejct with the given name and value.
+	 * Creates a new command flag obejct with the given name and values.
 	 *
 	 * @param name
 	 *     - The name of the flag. All flags should start with a dash and include no
 	 *     spaces.
 	 * @param value
-	 *     - The value for the flag.
+	 *     - An array of all values, in order, for the flag.
 	 */
-	public CommandFlag(String name, String value)
+	public CommandFlag(String name, String[] values)
 	{
 		this.name = name;
-		this.value = value;
+		this.values = values;
 	}
 
 	/**
 	 * Gets the name of this flag.
-	 * 
+	 *
 	 * @return The name.
 	 */
 	public String getName()
@@ -38,12 +38,12 @@ public class CommandFlag
 	}
 
 	/**
-	 * Gets the value of this flag.
-	 * 
-	 * @return The value.
+	 * Gets the array of values of this flag.
+	 *
+	 * @return The values for this flag.
 	 */
-	public String getValue()
+	public String[] getValues()
 	{
-		return value;
+		return values;
 	}
 }

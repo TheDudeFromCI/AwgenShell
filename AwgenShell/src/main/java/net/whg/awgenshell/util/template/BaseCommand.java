@@ -88,35 +88,28 @@ public abstract class BaseCommand implements CommandHandler
 
 	private CommandFlag[] parseFlags(List<String> unparsedFlags, SubCommand sub, CommandSender sender)
 	{
-		CommandFlag[] flags = new CommandFlag[unparsedFlags.size()];
-		for (int i = 0; i < flags.length; i++)
+		List<CommandFlag> flags = new ArrayList<>();
+		for (int i = 0; i < unparsedFlags.size(); i++)
 		{
-			String s = unparsedFlags.get(i);
+			CommandFlagTemplate baseFlag = getFlag(sub, unparsedFlags.get(i), sender);
+			if (baseFlag == null)
+				return null;
 
-			if (s.matches(".+\\=(?=([^\"]*\"[^\"]*\")*[^\"]*$).+"))
-			{
-				String[] a = s.split(".+\\=(?=([^\"]*\"[^\"]*\")*[^\"]*$).+");
-				flags[i] = new CommandFlag(a[0], a[1]);
+			String name = unparsedFlags.get(i);
+			String[] values = new String[baseFlag.getNumberOfValues()];
 
-				if (getFlag(sub, a[0], sender) == null)
-					return null;
-			}
-			else
-			{
-				CommandFlag baseFlag = getFlag(sub, s, sender);
-				if (baseFlag == null)
-					return null;
+			for (int j = 0; j < values.length; j++)
+				values[j] = unparsedFlags.remove(i + j + 1);
 
-				flags[i] = new CommandFlag(s, baseFlag.getValue());
-			}
+			flags.add(new CommandFlag(name, values));
 		}
 
-		return flags;
+		return flags.toArray(new CommandFlag[flags.size()]);
 	}
 
-	private CommandFlag getFlag(SubCommand sub, String flag, CommandSender sender)
+	private CommandFlagTemplate getFlag(SubCommand sub, String flag, CommandSender sender)
 	{
-		for (CommandFlag f : sub.getFlags())
+		for (CommandFlagTemplate f : sub.getFlags())
 			if (f.getName().equals(flag))
 				return f;
 

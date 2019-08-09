@@ -19,11 +19,11 @@ public class OrPattern implements CommandTemplateArg
 	}
 
 	@Override
-	public int matchArguments(List<InputArgument> args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset, SubCommand sub)
 	{
 		for (CommandTemplateArg pattern : patterns)
 		{
-			int len = pattern.matchArguments(args, offset);
+			int len = pattern.matchArguments(args, offset, sub);
 			if (len >= 0)
 				return len;
 		}
