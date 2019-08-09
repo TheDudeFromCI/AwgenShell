@@ -30,6 +30,6 @@ public class ComplexCommandsTest
 	public void cmd1()
 	{
 		check("for $i, 1, 5, 1 do { $j = calc `ceil($i/2)`; $line = set ''; for $k, 1, $j, "
-				+ "1, do { $line = append -s '' $line '#' }; print $line }", "#", "#", "##", "##", "###");
+				+ "1, do { $line = append $line '#' }; print $line }", "#", "#", "##", "##", "###");
 	}
 }

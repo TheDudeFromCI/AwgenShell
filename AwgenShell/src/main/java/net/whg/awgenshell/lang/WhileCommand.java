@@ -14,17 +14,18 @@ public class WhileCommand extends BaseCommand
 {
 	public WhileCommand()
 	{
-		super(new CommandTemplateBuilder().name("while").perm("lang.while").subcommand("%* do %{}", (shell, args) ->
-		{
-			boolean called = false;
-			String lastVal = "";
-			while (ShellUtils.stringToBoolean(args[0].run()))
-			{
-				lastVal = args[2].run();
-				called = true;
-			}
+		super(new CommandTemplateBuilder().name("while").perm("lang.while")
+				.subcommand("%* do %{}", (shell, args, flags) ->
+				{
+					boolean called = false;
+					String lastVal = "";
+					while (ShellUtils.stringToBoolean(args[0].run()))
+					{
+						lastVal = args[2].run();
+						called = true;
+					}
 
-			return new CommandResult(lastVal, called, true);
-		}).build());
+					return new CommandResult(lastVal, called, true);
+				}).finishSubCommand().build());
 	}
 }

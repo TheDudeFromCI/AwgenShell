@@ -4,6 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import net.whg.awgenshell.arg.CommandArgument;
 import net.whg.awgenshell.arg.StringArgument;
@@ -19,22 +21,21 @@ public class CommandTemplateTest
 {
 	private SubCommand getSubCommand(CommandTemplate template, String... values)
 	{
-		InputArgument[] args = new InputArgument[values.length];
+		List<InputArgument> args = new ArrayList<>();
 
-		for (int i = 0; i < args.length; i++)
+		for (String value : values)
 		{
-			if (values[i].equals("$"))
-				args[i] = new InputArgument(new VariableArgument(new Variable("var", values[i].substring(1))));
-			if (values[i].equals("{}"))
+			if (value.equals("$"))
+				args.add(new InputArgument(new VariableArgument(new Variable("var", value.substring(1)))));
+			else if (value.equals("{}"))
 			{
 				CommandArgument cmd = mock(CommandArgument.class);
 				when(cmd.getValue()).thenThrow(new RuntimeException());
 
-				args[i] = new InputArgument(cmd);
-
+				args.add(new InputArgument(cmd));
 			}
 			else
-				args[i] = new InputArgument(new StringArgument(values[i]));
+				args.add(new InputArgument(new StringArgument(value)));
 		}
 
 		return template.getSubcommand(args);
@@ -44,12 +45,12 @@ public class CommandTemplateTest
 	public void matchesSingleWord()
 	{
 		SubCommandExecutor exe = mock(SubCommandExecutor.class);
-		CommandTemplate template = new CommandTemplateBuilder().subcommand("hello %n", exe).build();
+		CommandTemplate template = new CommandTemplateBuilder().subcommand("hello %n", exe).finishSubCommand().build();
 
 		assertNotNull(getSubCommand(template, "hello"));
 
 		assertNull(getSubCommand(template, "hello", "there"));
-		assertNull(getSubCommand(template, "$"));
+		assertNull(getSubCommand(template, "$a"));
 		assertNull(getSubCommand(template));
 		assertNull(getSubCommand(template, "hi"));
 	}
@@ -58,7 +59,7 @@ public class CommandTemplateTest
 	public void matchesNumber()
 	{
 		SubCommandExecutor exe = mock(SubCommandExecutor.class);
-		CommandTemplate template = new CommandTemplateBuilder().subcommand("%# %n", exe).build();
+		CommandTemplate template = new CommandTemplateBuilder().subcommand("%# %n", exe).finishSubCommand().build();
 
 		assertNotNull(getSubCommand(template, "-1"));
 		assertNotNull(getSubCommand(template, "3"));
@@ -74,12 +75,12 @@ public class CommandTemplateTest
 	public void matchesAnyNumberOfArgs()
 	{
 		SubCommandExecutor exe = mock(SubCommandExecutor.class);
-		CommandTemplate template = new CommandTemplateBuilder().subcommand("%**", exe).build();
+		CommandTemplate template = new CommandTemplateBuilder().subcommand("%**", exe).finishSubCommand().build();
 
 		assertNotNull(getSubCommand(template));
 		assertNotNull(getSubCommand(template, "1"));
 		assertNotNull(getSubCommand(template, "1", "hello"));
-		assertNotNull(getSubCommand(template, "1.654", "", "3"));
-		assertNotNull(getSubCommand(template, "$", "2", "$", "{}", "{}"));
+		assertNotNull(getSubCommand(template, "-1.654", "", "3"));
+		assertNotNull(getSubCommand(template, "$red", "2", "$blue", "{}", "{}"));
 	}
 }

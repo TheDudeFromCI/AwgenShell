@@ -17,35 +17,17 @@ public class CommandTemplateBuilder
 	private PermissionNode permission;
 
 	/**
-	 * Adds a new subcommand to this template. Uses master permission node.
+	 * Returns a builder for a new subcommand to add to this template.
 	 *
 	 * @param pattern
 	 *     - The pattern for the subcommand.
 	 * @param exector
 	 *     - The executor for the subcommand.
-	 * @return This object.
+	 * @return A subcommand builder.
 	 */
-	public CommandTemplateBuilder subcommand(String pattern, SubCommandExecutor exector)
+	public SubCommandBuilder subcommand(String pattern, SubCommandExecutor executor)
 	{
-		subcommands.add(SubCommand.compile(pattern, exector, null));
-		return this;
-	}
-
-	/**
-	 * Adds a new subcommand to this template. Uses master permission node.
-	 *
-	 * @param pattern
-	 *     - The pattern for the subcommand.
-	 * @param exector
-	 *     - The executor for the subcommand.
-	 * @param permission
-	 *     - The permission node required to use this subcommand.
-	 * @return This object.
-	 */
-	public CommandTemplateBuilder subcommand(String pattern, SubCommandExecutor exector, String permission)
-	{
-		subcommands.add(SubCommand.compile(pattern, exector, new PermissionNode(permission)));
-		return this;
+		return new SubCommandBuilder(this, pattern, executor);
 	}
 
 	/**
@@ -98,5 +80,16 @@ public class CommandTemplateBuilder
 		SubCommand[] subcommandList = subcommands.toArray(new SubCommand[subcommands.size()]);
 
 		return new CommandTemplate(name, aliasList, permission, subcommandList);
+	}
+
+	/**
+	 * An internal method which adds a subcommand to this command template.
+	 *
+	 * @param sub
+	 *     - The subcommand to add.
+	 */
+	void addSubCommand(SubCommand sub)
+	{
+		subcommands.add(sub);
 	}
 }

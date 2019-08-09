@@ -1,5 +1,7 @@
 package net.whg.awgenshell.util.template;
 
+import java.util.List;
+
 /**
  * A special type of pattern built of subpatterns. This pattern returns the
  * offset of the first non-negative output from all of the given input patterns
@@ -17,7 +19,7 @@ public class OrPattern implements CommandTemplateArg
 	}
 
 	@Override
-	public int matchArguments(InputArgument[] args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset)
 	{
 		for (CommandTemplateArg pattern : patterns)
 		{

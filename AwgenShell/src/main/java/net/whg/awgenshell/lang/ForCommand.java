@@ -21,7 +21,7 @@ public class ForCommand extends BaseCommand
 	public ForCommand()
 	{
 		super(new CommandTemplateBuilder().name("for").alias("foreach").perm("lang.for")
-				.subcommand("%$ %# %# %# do %{}", (shell, inputs) ->
+				.subcommand("%$ %# %# %# do %{}", (shell, inputs, flags) ->
 				{
 					Variable var = ((VariableArgument) inputs[0].getArgument()).getVariable();
 
@@ -41,7 +41,7 @@ public class ForCommand extends BaseCommand
 					}
 
 					return new CommandResult(lastVal, called, true);
-				}).subcommand("%$ %# %# do %{}", (shell, inputs) ->
+				}).finishSubCommand().subcommand("%$ %# %# do %{}", (shell, inputs, flags) ->
 				{
 					Variable var = ((VariableArgument) inputs[0].getArgument()).getVariable();
 
@@ -59,7 +59,7 @@ public class ForCommand extends BaseCommand
 					}
 
 					return new CommandResult(lastVal, called, true);
-				}).subcommand("%$ in %* do %{}", (shell, inputs) ->
+				}).finishSubCommand().subcommand("%$ in %* do %{}", (shell, inputs, flags) ->
 				{
 					Variable var = ((VariableArgument) inputs[0].getArgument()).getVariable();
 					String[] lines = inputs[2].getLast().split("\\n");
@@ -75,6 +75,6 @@ public class ForCommand extends BaseCommand
 					}
 
 					return new CommandResult(lastVal, called, true);
-				}).build());
+				}).finishSubCommand().build());
 	}
 }

@@ -17,7 +17,7 @@ public class PrintCommand extends BaseCommand
 	public PrintCommand()
 	{
 		super(new CommandTemplateBuilder().name("print").alias("echo").alias("say").perm("lang.print")
-				.subcommand("%**", (shell, args) ->
+				.subcommand("%**", (shell, args, flags) ->
 				{
 					String line = "";
 					for (int i = 0; i < args.length; i++)
@@ -30,6 +30,6 @@ public class PrintCommand extends BaseCommand
 
 					shell.getCommandSender().println(line);
 					return CommandResult.SUCCESS;
-				}).build());
+				}).finishSubCommand().build());
 	}
 }

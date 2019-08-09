@@ -1,5 +1,7 @@
 package net.whg.awgenshell.util.template;
 
+import java.util.List;
+
 /**
  * Allows for a single wildcard argument, or an infinite number of them. Will
  * always return true for any match. May be marked as optional or required.
@@ -20,13 +22,13 @@ public class WildcardPattern implements CommandTemplateArg
 	}
 
 	@Override
-	public int matchArguments(InputArgument[] args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset)
 	{
-		if (args.length <= offset)
+		if (args.size() <= offset)
 			return optional ? 0 : -1;
 
 		if (infinite)
-			return args.length - offset;
+			return args.size() - offset;
 
 		return 1;
 	}

@@ -1,5 +1,6 @@
 package net.whg.awgenshell.util.template;
 
+import java.util.List;
 import net.whg.awgenshell.perms.PermissionNode;
 
 /**
@@ -42,7 +43,7 @@ public class CommandTemplate
 	 * @return The first matching subcommand within this command template, or null
 	 *     if there is no matching subcommand.
 	 */
-	public SubCommand getSubcommand(InputArgument[] args)
+	public SubCommand getSubcommand(List<InputArgument> args)
 	{
 		for (SubCommand sub : subcommands)
 			if (sub.matches(args))

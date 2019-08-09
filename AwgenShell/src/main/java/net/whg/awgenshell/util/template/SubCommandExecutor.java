@@ -18,7 +18,9 @@ public interface SubCommandExecutor
 	 *     - The shell environment to operate within.
 	 * @param args
 	 *     - The input arguments.
+	 * @param flags
+	 *     - All flags provided for this subcommand.
 	 * @return The command result for this command execution.
 	 */
-	CommandResult run(ShellEnvironment env, InputArgument[] args);
+	CommandResult run(ShellEnvironment env, InputArgument[] args, CommandFlag[] flags);
 }

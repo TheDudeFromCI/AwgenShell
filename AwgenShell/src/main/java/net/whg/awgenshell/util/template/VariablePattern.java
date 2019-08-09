@@ -1,5 +1,6 @@
 package net.whg.awgenshell.util.template;
 
+import java.util.List;
 import net.whg.awgenshell.arg.VariableArgument;
 
 /**
@@ -10,11 +11,11 @@ import net.whg.awgenshell.arg.VariableArgument;
 public class VariablePattern implements CommandTemplateArg
 {
 	@Override
-	public int matchArguments(InputArgument[] args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset)
 	{
-		if (args.length <= offset)
+		if (args.size() <= offset)
 			return -1;
 
-		return args[offset].getArgument() instanceof VariableArgument ? 1 : -1;
+		return args.get(offset).getArgument() instanceof VariableArgument ? 1 : -1;
 	}
 }

@@ -1,5 +1,7 @@
 package net.whg.awgenshell.util.template;
 
+import java.util.LinkedList;
+import java.util.List;
 import net.whg.awgenshell.perms.PermissionNode;
 
 /**
@@ -10,7 +12,8 @@ import net.whg.awgenshell.perms.PermissionNode;
  */
 public class SubCommand
 {
-	public static SubCommand compile(String pattern, SubCommandExecutor executor, PermissionNode permission)
+	public static SubCommand compile(String pattern, SubCommandExecutor executor, PermissionNode permission,
+			CommandFlag[] flags)
 	{
 		String[] parts = pattern.split("\\s");
 		CommandTemplateArg[] args = new CommandTemplateArg[parts.length];
@@ -18,7 +21,7 @@ public class SubCommand
 		for (int i = 0; i < args.length; i++)
 			args[i] = compileArg(parts[i]);
 
-		return new SubCommand(args, executor, permission);
+		return new SubCommand(args, executor, permission, flags);
 
 	}
 
@@ -37,36 +40,41 @@ public class SubCommand
 
 		if (word.startsWith("%"))
 		{
-			word = word.substring(1);
+			switch (word)
+			{
+				case "%n":
+					return new EndOfLinePattern();
 
-			if (word.equals("n"))
-				return new EndOfLinePattern();
+				case "%*":
+					return new WildcardPattern(false, false);
 
-			if (word.equals("*"))
-				return new WildcardPattern(false, false);
+				case "%**":
+					return new WildcardPattern(true, true);
 
-			if (word.equals("**"))
-				return new WildcardPattern(true, true);
+				case "%*+":
+					return new WildcardPattern(true, false);
 
-			if (word.equals("*+"))
-				return new WildcardPattern(true, false);
+				case "%*?":
+					return new WildcardPattern(false, false);
 
-			if (word.equals("*?"))
-				return new WildcardPattern(false, true);
+				case "%#":
+					return new NumberPattern(false);
 
-			if (word.equals("#"))
-				return new NumberPattern(false);
+				case "%#f":
+					return new NumberPattern(true);
 
-			if (word.equals("#f"))
-				return new NumberPattern(true);
+				case "%{}":
+					return new IndirectCommandPattern();
 
-			if (word.equals("{}"))
-				return new IndirectCommandPattern();
+				case "%$":
+					return new VariablePattern();
 
-			if (word.equals("$"))
-				return new VariablePattern();
+				case "%-":
+					return new FlagsPattern();
 
-			throw new IllegalArgumentException("Unknown pattern type! %" + word);
+				default:
+					throw new IllegalArgumentException("Unknown pattern type! " + word);
+			}
 		}
 		else
 			return new DirectWordPattern(word);
@@ -75,6 +83,7 @@ public class SubCommand
 	private final CommandTemplateArg[] pattern;
 	private final SubCommandExecutor executor;
 	private final PermissionNode permission;
+	private final CommandFlag[] flags;
 
 	/**
 	 * Creates a new subcommand with a given of compiled template arguments.
@@ -84,11 +93,13 @@ public class SubCommand
 	 * @param executor
 	 *     - The executor for this subcommand.
 	 */
-	public SubCommand(CommandTemplateArg[] pattern, SubCommandExecutor executor, PermissionNode permission)
+	public SubCommand(CommandTemplateArg[] pattern, SubCommandExecutor executor, PermissionNode permission,
+			CommandFlag[] flags)
 	{
 		this.pattern = pattern;
 		this.executor = executor;
 		this.permission = permission;
+		this.flags = flags;
 	}
 
 	/**
@@ -98,8 +109,10 @@ public class SubCommand
 	 *     - The input arguments
 	 * @return True if this subcommand is a valid match, false otherwise.
 	 */
-	public boolean matches(InputArgument[] args)
+	public boolean matches(List<InputArgument> args)
 	{
+		List<InputArgument> toPrune = new LinkedList<>();
+
 		int offset = 0;
 		for (CommandTemplateArg a : pattern)
 		{
@@ -107,8 +120,15 @@ public class SubCommand
 			if (out < 0)
 				return false;
 
+			if (a.pruneArgs())
+				for (int i = 0; i < out; i++)
+					toPrune.add(args.get(i + offset));
+
 			offset += out;
 		}
+
+		for (InputArgument input : toPrune)
+			args.remove(input);
 
 		return true;
 	}
@@ -132,5 +152,16 @@ public class SubCommand
 	public PermissionNode getPermissions()
 	{
 		return permission;
+	}
+
+	/**
+	 * Gets a list of all possible flags which can be applied to this subcommand.
+	 * The value of the flags is the default value for all flags.
+	 *
+	 * @return An array of all possible flags.
+	 */
+	public CommandFlag[] getFlags()
+	{
+		return flags;
 	}
 }

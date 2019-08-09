@@ -1,5 +1,7 @@
 package net.whg.awgenshell.util.template;
 
+import java.util.List;
+
 /**
  * Returns true if the given input argument is a number.
  *
@@ -15,19 +17,20 @@ public class NumberPattern implements CommandTemplateArg
 	}
 
 	@Override
-	public int matchArguments(InputArgument[] args, int offset)
+	public int matchArguments(List<InputArgument> args, int offset)
 	{
-		if (args.length <= offset)
+		if (args.size() <= offset)
 			return -1;
 
-		if (args[offset].isIndirectCommand())
+		InputArgument a = args.get(offset);
+		if (a.isIndirectCommand())
 			return -1;
 
 		if (floating)
 		{
 			try
 			{
-				Float.valueOf(args[offset].getLast());
+				Float.valueOf(a.getLast());
 				return 1;
 			}
 			catch (NumberFormatException e)
@@ -38,7 +41,7 @@ public class NumberPattern implements CommandTemplateArg
 
 		try
 		{
-			Integer.valueOf(args[offset].getLast());
+			Integer.valueOf(a.getLast());
 			return 1;
 		}
 		catch (NumberFormatException e)
