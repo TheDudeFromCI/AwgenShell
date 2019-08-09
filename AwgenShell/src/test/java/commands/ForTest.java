@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class ForTest
 {
-	@Test
+	@Test(timeout = 20000)
 	public void simpleCounter()
 	{
 		check("for $i, 1, 5, 1 do { print $i }", "1", "2", "3", "4", "5");

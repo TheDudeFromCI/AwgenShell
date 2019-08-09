@@ -11,7 +11,7 @@ import net.whg.awgenshell.perms.Permissions;
 
 public class WhileTest
 {
-	@Test(timeout = 1000)
+	@Test(timeout = 20000)
 	public void basicLoop()
 	{
 		CommandSender sender = mock(CommandSender.class);
@@ -27,7 +27,7 @@ public class WhileTest
 		verify(sender, never()).println("0");
 	}
 
-	@Test(timeout = 1000)
+	@Test(timeout = 20000)
 	public void skipLoop()
 	{
 		CommandSender sender = mock(CommandSender.class);
