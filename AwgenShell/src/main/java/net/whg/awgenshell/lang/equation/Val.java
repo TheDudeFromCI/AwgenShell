@@ -686,8 +686,15 @@ public class Val
 		return true;
 	}
 
-	@Override
-	public String toString()
+	/**
+	 * Formats this variable into a readable string format. All nest variables, if
+	 * any, are formatted using the same configuration.
+	 *
+	 * @param comma
+	 *     - Whether or not commas should inserts after every three digits.
+	 * @return The string representation of this variable.
+	 */
+	public String format(boolean comma)
 	{
 		switch (type)
 		{
@@ -702,8 +709,11 @@ public class Val
 				if (dec == -1)
 					dec = sb.length();
 
-				for (int i = dec - 3; i > 0; i -= 3)
-					sb.insert(i, ',');
+				if (comma)
+				{
+					for (int i = dec - 3; i > 0; i -= 3)
+						sb.insert(i, ',');
+				}
 
 				return sb.toString();
 			}
@@ -718,7 +728,7 @@ public class Val
 					if (i > 0)
 						sb.append(", ");
 
-					sb.append(get(i));
+					sb.append(get(i).format(comma));
 				}
 
 				sb.append(')');
@@ -733,7 +743,7 @@ public class Val
 				StringBuilder sb = new StringBuilder();
 
 				if (!get(0).value.isZero())
-					sb.append(get(0));
+					sb.append(get(0).format(comma));
 
 				if (!get(1).value.isZero())
 				{
@@ -741,7 +751,7 @@ public class Val
 						sb.append(" + ");
 
 					if (!get(1).equals(Val.ONE))
-						sb.append(get(1));
+						sb.append(get(1).format(comma));
 					sb.append('i');
 				}
 
@@ -761,7 +771,7 @@ public class Val
 					if (i > 0)
 						sb.append(", ");
 
-					sb.append(get(i));
+					sb.append(get(i).format(comma));
 				}
 
 				sb.append(']');
@@ -771,5 +781,11 @@ public class Val
 			default:
 				return "0";
 		}
+	}
+
+	@Override
+	public String toString()
+	{
+		return format(true);
 	}
 }

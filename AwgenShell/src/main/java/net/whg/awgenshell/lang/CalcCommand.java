@@ -1,12 +1,11 @@
 package net.whg.awgenshell.lang;
 
-import net.whg.awgenshell.arg.ArgumentValue;
-import net.whg.awgenshell.exec.CommandHandler;
-import net.whg.awgenshell.exec.ShellEnvironment;
 import net.whg.awgenshell.lang.equation.EquationSolver;
 import net.whg.awgenshell.lang.equation.Val;
-import net.whg.awgenshell.perms.PermissionNode;
 import net.whg.awgenshell.util.CommandResult;
+import net.whg.awgenshell.util.template.BaseCommand;
+import net.whg.awgenshell.util.template.CommandFlag;
+import net.whg.awgenshell.util.template.CommandTemplateBuilder;
 
 /**
  * Caclulates the value of a mathmatical formula given as an input. Supports
@@ -15,48 +14,31 @@ import net.whg.awgenshell.util.CommandResult;
  *
  * @author TheDudeFromCI
  */
-public class CalcCommand implements CommandHandler
+public class CalcCommand extends BaseCommand
 {
-	private static final String[] ALIASES = {"eval"};
-	private static final PermissionNode PERMS = new PermissionNode("lang.calc");
 	private static EquationSolver solver = new EquationSolver();
 
-	@Override
-	public String getName()
+	public CalcCommand()
 	{
-		return "calc";
-	}
+		super(new CommandTemplateBuilder().name("calc").alias("eval").perm("lang.calc")
+				.subcommand("%- %*", (shell, args, flags) ->
+				{
+					try
+					{
+						boolean comma = false;
 
-	@Override
-	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
-	{
-		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
-		{
-			env.getCommandSender().println("You do not have permission to use this command!");
-			return CommandResult.ERROR;
-		}
+						for (CommandFlag flag : flags)
+							if (flag.getName().equals("-f"))
+								comma = true;
 
-		if (args.length != 1)
-		{
-			env.getCommandSender().println("Unknown number of arguments!");
-			return CommandResult.ERROR;
-		}
-
-		try
-		{
-			Val v = solver.parse(args[0].getValue());
-			return new CommandResult(v.toString(), true, false);
-		}
-		catch (Exception exception)
-		{
-			env.getCommandSender().println("Failed to parse equation! " + exception.getMessage());
-			return CommandResult.ERROR;
-		}
-	}
-
-	@Override
-	public String[] getAliases()
-	{
-		return ALIASES;
+						Val v = solver.parse(args[0].getLast());
+						return new CommandResult(v.format(comma), true, false);
+					}
+					catch (Exception exception)
+					{
+						shell.getCommandSender().println("Failed to parse equation! " + exception.getMessage());
+						return CommandResult.ERROR;
+					}
+				}).flag("-f", 0).finishSubCommand().build());
 	}
 }

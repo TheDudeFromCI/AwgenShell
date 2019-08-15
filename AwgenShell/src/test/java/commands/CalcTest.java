@@ -14,12 +14,17 @@ public class CalcTest
 {
 	private void checkFormula(String formula, String answer)
 	{
+		checkFormula(formula, "", answer);
+	}
+
+	private void checkFormula(String formula, String flags, String answer)
+	{
 		CommandSender sender = mock(CommandSender.class);
 		when(sender.getPermissions()).thenReturn(Permissions.ALL);
 
 		ShellEnvironment shell = new ShellEnvironment(sender);
 
-		shell.runCommand("calc '" + formula + "'");
+		shell.runCommand("calc " + flags + " '" + formula + "'");
 		verify(sender).println(answer);
 	}
 
@@ -32,8 +37,8 @@ public class CalcTest
 		checkFormula("2*(1+1)", "4");
 		checkFormula("( 2 * 7 + 3 - 1 ) % 4^2", "0");
 		checkFormula("10000 / 100", "100");
-		checkFormula("10001 / 2", "5,000.5");
-		checkFormula("2^256",
+		checkFormula("10001 / 2", "-f", "5,000.5");
+		checkFormula("2^256", "-f",
 				"115,792,089,237,316,195,423,570,985,008,687,907,853,269,984,665,640,564,039,457,584,007,913,129,639,936");
 		checkFormula("sqrt(25)", "5");
 		checkFormula("sqrt(16), sqrt(100) + 3, floor(2.5)", "[4, 13, 2]");
