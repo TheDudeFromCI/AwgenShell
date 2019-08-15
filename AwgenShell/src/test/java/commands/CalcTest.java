@@ -45,7 +45,12 @@ public class CalcTest
 	public void functions()
 	{
 		checkFormula("sqrt(100, 10000, 16)", "[10, 100, 4]");
-		checkFormula("floor(2.5)", "2");
+		checkFormula("floor(2.5, 1, -1.9)", "[2, 1, -2]");
+		checkFormula("round(9.8, 2.1, -3.49)", "[10, 2, -3]");
+		checkFormula("ceil(5.5, 4.1, 7, -1, -1.1)", "[6, 5, 7, -1, -1]");
+		checkFormula("floor(sin(1) * 1000000) / 1000000", "0.84147");
+		checkFormula("floor(cos(1) * 1000000) / 1000000", "0.540302");
+		checkFormula("floor(tan(1) * 1000000) / 1000000", "1.557407");
 	}
 
 	@Test
