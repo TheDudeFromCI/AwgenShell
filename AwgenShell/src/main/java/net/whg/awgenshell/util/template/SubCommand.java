@@ -114,17 +114,38 @@ public class SubCommand
 		List<InputArgument> toPrune = new LinkedList<>();
 
 		int offset = 0;
-		for (CommandTemplateArg a : pattern)
+		int lastLength = 0;
+		for (int i = 0; i < pattern.length; i++)
 		{
-			int out = a.matchArguments(args, offset, this);
-			if (out < 0)
-				return false;
+			CommandTemplateArg a = pattern[i];
+
+			int out;
+			while (true)
+			{
+				out = a.matchArguments(args, offset, this);
+
+				if (out > -1)
+					break;
+
+				if (i == 0)
+					return false;
+
+				CommandTemplateArg b = pattern[i - 1];
+				int back = b.giveBack(args, this, offset, lastLength);
+
+				lastLength -= back;
+				offset -= back;
+
+				if (back == 0)
+					return false;
+			}
 
 			if (a.pruneArgs())
-				for (int i = 0; i < out; i++)
-					toPrune.add(args.get(i + offset));
+				for (int j = 0; j < out; j++)
+					toPrune.add(args.get(j + offset));
 
 			offset += out;
+			lastLength = out;
 		}
 
 		for (InputArgument input : toPrune)

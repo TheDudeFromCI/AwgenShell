@@ -37,4 +37,27 @@ public interface CommandTemplateArg
 	{
 		return false;
 	}
+
+	/**
+	 * If the next argument cannot return a match, this function is called to give
+	 * back arguments in an attempt to get the next argument to find a match. This
+	 * method is recalled repeatedly until the next argument pattern forms a match,
+	 * or this argument pattern is unable to give back any more arguments.
+	 *
+	 * @param args
+	 *     - The input arguments to check against.
+	 * @param sub
+	 *     - The subcommand which this pattern belongs to.
+	 * @param offset
+	 *     - The position within the argument list to start checking at.
+	 * @param length
+	 *     - The number of arguments that are currently attached to to this pattern.
+	 * @return The smallest number of arguments this command argument is able to
+	 *     give back, or 0 if this pattern cannot give back any arguments and still
+	 *     allow a match to occur.
+	 */
+	default int giveBack(List<InputArgument> args, SubCommand sub, int offset, int length)
+	{
+		return 0;
+	}
 }

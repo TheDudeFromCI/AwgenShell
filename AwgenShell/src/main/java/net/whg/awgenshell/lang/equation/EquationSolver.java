@@ -17,15 +17,15 @@ public class EquationSolver
 
 	public EquationSolver()
 	{
-		functions.add(new CeilFunction());
-		functions.add(new ComplexFunction());
-		functions.add(new CosFunction());
-		functions.add(new FloorFunction());
-		functions.add(new RoundFunction());
-		functions.add(new SinFunction());
-		functions.add(new SqrtFunction());
-		functions.add(new TanFunction());
-		functions.add(new VectorFunction());
+		addFunction(new CeilFunction());
+		addFunction(new ComplexFunction());
+		addFunction(new CosFunction());
+		addFunction(new FloorFunction());
+		addFunction(new RoundFunction());
+		addFunction(new SinFunction());
+		addFunction(new SqrtFunction());
+		addFunction(new TanFunction());
+		addFunction(new VectorFunction());
 	}
 
 	/**
@@ -60,6 +60,16 @@ public class EquationSolver
 			if (func.getName().equalsIgnoreCase(name))
 				return func;
 		return null;
+	}
+
+	/**
+	 * Gets the number of functions currently within this solver.
+	 *
+	 * @return The number of functions.
+	 */
+	public int getFunctionCount()
+	{
+		return functions.size();
 	}
 
 	/**
@@ -161,6 +171,7 @@ public class EquationSolver
 	{
 		if (eat('+'))
 			return parseFactor();
+
 		if (eat('-'))
 			return Val.mul(parseFactor(), Val.NEGATIVE_ONE);
 
@@ -212,6 +223,8 @@ public class EquationSolver
 			else
 				throw new EquationParserException("Unknown function: " + func);
 		}
+		else if (ch == -1)
+			throw new EquationParserException("Unexpected: End of Line");
 		else
 			throw new EquationParserException("Unexpected: '" + (char) ch + "'");
 

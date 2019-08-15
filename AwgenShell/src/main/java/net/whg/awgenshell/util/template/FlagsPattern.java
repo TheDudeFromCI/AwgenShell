@@ -26,7 +26,8 @@ public class FlagsPattern implements CommandTemplateArg
 
 			CommandFlagTemplate flag = getFlag(a.getLast(), sub);
 			if (flag == null)
-				throw new InvalidFlagsException("Unknown flag: " + a.getLast());
+				break;
+			// throw new InvalidFlagsException("Unknown flag: " + a.getLast());
 
 			boolean error = false;
 			int j;
@@ -66,6 +67,11 @@ public class FlagsPattern implements CommandTemplateArg
 		return count;
 	}
 
+	private CommandFlagTemplate getFlag(List<InputArgument> args, int index, SubCommand sub)
+	{
+		return getFlag(args.get(index).getLast(), sub);
+	}
+
 	private CommandFlagTemplate getFlag(String name, SubCommand sub)
 	{
 		for (CommandFlagTemplate flag : sub.getFlags())
@@ -78,5 +84,24 @@ public class FlagsPattern implements CommandTemplateArg
 	public boolean pruneArgs()
 	{
 		return true;
+	}
+
+	@Override
+	public int giveBack(List<InputArgument> args, SubCommand sub, int offset, int length)
+	{
+		int lastFlag = offset;
+
+		while (true)
+		{
+			CommandFlagTemplate flag = getFlag(args, lastFlag, sub);
+			int jump = lastFlag + flag.getNumberOfValues() + 1;
+
+			if (jump - offset > length)
+				break;
+
+			lastFlag = jump;
+		}
+
+		return offset + length - lastFlag;
 	}
 }

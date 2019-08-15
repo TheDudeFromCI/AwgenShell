@@ -6,8 +6,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import net.whg.awgenshell.exec.CommandSender;
 import net.whg.awgenshell.exec.ShellEnvironment;
-import net.whg.awgenshell.lang.equation.EquationParserException;
-import net.whg.awgenshell.lang.equation.EquationSolver;
 import net.whg.awgenshell.perms.Permissions;
 
 public class CalcTest
@@ -44,6 +42,9 @@ public class CalcTest
 		checkFormula("sqrt(16), sqrt(100) + 3, floor(2.5)", "[4, 13, 2]");
 		checkFormula("sqrt(ceil(15.8))", "4");
 		checkFormula("sqrt(81, 49)", "[9, 7]");
+		checkFormula("+27", "27");
+		checkFormula("-14", "-14");
+		checkFormula("2.03", "2.03");
 	}
 
 	@Test
@@ -78,9 +79,10 @@ public class CalcTest
 		checkFormula("v(1, 2, 3) * (1 + 3i)", "(1 + 3i, 2 + 6i, 3 + 9i)");
 	}
 
-	@Test(expected = EquationParserException.class)
-	public void doubleDecimals()
+	@Test
+	public void brokenFormulas()
 	{
-		new EquationSolver().parse("1.2.3");
+		checkFormula("1.2.3", "Failed to parse equation! Not a valid number: 1.2.3");
+		checkFormula("apple", "Failed to parse equation! Unexpected: End of Line");
 	}
 }
