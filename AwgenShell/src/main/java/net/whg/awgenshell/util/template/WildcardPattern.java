@@ -5,8 +5,8 @@ import java.util.List;
 /**
  * Allows for a single wildcard argument, or an infinite number of them. Will
  * always return true for any match. May be marked as optional or required.
- * Infinite wildcards and optional wildcards will always take unless there are
- * no more options to take.
+ * Infinite wildcards and optional wildcards will always take as many as
+ * possible unless there are no more options to take.
  *
  * @author TheDudeFromCI
  */
@@ -31,5 +31,14 @@ public class WildcardPattern implements CommandTemplateArg
 			return args.size() - offset;
 
 		return 1;
+	}
+
+	@Override
+	public int giveBack(List<InputArgument> args, SubCommand sub, int offset, int length)
+	{
+		if (length > 1)
+			return 1;
+
+		return optional ? 1 : 0;
 	}
 }
