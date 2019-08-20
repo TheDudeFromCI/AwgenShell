@@ -1,10 +1,8 @@
 package net.whg.awgenshell.lang;
 
-import net.whg.awgenshell.ArgumentValue;
-import net.whg.awgenshell.CommandHandler;
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.PermissionNode;
-import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.util.CommandResult;
+import net.whg.awgenshell.util.template.BaseCommand;
+import net.whg.awgenshell.util.template.CommandTemplateBuilder;
 
 /**
  * The print command adds all inputs together into a string and sends that
@@ -14,50 +12,24 @@ import net.whg.awgenshell.ShellEnvironment;
  *
  * @author TheDudeFromCI
  */
-public class PrintCommand implements CommandHandler
+public class PrintCommand extends BaseCommand
 {
-	private static final String[] ALIASES =
+	public PrintCommand()
 	{
-		"echo", "say"
-	};
+		super(new CommandTemplateBuilder().name("print").alias("echo").alias("say").perm("lang.print")
+				.subcommand("%**", (shell, args, flags) ->
+				{
+					String line = "";
+					for (int i = 0; i < args.length; i++)
+					{
+						if (i > 0 && !line.endsWith(" ") && args[i].getLast().matches("[a-zA-z0-9].*"))
+							line += " ";
 
-	private static final PermissionNode PERMS = new PermissionNode("lang.print");
+						line += args[i].getLast();
+					}
 
-	@Override
-	public String getName()
-	{
-		return "print";
-	}
-
-	@Override
-	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
-	{
-		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
-		{
-			env.getCommandSender().println("You do not have permission to use this command!");
-			return CommandResult.ERROR;
-		}
-
-		String line = "";
-
-		for (int i = 0; i < args.length; i++)
-		{
-			String a = args[i].getValue();
-
-			if (i > 0 && !line.endsWith(" ") && a.matches("[a-zA-z0-9].*"))
-				line += " ";
-
-			line += a;
-		}
-
-		env.getCommandSender().println(line);
-
-		return new CommandResult("", true, true);
-	}
-
-	@Override
-	public String[] getAliases()
-	{
-		return ALIASES;
+					shell.getCommandSender().println(line);
+					return CommandResult.SUCCESS;
+				}).finishSubCommand().build());
 	}
 }

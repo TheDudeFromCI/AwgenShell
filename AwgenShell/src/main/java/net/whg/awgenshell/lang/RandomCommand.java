@@ -1,14 +1,14 @@
 package net.whg.awgenshell.lang;
 
-import static net.whg.awgenshell.ShellUtils.asFloat;
-import static net.whg.awgenshell.ShellUtils.asInt;
-import static net.whg.awgenshell.ShellUtils.isFloat;
-import static net.whg.awgenshell.ShellUtils.isInteger;
-import net.whg.awgenshell.ArgumentValue;
-import net.whg.awgenshell.CommandHandler;
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.PermissionNode;
-import net.whg.awgenshell.ShellEnvironment;
+import static net.whg.awgenshell.util.ShellUtils.asFloat;
+import static net.whg.awgenshell.util.ShellUtils.asInt;
+import static net.whg.awgenshell.util.ShellUtils.isFloat;
+import static net.whg.awgenshell.util.ShellUtils.isInteger;
+import net.whg.awgenshell.arg.ArgumentValue;
+import net.whg.awgenshell.exec.CommandHandler;
+import net.whg.awgenshell.exec.ShellEnvironment;
+import net.whg.awgenshell.perms.PermissionNode;
+import net.whg.awgenshell.util.CommandResult;
 
 /**
  * Generates random numbers. If no inputs are given, returns a random number

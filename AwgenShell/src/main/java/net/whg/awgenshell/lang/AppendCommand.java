@@ -1,10 +1,9 @@
 package net.whg.awgenshell.lang;
 
-import net.whg.awgenshell.ArgumentValue;
-import net.whg.awgenshell.CommandHandler;
-import net.whg.awgenshell.CommandResult;
-import net.whg.awgenshell.PermissionNode;
-import net.whg.awgenshell.ShellEnvironment;
+import net.whg.awgenshell.util.CommandResult;
+import net.whg.awgenshell.util.template.BaseCommand;
+import net.whg.awgenshell.util.template.CommandFlag;
+import net.whg.awgenshell.util.template.CommandTemplateBuilder;
 
 /**
  * Adds two or more strings together, using an optional seperator string. Can
@@ -13,81 +12,32 @@ import net.whg.awgenshell.ShellEnvironment;
  *
  * @author TheDudeFromCI
  */
-public class AppendCommand implements CommandHandler
+public class AppendCommand extends BaseCommand
 {
-	private static final String[] ALIASES =
+	public AppendCommand()
 	{
-		"add", "concat"
-	};
+		super(new CommandTemplateBuilder().name("append").alias("add").alias("join").alias("concat").perm("lang.append")
+				.subcommand("%- %**", (shell, args, flags) ->
+				{
+					String seperator = "";
+					for (CommandFlag f : flags)
+					{
+						if (f.getName().equals("-n"))
+							seperator = "\n";
+						else if (f.getName().equals("-s"))
+							seperator = f.getValues()[0];
+					}
 
-	private static final PermissionNode PERMS = new PermissionNode("lang.append");
+					String line = "";
+					for (int i = 0; i < args.length; i++)
+					{
+						if (i > 0)
+							line += seperator;
 
-	@Override
-	public String getName()
-	{
-		return "append";
-	}
+						line += args[i].getLast();
+					}
 
-	@Override
-	public CommandResult execute(ShellEnvironment env, ArgumentValue[] args)
-	{
-		if (!env.getCommandSender().getPermissions().hasPermission(PERMS))
-		{
-			env.getCommandSender().println("You do not have permission to use this command!");
-			return CommandResult.ERROR;
-		}
-
-		if (args.length < 1)
-		{
-			env.getCommandSender().println("Unknown number of arguments!");
-			return CommandResult.ERROR;
-		}
-
-		String seperator = "";
-		int start = 0;
-
-		String[] values = new String[args.length];
-		for (int i = 0; i < args.length; i++)
-			values[i] = args[i].getValue();
-
-		if (values[0].equalsIgnoreCase("-s"))
-		{
-			if (args.length < 3)
-			{
-				env.getCommandSender().println("Unknown number of arguments!");
-				return CommandResult.ERROR;
-			}
-
-			seperator = values[1];
-			start = 2;
-		}
-		else if (values[0].equalsIgnoreCase("-n"))
-		{
-			if (args.length < 2)
-			{
-				env.getCommandSender().println("Unknown number of arguments!");
-				return CommandResult.ERROR;
-			}
-
-			seperator = "\n";
-			start = 1;
-		}
-
-		String line = "";
-		for (int i = start; i < values.length; i++)
-		{
-			if (i > start && !seperator.isEmpty())
-				line += seperator;
-
-			line += values[i];
-		}
-
-		return new CommandResult(line, true, false);
-	}
-
-	@Override
-	public String[] getAliases()
-	{
-		return ALIASES;
+					return new CommandResult(line, true, false);
+				}).flag("-n", 0).flag("-s", 1).finishSubCommand().build());
 	}
 }
