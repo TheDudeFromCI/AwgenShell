@@ -1,7 +1,7 @@
 package net.whg.asj.conn;
 
-import java.io.OutputStream;
-import net.whg.asj.conn.IConnectionResult;
+import java.net.SocketException;
+import net.whg.asj.packets.IPacket;
 
 /**
  * This interface represents a connection to the AwgenShell server. This class handles maintaining the connection and
@@ -26,16 +26,23 @@ public interface IConnection
     boolean isConnected();
 
     /**
-     * Gets the output stream to write to the server.
+     * Sends a packet to the server. This method may be called from any thread.
      * 
-     * @return The output stream, or null if a connection is not open.
+     * @param packet
+     *                   - The packet to send.
+     * @throws IllegalStateException
+     *                                   If the connection is not open.
      */
-    OutputStream getOutputStream();
+    void sendPacket(IPacket packet);
 
     /**
-     * Gets the input stream to read from the server.
+     * Retrieves the next packet from the server. This method blocks until a packet is recieved.
      * 
-     * @return The input stream, or null if a connection is not open.
+     * @return The next packet sent by the server.
+     * @throws IllegalStateException
+     *                                   If the connection is not open.
+     * @throws SocketException
+     *                                   If the connection is closed while waiting.
      */
-    InputStream getInputStream();
+    IPacket recievePacket() throws SocketException;
 }

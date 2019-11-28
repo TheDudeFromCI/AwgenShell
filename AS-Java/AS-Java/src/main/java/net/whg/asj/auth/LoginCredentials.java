@@ -1,4 +1,4 @@
-package net.whg.asj.conn;
+package net.whg.asj.auth;
 
 public class LoginCredentials
 {

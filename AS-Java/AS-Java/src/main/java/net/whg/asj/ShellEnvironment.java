@@ -1,9 +1,14 @@
-package net.whg.asj.env;
+package net.whg.asj;
+
+import net.whg.asj.User;
 
 public class ShellEnvironment
 {
-    public ShellEnvironment()
+    private final User user;
+
+    public ShellEnvironment(User user)
     {
+        this.user = user;
     }
 
     public void sendCommand(String command)

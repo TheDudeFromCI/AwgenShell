@@ -1,10 +1,4 @@
-package net.whg.asj.conn;
-
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+package net.whg.asj.packets;
 
 /**
  * A packet is a small collection of data to send to or recieve from the server. Each packet has a header type to know
@@ -34,4 +28,19 @@ public interface IPacket
      * @return The current value of the given property, or null if this packet has no properties with the given key.
      */
     String getData(String property);
+
+    /**
+     * Assigns a value to this packet directly. This method is mainly used when loading a packet from a stream.
+     * 
+     * @param property
+     *                     - The property to assign. Case sensitive.
+     * @param value
+     *                     - The value of the property.
+     */
+    void setData(String property, String value);
+
+    /**
+     * Called on the main thread to handle this packet when it is received from the server.
+     */
+    void handle();
 }
