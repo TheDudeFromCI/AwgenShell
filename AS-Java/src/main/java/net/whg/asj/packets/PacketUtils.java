@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import net.whg.asj.auth.LoginPacket;
 
 public final class PacketUtils
 {
@@ -18,9 +17,6 @@ public final class PacketUtils
     {
         switch (type)
         {
-            case "LOGIN":
-                return new LoginPacket();
-
             default:
                 throw new UnknownPacketException(type);
         }

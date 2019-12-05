@@ -5,16 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import net.whg.asj.conn.IConnection;
-import net.whg.asj.auth.EnvironmentFuture;
-import net.whg.asj.auth.LoginCredentials;
-import net.whg.asj.auth.LoginPacket;
-import net.whg.asj.auth.PendingEnvironments;
 import net.whg.asj.packets.IPacket;
 
 public final class AwgenShell
 {
     private final List<IPacket> packets = new LinkedList<>();
-    private final PendingEnvironments pendingEnvironments = new PendingEnvironments();
     private final IConnection connection;
 
     public AwgenShell(IConnection connection)
@@ -70,18 +65,10 @@ public final class AwgenShell
         }
     }
 
-    public EnvironmentFuture createEnvironment(LoginCredentials login)
+    public ShellEnvironment createEnvironment(String username)
     {
-        String token = UUID.randomUUID().toString();
-        User user = new User(login.getUsername(), token);
-
-        LoginPacket packet = new LoginPacket();
-        packet.setUsername(login.getUsername());
-        packet.setPassword(login.getPassword());
-
-        sendPacket(packet);
-
-        return new EnvironmentFuture(user, pendingEnvironments);
+        User user = new User(username);
+        return new ShellEnvironment(user);
     }
 
     void sendPacket(IPacket packet)
