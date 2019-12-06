@@ -24,7 +24,8 @@ public final class PacketUtils
     public static void writePacket(OutputStream out, IPacket packet) throws IOException
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(packet.getName())
+        sb.append(packet.getType()
+                        .getName())
           .append('\n');
 
         for (String s : packet.getProperties())
