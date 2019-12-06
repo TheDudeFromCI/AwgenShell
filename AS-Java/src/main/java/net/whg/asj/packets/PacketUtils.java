@@ -10,32 +10,36 @@ import java.nio.charset.StandardCharsets;
 public final class PacketUtils
 {
     private PacketUtils()
-    {
-    }
+    {}
 
-    public static IPacket createPacket(String type)
+    public static IPacket createPacket(PacketType type)
     {
         switch (type)
         {
             default:
-                throw new UnknownPacketException(type);
+                throw new RuntimeException("Unsupported packet type: " + type.getName());
         }
     }
 
     public static void writePacket(OutputStream out, IPacket packet) throws IOException
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(packet.getName()).append('\n');
+        sb.append(packet.getName())
+          .append('\n');
 
         for (String s : packet.getProperties())
         {
             String value = packet.getData(s);
             value = URLEncoder.encode(value, StandardCharsets.UTF_8);
 
-            sb.append(s).append('=').append(value).append('\n');
+            sb.append(s)
+              .append('=')
+              .append(value)
+              .append('\n');
         }
 
-        byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = sb.toString()
+                         .getBytes(StandardCharsets.UTF_8);
         int byteCount = bytes.length;
 
         out.write((byteCount << 24) & 0xFF);
@@ -59,7 +63,7 @@ public final class PacketUtils
         String data = new String(bytes, StandardCharsets.UTF_8);
         String[] lines = data.split("\\r?\\n");
 
-        IPacket packet = createPacket(lines[0]);
+        IPacket packet = createPacket(PacketType.getFromName(lines[0]));
 
         for (int i = 1; i < lines.length; i++)
         {

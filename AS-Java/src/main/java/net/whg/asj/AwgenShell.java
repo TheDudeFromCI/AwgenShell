@@ -3,7 +3,6 @@ package net.whg.asj;
 import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import net.whg.asj.conn.IConnection;
 import net.whg.asj.packets.IPacket;
 
