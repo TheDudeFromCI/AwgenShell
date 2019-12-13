@@ -16,4 +16,4 @@ jobs:
         java-version: 1.8
 
     - name: Build with Maven
-      run: cd AwgenShell; mvn -Dsonar.login=${{ secrets.SONAR_TOKEN }} jacoco:prepare-agent package --file pom.xml coveralls:report
+      run: cd AwgenShell; mvn -Dsonar.login=${{ secrets.SONAR_TOKEN }} -DrepoToken=${{ secrets.COVERALLS_TOKEN }} jacoco:prepare-agent package --file pom.xml coveralls:report
