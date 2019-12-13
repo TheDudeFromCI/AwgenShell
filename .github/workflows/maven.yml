@@ -16,4 +16,4 @@ jobs:
         java-version: 1.8
 
     - name: Build with Maven
-      run: mvn jacoco:prepare-agent package --file pom.xml coveralls:report
+      run: mvn -Dsonar.login=${{ secret.SONAR_TOKEN }} jacoco:prepare-agent package --file pom.xml coveralls:report
