@@ -1,5 +1,6 @@
-[![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=master)](https://travis-ci.org/Wraithaven/AwgenShell)
-[![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=master)](https://bettercodehub.com/)
+[![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=dev)](https://travis-ci.org/Wraithaven/AwgenShell)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TheDudeFromCI_AwgenShell&metric=alert_status)](https://sonarcloud.io/dashboard?id=TheDudeFromCI_AwgenShell)
+[![Coverage Status](https://coveralls.io/repos/github/TheDudeFromCI/AwgenShell/badge.svg?branch=dev)](https://coveralls.io/github/TheDudeFromCI/AwgenShell?branch=eada8ddd466d8d8b5087c7af80d5b560772ffeb4)
 [![Latest Version](https://img.shields.io/github/release/Wraithaven/AwgenShell.svg)](https://github.com/Wraithaven/AwgenShell/releases)
 
 ---
