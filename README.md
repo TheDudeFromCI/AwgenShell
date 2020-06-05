@@ -1,19 +1,37 @@
-#### *Main Branch:*
-[![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=master)](https://travis-ci.org/Wraithaven/AwgenShell)
-[![Coverage Status](https://coveralls.io/repos/github/Wraithaven/AwgenShell/badge.svg?branch=master)](https://coveralls.io/github/Wraithaven/AwgenShell?branch=master)
-[![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=master)](https://bettercodehub.com/)
-[![Latest Version](https://img.shields.io/github/release/Wraithaven/AwgenShell.svg)](https://github.com/Wraithaven/AwgenShell/releases)
+<h1 align="center">Awgen Shell</h1>
+<p align="center"><i>Awgen Shell is an embedabled and flexible command line language written in Java. It is heavily inspired by Bash. Designed to be embedded in software, this library aims to make life easier when it comes to running macros or debugging applications and games.</i></p>
 
-#### *Development Branch:*
-[![Build Status](https://travis-ci.org/Wraithaven/AwgenShell.svg?branch=dev)](https://travis-ci.org/Wraithaven/AwgenShell)
-[![Coverage Status](https://coveralls.io/repos/github/Wraithaven/AwgenShell/badge.svg?branch=dev)](https://coveralls.io/github/Wraithaven/AwgenShell?branch=dev)
-[![BCH compliance](https://bettercodehub.com/edge/badge/Wraithaven/AwgenShell?branch=dev)](https://bettercodehub.com/)
+<p align="center">
+  <img src="https://img.shields.io/github/license/WraithEngine/AwgenShell" />
+  <img src="https://img.shields.io/github/repo-size/WraithEngine/AwgenShell" />
+  <img src="https://img.shields.io/github/issues/WraithEngine/AwgenShell" />
+  <img src="https://img.shields.io/github/v/release/WraithEngine/AwgenShell?include_prereleases" />
+  <a href="https://bettercodehub.com/results/WraithEngine/AwgenShell"><img alt="BCH compliance" src="https://bettercodehub.com/edge/badge/WraithEngine/AwgenShell?branch=master" /></a>
+</p>
 
 ---
 
-# AwgenShell
+<h2 align="center">A Super Special Thanks To</h2>
+<p align="center">
+  :star: Mika, Alora Brown :star:
+</p>
 
-An interactive and flexible command line and library for the Awgen Shell language.
+<br />
+
+<h3 align="center">And a Warm Thank You To</h3>
+<p align="center">
+  :rocket:  :rocket:
+</p>
+
+<br />
+<br />
+
+Thank you all for supporting me and helping this project to continue being developed.
+
+<br />
+
+<p>Want to support this project? Join my Patreon!</p>
+<a href="https://www.patreon.com/thedudefromci"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="150px" /></a>
 
 ---
 
