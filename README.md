@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/github/issues/WraithEngine/AwgenShell" />
   <img src="https://img.shields.io/github/v/release/WraithEngine/AwgenShell?include_prereleases" />
   <a href="https://bettercodehub.com/results/WraithEngine/AwgenShell"><img alt="BCH compliance" src="https://bettercodehub.com/edge/badge/WraithEngine/AwgenShell?branch=master" /></a>
+  <a href="https://sonarcloud.io/dashboard?id=TheDudeFromCI_AwgenShell"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=TheDudeFromCI_AwgenShell&metric=alert_status" /></a>
 </p>
 
 ---
